@@ -1,0 +1,4 @@
+node_modules/** linguist-vendored
+dist/** linguist-generated
+*.lock linguist-generated
+package-lock.json linguist-generated

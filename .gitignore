@@ -1,0 +1,24 @@
+node_modules/
+dist/
+.slidev/
+*.pdf
+*.pptx
+slides-png/
+.DS_Store
+
+# working material, not part of the deck
+notes/
+speech.md
+CHANGE_REQUEST.md
+PLAN.md
+
+# review screenshots taken during iteration (repo root only)
+/*.png
+/*.jpg
+/*.jpeg
+decl-verify/
+
+# local tooling
+.playwright-mcp/
+.claude/
+.mcp.json

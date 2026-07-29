@@ -1,0 +1,18 @@
+{
+  "name": "nixos-for-kubernetes",
+  "version": "0.1.0",
+  "description": "Talk: NixOS for Kubernetes — when you want Kubernetes without losing Linux",
+  "private": true,
+  "scripts": {
+    "dev": "slidev --open",
+    "build": "slidev build",
+    "export": "slidev export",
+    "export:pptx": "slidev export --format pptx"
+  },
+  "devDependencies": {
+    "@slidev/cli": "latest",
+    "@slidev/theme-default": "latest",
+    "@slidev/theme-seriph": "latest",
+    "playwright-chromium": "latest"
+  }
+}

@@ -1,0 +1,509 @@
+/* Kubernetes Community template — faithful reproduction (рубль в рубль).
+   Font: Verdana · Accent teal: #18C0B1 · BG: #000 · Title: Verdana 28pt bold caps */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --slidev-font-sans: 'Verdana', 'Geneva', 'DejaVu Sans', system-ui, sans-serif;
+  --slidev-font-mono: 'JetBrains Mono', 'Consolas', monospace;
+  --brand-bg: #000000;
+  --brand-fg: #ffffff;
+  --brand-accent: #18C0B1;       /* exact template teal */
+  --brand-accent-dark: #04231f;  /* text on teal */
+  --brand-muted: rgba(255, 255, 255, 0.6);
+}
+
+/* ---- black canvas ---- */
+html,
+body,
+#slide-content,
+.slidev-page {
+  background: var(--brand-bg);
+}
+
+.slidev-layout {
+  background: var(--brand-bg) !important;
+  color: var(--brand-fg);
+  font-family: var(--slidev-font-sans);
+  font-size: 0.92rem;
+}
+
+/* subtle teal glow bottom-right (matches l6 content layout) */
+.slidev-layout::before {
+  content: '';
+  position: absolute;
+  right: -4%;
+  bottom: -8%;
+  width: 40%;
+  height: 64%;
+  background: url('/theme/glow-teal.png') no-repeat center / contain;
+  opacity: 0.22;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.slidev-layout > * {
+  position: relative;
+  z-index: 1;
+}
+
+.slidev-layout code,
+.slidev-layout pre {
+  font-family: var(--slidev-font-mono);
+}
+
+/* ---- title: Verdana 28pt bold white UPPERCASE, top-left ---- */
+.slidev-layout h1 {
+  font-family: var(--slidev-font-sans);
+  font-weight: 700;
+  font-size: 1.8rem;
+  line-height: 1.1;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  margin-bottom: 0.4rem;
+  /* keep titles clear of the top-right logo (logo starts ~80% width) */
+  max-width: 76%;
+}
+
+/* center-layout slides: title must actually center — the 76% logo-clearance cap
+   above leaves the h1 left-anchored in its grid cell, so text-center looks shifted */
+.slidev-layout.center h1 {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---- section sub-label / "MAIN TEXT LINE": Verdana 16pt bold teal ---- */
+.slidev-layout h2 {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #ffffff;
+}
+
+.slidev-layout h3 {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--brand-accent);
+}
+
+/* ---- body ---- */
+.slidev-layout p,
+.slidev-layout li {
+  font-size: 0.92rem;
+}
+
+.slidev-layout strong {
+  color: #ffffff;
+}
+
+.slidev-layout li::marker {
+  color: var(--brand-accent);
+}
+
+/* ---- tables: teal header (template look) ---- */
+.slidev-layout table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.slidev-layout table th {
+  background: var(--brand-accent);
+  color: var(--brand-accent-dark);
+  font-weight: 700;
+  text-align: left;
+}
+
+.slidev-layout table th,
+.slidev-layout table td {
+  padding: 0.35rem 0.8rem;
+  border: none;
+}
+
+.slidev-layout table tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.slidev-layout table td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* ---- blockquote ---- */
+.slidev-layout blockquote {
+  border-left: 3px solid var(--brand-accent);
+  padding-left: 1rem;
+  font-style: italic;
+  opacity: 0.9;
+  margin: 0.7rem 0;
+  background: transparent;
+  color: inherit;
+}
+
+.slidev-layout blockquote p {
+  margin: 0.25rem 0;
+}
+
+/* ---- mermaid: rounded nodes for a softer, branded look ---- */
+.slidev-layout .mermaid rect,
+.slidev-layout .mermaid .node rect,
+.slidev-layout .mermaid .cluster rect {
+  rx: 6px;
+  ry: 6px;
+}
+
+/* ---- HTML-first flow diagrams (replace mermaid flowcharts) ---- */
+.flow {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.25rem 0;
+}
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #141414;
+  border: 1px solid #4a4a4a;
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+  text-align: center;
+  line-height: 1.2;
+  font-size: 0.8rem;
+  min-width: 5rem;
+}
+.flow-node .sub {
+  font-size: 0.66rem;
+  opacity: 0.65;
+  margin-top: 0.1rem;
+}
+.flow-node.accent {
+  background: var(--brand-accent);
+  border-color: var(--brand-accent);
+  color: var(--brand-accent-dark);
+  font-weight: 700;
+}
+.flow-node.accent .sub {
+  opacity: 0.8;
+}
+.flow-node.decision {
+  background: #0f1413;
+  border-color: #2c4f4a;
+}
+.flow-node.store {
+  border-radius: 18px;
+}
+.flow-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #9aa0a6;
+  padding: 0 0.3rem;
+  min-width: 1.8rem;
+}
+.flow-arrow .lbl {
+  font-size: 0.6rem;
+  opacity: 0.7;
+  white-space: nowrap;
+  margin-bottom: 0.05rem;
+}
+.flow-arrow .line {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+.flow-arrow.dashed {
+  opacity: 0.55;
+}
+.flow-group {
+  border: 1px solid #2c4f4a;
+  border-radius: 10px;
+  padding: 1.3rem 0.9rem 0.55rem;
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+}
+.flow-group-label {
+  position: absolute;
+  top: 0.3rem;
+  left: 0.9rem;
+  font-size: 0.66rem;
+  opacity: 0.6;
+}
+.flow-back {
+  font-size: 0.66rem;
+  opacity: 0.7;
+  text-align: center;
+  padding-top: 0.4rem;
+}
+
+/* ---- HTML coordinate quadrant (replaces mermaid quadrantChart) ---- */
+.qwrap {
+  display: flex;
+  align-items: stretch;
+  gap: 0.4rem;
+}
+.qyaxis {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.64rem;
+  opacity: 0.55;
+  text-align: center;
+}
+.qgrid {
+  position: relative;
+  flex: 1;
+  aspect-ratio: 1 / 1;
+  max-width: 480px;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  background: radial-gradient(135% 135% at 100% 0%, rgba(24, 192, 177, 0.13), transparent 56%);
+}
+.qgrid .ax-v {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 1px dashed rgba(255, 255, 255, 0.2);
+}
+.qgrid .ax-h {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1px dashed rgba(255, 255, 255, 0.2);
+}
+.qpt {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.qpt.l {
+  flex-direction: row-reverse;
+}
+.qpt .dot {
+  position: relative;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #18c0b1;
+  flex: 0 0 auto;
+}
+/* glow as a radial-gradient halo — box-shadow renders as a square in PDF export */
+.qpt .dot::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle closest-side, rgba(24, 192, 177, 0.3), rgba(24, 192, 177, 0));
+  pointer-events: none;
+}
+.qpt .nm {
+  font-size: 0.62rem;
+  color: #cfd3d6;
+  white-space: nowrap;
+}
+.qpt.win .dot {
+  width: 15px;
+  height: 15px;
+}
+.qpt.win .dot::after {
+  width: 54px;
+  height: 54px;
+  background: radial-gradient(circle closest-side, rgba(24, 192, 177, 0.6), rgba(24, 192, 177, 0));
+}
+.qpt.win .nm {
+  color: #18c0b1;
+  font-weight: 700;
+  font-size: 0.74rem;
+}
+.qxaxis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.62rem;
+  opacity: 0.55;
+  padding-top: 0.3rem;
+  max-width: 480px;
+}
+
+/* ---- 1D horizontal spectrum axis ---- */
+.axis {
+  position: relative;
+  height: 4px;
+  border-radius: 4px;
+  margin: 0 2rem;
+  background: linear-gradient(90deg, #f0907f 0%, #7a7a7a 52%, var(--brand-accent) 100%);
+}
+.axpt {
+  position: absolute;
+  top: 2px;
+  transform: translate(-50%, -50%);
+}
+.axpt .dot {
+  position: relative;
+  display: block;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #cfd3d6;
+  border: 2px solid #000;
+}
+.axpt.win .dot {
+  width: 17px;
+  height: 17px;
+  background: var(--brand-accent);
+}
+.axpt.win .dot::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 48px;
+  height: 48px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle closest-side, rgba(24, 192, 177, 0.5), rgba(24, 192, 177, 0));
+  pointer-events: none;
+}
+.axpt .lbl {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8rem;
+  text-align: center;
+  line-height: 1.15;
+}
+.axpt.up .lbl {
+  bottom: 16px;
+}
+.axpt.down .lbl {
+  top: 16px;
+}
+.axpt .nm {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+.axpt.win .nm {
+  color: var(--brand-accent);
+}
+.axpt .sub {
+  display: block;
+  font-size: 0.63rem;
+  opacity: 0.6;
+  margin-top: 1px;
+}
+.axends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.66rem;
+  opacity: 0.55;
+  margin: 0.5rem 2rem 0;
+}
+
+/* ---- candlestick / range chart (tradeoffs) ---- */
+.chart {
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+.chart .grid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed rgba(255, 255, 255, 0.09);
+}
+.chart .glabel {
+  position: absolute;
+  left: -1.9rem;
+  transform: translateY(-50%);
+  font-size: 0.58rem;
+  opacity: 0.45;
+}
+.col {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 56px;
+  border-radius: 6px 6px 0 0;
+}
+.col .cap {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.col .nm {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 7px;
+  white-space: nowrap;
+  font-size: 0.64rem;
+  opacity: 0.7;
+  text-align: center;
+}
+.col.good {
+  background: rgba(24, 192, 177, 0.85);
+}
+.col.good .cap {
+  color: var(--brand-accent);
+}
+.col.bad {
+  background: rgba(240, 144, 127, 0.9);
+}
+.col.bad .cap {
+  color: #f0907f;
+}
+
+/* ---- HTML-first comparison tables (replace markdown tables) ---- */
+.tbl > div {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.4rem 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  line-height: 1.25;
+}
+.tbl > .th {
+  background: var(--brand-accent);
+  color: var(--brand-accent-dark);
+  font-weight: 700;
+}
+.tbl > .rh {
+  font-weight: 600;
+  opacity: 0.9;
+}
+.tbl > .win {
+  background: rgba(24, 192, 177, 0.1);
+}
+.tbl .yes {
+  color: var(--brand-accent);
+  font-weight: 700;
+}
+.tbl .no {
+  color: #f0907f;
+  font-weight: 700;
+}
+
+/* ---- inline code chips ---- */
+.slidev-layout :not(pre) > code {
+  background: rgba(24, 192, 177, 0.12);
+  color: var(--brand-accent);
+  padding: 0.05em 0.35em;
+  border-radius: 4px;
+}
