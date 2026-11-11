@@ -221,13 +221,13 @@ Talos поднял планку — многое он делает **прави�
         <div class="ax-h"></div>
         <div class="qpt" style="left:20%;top:14%"><span class="dot"></span><span class="nm">Ubuntu/Debian</span></div>
         <div class="qpt" style="left:31%;top:27%"><span class="dot"></span><span class="nm">RHEL/Rocky</span></div>
-        <div class="qpt l" style="left:57%;top:42%"><span class="dot"></span><span class="nm">Fedora CoreOS</span></div>
-        <div class="qpt l" style="left:67%;top:52%"><span class="dot"></span><span class="nm">Flatcar</span></div>
-        <div class="qpt l" style="left:73%;top:34%"><span class="dot"></span><span class="nm">MicroOS</span></div>
-        <div class="qpt l" style="left:78%;top:62%"><span class="dot"></span><span class="nm">Kairos</span></div>
-        <div class="qpt l" style="left:80%;top:80%"><span class="dot"></span><span class="nm">Talos</span></div>
-        <div class="qpt l" style="left:90%;top:90%"><span class="dot"></span><span class="nm">Bottlerocket</span></div>
-        <div class="qpt l win" style="left:91%;top:10%"><span class="dot"></span><span class="nm">NixOS-стек</span></div>
+        <div class="qpt l" style="left:71%;top:43%"><span class="dot"></span><span class="nm">Fedora CoreOS</span></div>
+        <div class="qpt l" style="left:70%;top:55%"><span class="dot"></span><span class="nm">Flatcar</span></div>
+        <div class="qpt l" style="left:74%;top:31%"><span class="dot"></span><span class="nm">MicroOS</span></div>
+        <div class="qpt l" style="left:77%;top:66%"><span class="dot"></span><span class="nm">Kairos</span></div>
+        <div class="qpt l" style="left:80%;top:78%"><span class="dot"></span><span class="nm">Talos</span></div>
+        <div class="qpt l" style="left:80%;top:90%"><span class="dot"></span><span class="nm">Bottlerocket</span></div>
+        <div class="qpt l win" style="left:78%;top:10%"><span class="dot"></span><span class="nm">NixOS-стек</span></div>
       </div>
     </div>
     <div class="qxaxis pl-5">
@@ -244,124 +244,8 @@ Talos поднял планку — многое он делает **прави�
       <div><b>Низ-право</b> — Talos / Bottlerocket: atomic, но k8s-only и закрыто</div>
       <div class="rounded-lg px-3 py-2 bg-[#18C0B1]/10 border border-[#18C0B1]/40"><b>Право-верх</b> — <span class="text-[#18C0B1] font-bold">только NixOS-стек</span>: декларативный И гибкий</div>
     </div>
+    <div class="text-xs opacity-60 pt-4">k3OS† (2023), RancherOS† (2021) — мертвы: урок «k8s-only у одного вендора».</div>
   </div>
-</div>
-
----
-
-# Ландшафт: пять классов ОС
-
-<div class="text-sm opacity-75 -mt-2">От мутабельной классики до декларативного NixOS</div>
-
-<div class="flex flex-col gap-2 pt-4">
-  <div class="flex items-center gap-4 rounded-lg px-4 py-2 bg-white/5">
-    <div class="w-52 shrink-0 font-bold text-[#18C0B1]">Мутабельная классика</div>
-    <div class="w-60 shrink-0 text-sm">Ubuntu · Debian · RHEL</div>
-    <div class="text-sm opacity-80">apt по месту, snowflake — гибко, но&nbsp;без&nbsp;атомарности и отката</div>
-  </div>
-  <div class="flex items-center gap-4 rounded-lg px-4 py-2 bg-white/5">
-    <div class="w-52 shrink-0 font-bold text-[#18C0B1]">Image-based atomic</div>
-    <div class="w-60 shrink-0 text-sm">Flatcar · Fedora CoreOS · MicroOS</div>
-    <div class="text-sm opacity-80">A/B-образ, Ignition, read-only <code>/usr</code> — атомарно, но узко</div>
-  </div>
-  <div class="flex items-center gap-4 rounded-lg px-4 py-2 bg-white/5">
-    <div class="w-52 shrink-0 font-bold text-[#18C0B1]">k8s-only appliance</div>
-    <div class="w-60 shrink-0 text-sm">Talos · Bottlerocket</div>
-    <div class="text-sm opacity-80">минимум, API-driven, без SSH/shell — k8s и&nbsp;ничего больше</div>
-  </div>
-  <div class="flex items-center gap-4 rounded-lg px-4 py-2 bg-white/5">
-    <div class="w-52 shrink-0 font-bold text-[#18C0B1]">Мета-фабрики</div>
-    <div class="w-60 shrink-0 text-sm">Kairos</div>
-    <div class="text-sm opacity-80">собирает immutable из любой базы; k3s/k0s из&nbsp;коробки</div>
-  </div>
-  <div class="flex items-center gap-4 rounded-lg px-4 py-2 bg-[#18C0B1]/10 border border-[#18C0B1]/50">
-    <div class="w-52 shrink-0 font-bold text-[#18C0B1]">Декларативный</div>
-    <div class="w-60 shrink-0 text-sm font-semibold">NixOS</div>
-    <div class="text-sm opacity-90">вся система = код; atomic-rollback классов выше + гибкость классики</div>
-  </div>
-</div>
-
-<div class="text-xs opacity-60 pt-3">
-k3OS† (2023), RancherOS† (2021) — мертвы: урок «k8s-only у одного вендора».
-</div>
-
-→ NixOS берёт декларативный atomic у immutable-классов и гибкость — у классики.
-
----
-layout: section
-number: "01"
----
-
-# NixOS
-## Linux, которым можно управлять как кодом
-
----
-
-# Nix за минуту
-
-**Nix** — менеджер пакетов и язык, который собирает всё **по строгому рецепту**:
-те же ингредиенты → всегда тот же результат.
-
-- **Один вход — один выход** — собрал сегодня или через год, на любой машине —
-  байт в байт. Никаких «у&nbsp;меня работает».
-- **Каждый пакет в своей папке** (`/nix/store`, имя = хеш рецепта) — десять версий
-  рядом, ничего не&nbsp;конфликтует.
-- **Говоришь, что нужно, а не как собирать** — шаги Nix берёт на себя.
-
-```nix
-# поменял рецепт (версию или патч) → получится другой пакет, в своей папке
-pkgs.hello.overrideAttrs (old: {
-  version = "2.12.1";
-  patches = [ ./fix-locale.patch ];
-})
-```
-
-→ Воспроизводимость выходит **сама собой** — за ней не надо следить.
-
----
-
-# NixOS за минуту
-
-<div class="text-sm opacity-75 -mt-2">Весь Linux — одним Nix-выражением. И откат, которого у классики, по сути, нет.</div>
-
-<div class="grid grid-cols-[0.85fr_1.15fr] gap-8 pt-3 items-start">
-
-<div>
-  <div class="text-xs opacity-60 pb-1">Откат: классика vs NixOS</div>
-  <div class="text-sm font-semibold">Debian / apt</div>
-  <div class="flow justify-start pt-1">
-    <div class="flow-node">система<div class="sub">v1</div></div>
-    <div class="flow-arrow"><span class="lbl">apt upgrade</span><span class="line">→</span></div>
-    <div class="flow-node">та же<div class="sub">перезапись</div></div>
-  </div>
-  <div class="text-xs pt-2"><span class="text-[#f0907f] font-bold">✗</span> откат — вручную: downgrade или бэкап</div>
-
-  <div class="text-sm font-semibold pt-5">NixOS</div>
-  <div class="flow justify-start pt-1">
-    <div class="flow-node">gen 1</div>
-    <div class="flow-arrow"><span class="line">→</span></div>
-    <div class="flow-node">gen 2</div>
-    <div class="flow-arrow"><span class="line">→</span></div>
-    <div class="flow-node accent">gen 3<div class="sub">current</div></div>
-  </div>
-  <div class="text-xs pt-2"><span class="text-[#18C0B1] font-bold">✓</span> откат = выбрать прошлую в boot-меню → ребут</div>
-</div>
-
-<div>
-
-**NixOS** — весь Linux описан одним Nix-выражением: пакеты, systemd, ядро, сеть,
-kubelet, secrets, пользователи.
-
-- **Модули вместо ручной возни** — `services.k3s`, `hardware.nvidia`,
-  `virtualisation.incus`: включил опцию, а&nbsp;не пишешь юнит-файлы.
-- **Изменение = новая generation** — снимок **всей** системы (ядро, конфиги,
-  сервисы), не только пакетов.
-- **Atomic switch** — переключение целиком или никак, полусостояний нет.
-- **Собралось → переключились; не собралось → система не двинулась.**
-- **Откат мгновенный** — прошлые generations в boot-меню (см. слева).
-
-</div>
-
 </div>
 
 ---
@@ -392,7 +276,7 @@ kubelet, secrets, пользователи.
 
 ---
 layout: section
-number: "02"
+number: "01"
 ---
 
 # Стек
@@ -772,7 +656,7 @@ layout: center
 
 ---
 layout: section
-number: "03"
+number: "02"
 ---
 
 # Tradeoffs
@@ -867,35 +751,6 @@ number: "03"
 </div>
 
 → Каждый инструмент под свою задачу. Я выбрал гибкость.
-
----
-
-# Хочется глубже в Nix?
-
-<div class="text-sm opacity-75 -mt-2">Два доклада на русском, которые дополняют этот:</div>
-
-<div class="grid grid-cols-2 gap-8 pt-3">
-  <div>
-    <img src="/talks/preview-01.jpg" class="rounded-lg w-full aspect-video object-cover shadow-md" />
-    <div class="pt-2 font-semibold">NixOS ещё не умер</div>
-    <div class="text-sm opacity-75">Максим Муравьев · Yadro</div>
-    <div class="text-xs opacity-60">с re:Homelab Meetup — митапа, который я организую</div>
-    <div class="flex items-center gap-3 pt-2">
-      <img src="/talks/qr-01.png" class="w-16 h-16 bg-white p-1 rounded" />
-      <div class="text-xs font-mono opacity-75 break-all">youtu.be/<br/>gpwlRaqEhlE</div>
-    </div>
-  </div>
-  <div>
-    <img src="/talks/preview-02.jpg" class="rounded-lg w-full aspect-video object-cover shadow-md" />
-    <div class="pt-2 font-semibold">NixOS: полный разбор</div>
-    <div class="text-sm opacity-75">Амперсанд</div>
-    <div class="text-xs opacity-60">концепции, Nix language, store</div>
-    <div class="flex items-center gap-3 pt-2">
-      <img src="/talks/qr-02.png" class="w-16 h-16 bg-white p-1 rounded" />
-      <div class="text-xs font-mono opacity-75 break-all">youtu.be/<br/>HOq7XTygAAU</div>
-    </div>
-  </div>
-</div>
 
 ---
 layout: center
