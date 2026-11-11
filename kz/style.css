@@ -1,0 +1,826 @@
+/* KZ meetup theme — see ../DESIGN_SYSTEM.md.
+   One blue field, white monospace type, green tape labels with a hard ink shadow,
+   full-width white horizontal rules. No cards, no rounded corners, no gradients. */
+
+@import url('https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,400..800&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+
+:root {
+  --kz-bg: #0A76EC;
+  --kz-fg: #FFFFFF;
+  --kz-accent: #57C07D;
+  --kz-ink: #00101B;
+  --kz-index: #A8D8FF;
+  --kz-rule: rgb(255 255 255 / 0.9);
+  --kz-rule-soft: rgb(255 255 255 / 0.55);
+  --kz-rule-w: 1.5px;
+  --kz-margin: 40px;
+  --kz-font: 'Martian Mono', 'JetBrains Mono', ui-monospace, monospace;
+  --kz-font-code: 'JetBrains Mono', 'Martian Mono', ui-monospace, monospace;
+
+  --slidev-font-sans: var(--kz-font);
+  --slidev-font-mono: var(--kz-font-code);
+  --slidev-theme-primary: var(--kz-accent);
+  --slidev-slide-container-background: var(--kz-bg);
+}
+
+html,
+html.dark {
+  --slidev-code-background: var(--kz-ink);
+  --slidev-code-foreground: var(--kz-fg);
+  --slidev-code-radius: 0;
+  --slidev-code-padding: 12px 16px;
+  --slidev-code-font-size: 13.5px;
+  --slidev-code-line-height: 20px;
+}
+
+/* ---- single blue canvas ---- */
+html,
+body,
+#slide-content,
+.slidev-page {
+  background: var(--kz-bg);
+}
+
+.slidev-layout {
+  background: var(--kz-bg) !important;
+  color: var(--kz-fg);
+  font-family: var(--kz-font);
+  font-stretch: 87.5%;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.35;
+  /* top padding leaves room for the breadcrumb tape label */
+  padding: 54px var(--kz-margin) 34px;
+}
+
+.slidev-layout code,
+.slidev-layout pre {
+  font-family: var(--kz-font-code);
+}
+
+/* ---- headings: heavy, condensed, uppercase, closed by a rule ---- */
+.slidev-layout h1 {
+  font-family: var(--kz-font);
+  font-size: 32px;
+  font-weight: 800;
+  font-stretch: 75%;
+  line-height: 1.05;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--kz-fg);
+  margin: 0 0 12px;
+  padding-bottom: 10px;
+  border-bottom: var(--kz-rule-w) solid var(--kz-rule);
+}
+
+.slidev-layout h2,
+.slidev-layout h3 {
+  font-weight: 800;
+  font-stretch: 75%;
+  text-transform: uppercase;
+  color: var(--kz-fg);
+}
+
+.slidev-layout h2 {
+  font-size: 22px;
+}
+
+.slidev-layout h3 {
+  font-size: 18px;
+}
+
+/* the default theme dims the first paragraph after h1 — keep it full white */
+.slidev-layout h1 + p {
+  opacity: 1;
+  margin-top: 0;
+}
+
+/* subtitle line right under the heading reads as a `// comment` */
+.slidev-layout h1 + div.opacity-75 {
+  margin-top: 0 !important;
+  font-weight: 600;
+}
+
+.slidev-layout h1 + div.opacity-75::before {
+  content: '// ';
+  color: var(--kz-index);
+}
+
+/* ---- body ---- */
+.slidev-layout p {
+  margin: 10px 0;
+  line-height: 1.4;
+}
+
+.slidev-layout strong,
+.slidev-layout b {
+  font-weight: 800;
+  color: var(--kz-fg);
+}
+
+/* white text loses too much contrast when dimmed — keep it opaque */
+.slidev-layout .opacity-50,
+.slidev-layout .opacity-60,
+.slidev-layout .opacity-70,
+.slidev-layout .opacity-75,
+.slidev-layout .opacity-80,
+.slidev-layout .opacity-85,
+.slidev-layout .opacity-90 {
+  opacity: 1;
+}
+
+/* minimum projected sizes for mono text on blue */
+.slidev-layout .text-xs {
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+.slidev-layout .text-sm {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* ---- lists: rows separated by thin rules, em-dash index ---- */
+.slidev-layout ul {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  border-bottom: 1px solid var(--kz-rule-soft);
+}
+
+.slidev-layout ul li {
+  margin: 0 !important;
+  padding: 4px 0 4px 28px !important;
+  position: relative;
+  line-height: 1.3;
+  border-top: 1px solid var(--kz-rule-soft);
+}
+
+.slidev-layout ul li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  color: var(--kz-ink);
+  font-weight: 800;
+}
+
+/* ---- tables: rows divided by rules, ink service-row header ---- */
+.slidev-layout table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.slidev-layout table tr {
+  border-bottom: 1px solid var(--kz-rule-soft);
+}
+
+.slidev-layout table th {
+  background: transparent;
+  color: var(--kz-ink);
+  font-weight: 800;
+  text-transform: uppercase;
+  text-align: left;
+  border-bottom: var(--kz-rule-w) solid var(--kz-rule);
+}
+
+.slidev-layout table th,
+.slidev-layout table td {
+  padding: 6px 12px 6px 0;
+  border-left: none;
+  border-right: none;
+}
+
+/* a statement directly under the heading shares the heading rule */
+.slidev-layout h1 + blockquote {
+  border-top: none;
+  padding-top: 4px;
+}
+
+/* ---- blockquote: a statement row between two rules, no side bar ---- */
+.slidev-layout blockquote {
+  background: transparent;
+  color: var(--kz-fg);
+  border: none;
+  border-top: var(--kz-rule-w) solid var(--kz-rule);
+  border-radius: 0;
+  padding: 12px 0;
+  margin: 10px 0;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.slidev-layout blockquote p {
+  margin: 0;
+}
+
+/* ---- code ---- */
+.slidev-layout pre.shiki,
+.slidev-layout .slidev-code {
+  background: var(--kz-ink) !important;
+  border-radius: 0 !important;
+}
+
+.slidev-layout .slidev-code-wrapper {
+  margin: 10px 0;
+}
+
+.slidev-layout .slidev-code .line-number,
+.slidev-layout .slidev-code .line::before {
+  color: #5C83AD !important;
+}
+
+/* inline code: flat dark chip */
+.slidev-layout :not(pre) > code {
+  background: rgb(0 16 27 / 0.32);
+  color: var(--kz-fg);
+  padding: 0.05em 0.35em;
+  border-radius: 0;
+  font-weight: 600;
+}
+
+/* ---- no rounded corners or shadows anywhere ---- */
+.slidev-layout [class*='rounded'] {
+  border-radius: 0 !important;
+}
+
+.slidev-layout [class*='shadow-'] {
+  box-shadow: none !important;
+}
+
+/* ---- center layout: left-aligned, vertically centered ---- */
+.slidev-layout.center {
+  place-content: center start;
+  text-align: left;
+}
+
+.slidev-layout.center h1 {
+  font-size: 44px;
+}
+
+/* ---- two-cols ---- */
+.slidev-layout.two-cols {
+  column-gap: 0;
+}
+
+/* ======================================================================
+   Tailwind colour utilities used inside slides.md, remapped to the palette
+   ====================================================================== */
+
+/* former teal accent text → white */
+.slidev-layout .text-\[\#18C0B1\] {
+  color: var(--kz-fg);
+}
+
+/* card / column titles → green tape label */
+.slidev-layout div.font-bold.text-\[\#18C0B1\] {
+  display: block;
+  width: fit-content;
+  padding: 4px 8px !important;
+  margin-bottom: 8px;
+  background: var(--kz-accent);
+  color: var(--kz-ink);
+  font-size: 12.5px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* big call-out (center slides) → large tape label with hard shadow */
+.slidev-layout div.font-bold.text-\[\#18C0B1\].text-2xl {
+  font-size: 26px;
+  padding: 8px 14px !important;
+  margin-top: 18px;
+  text-transform: none;
+  box-shadow: 4px 4px 0 var(--kz-ink);
+}
+
+/* code inside a green label keeps the label colours */
+.slidev-layout .font-bold.text-\[\#18C0B1\] code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+/* inline emphasis and markers → small green chip */
+.slidev-layout span.font-bold.text-\[\#18C0B1\] {
+  background: var(--kz-accent);
+  color: var(--kz-ink);
+  padding: 0 0.3em;
+}
+
+/* former salmon "negative" text → ink */
+.slidev-layout .text-\[\#f0907f\] {
+  color: var(--kz-ink);
+}
+
+.slidev-layout div.font-bold.text-\[\#f0907f\] {
+  text-transform: uppercase;
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  padding-bottom: 8px !important;
+}
+
+/* translucent "cards" → plain blocks hanging off a full-width rule */
+.slidev-layout .bg-white\/5 {
+  background: transparent !important;
+  border-top: var(--kz-rule-w) solid var(--kz-rule);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* highlighted (positive) blocks → thicker white rule, no fill */
+.slidev-layout .bg-\[\#18C0B1\]\/10 {
+  background: transparent !important;
+  border: none !important;
+  border-top: 4px solid var(--kz-fg) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* warning (negative) blocks → thicker ink rule, no fill */
+.slidev-layout .bg-\[\#f0907f\]\/12 {
+  background: transparent !important;
+  border: none !important;
+  border-top: 4px solid var(--kz-ink) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ======================================================================
+   HTML-first flow diagrams
+   ====================================================================== */
+.flow {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.25rem 0;
+}
+
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-top: var(--kz-rule-w) solid var(--kz-rule);
+  border-bottom: var(--kz-rule-w) solid var(--kz-rule);
+  border-radius: 0;
+  padding: 0.4rem 0.4rem;
+  text-align: left;
+  line-height: 1.2;
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 5rem;
+}
+
+.flow-node .sub {
+  font-size: 11.5px;
+  font-weight: 500;
+  margin-top: 0.15rem;
+}
+
+/* accent node → tape label with hard shadow */
+.flow-node.accent {
+  background: var(--kz-accent);
+  border-color: var(--kz-accent);
+  color: var(--kz-ink);
+  font-weight: 800;
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+  box-shadow: 4px 4px 0 var(--kz-ink);
+}
+
+.flow-node.decision,
+.flow-node.store {
+  border-radius: 0;
+}
+
+.flow-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--kz-fg);
+  padding: 0 0.45rem;
+  min-width: 1.8rem;
+}
+
+.flow-arrow .lbl {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--kz-ink);
+  white-space: nowrap;
+  margin-bottom: 0.05rem;
+}
+
+.flow-arrow .line {
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* vertical connectors (stacked diagrams): arrow and label on one line */
+span.flow-arrow {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  gap: 0.4rem;
+  padding: 0.1rem 0;
+}
+
+span.flow-arrow .line {
+  font-size: 1rem;
+}
+
+.flow-arrow.dashed .line {
+  color: var(--kz-index);
+}
+
+.flow-group {
+  border: none;
+  border-top: var(--kz-rule-w) solid var(--kz-rule);
+  border-radius: 0;
+  padding: 1.3rem 0 0.55rem;
+  position: relative;
+  background: transparent;
+}
+
+.flow-group-label {
+  position: absolute;
+  top: 0.3rem;
+  left: 0;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--kz-ink);
+  text-transform: uppercase;
+}
+
+.flow-back {
+  font-size: 11px;
+  text-align: left;
+  padding-top: 0.4rem;
+}
+
+/* ======================================================================
+   Quadrant (coordinate plane)
+   ====================================================================== */
+.qwrap {
+  display: flex;
+  align-items: stretch;
+  gap: 0.4rem;
+}
+
+.qyaxis {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--kz-fg);
+  text-align: center;
+}
+
+.qgrid {
+  position: relative;
+  flex: 1;
+  aspect-ratio: 1 / 1;
+  max-width: 340px;
+  aspect-ratio: 1.25 / 1;
+  border: none;
+  border-top: var(--kz-rule-w) solid var(--kz-rule);
+  border-bottom: var(--kz-rule-w) solid var(--kz-rule);
+  border-radius: 0;
+  background: transparent;
+}
+
+.qgrid .ax-v {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 1px dashed var(--kz-rule-soft);
+}
+
+.qgrid .ax-h {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1px solid var(--kz-rule-soft);
+}
+
+.qpt {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qpt.l {
+  flex-direction: row-reverse;
+}
+
+.qpt .dot {
+  position: relative;
+  width: 9px;
+  height: 9px;
+  background: var(--kz-fg);
+  flex: 0 0 auto;
+}
+
+.qpt .dot::after {
+  content: none;
+}
+
+.qpt .nm {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--kz-fg);
+  white-space: nowrap;
+}
+
+.qpt.win .dot {
+  width: 14px;
+  height: 14px;
+  background: var(--kz-accent);
+  box-shadow: 3px 3px 0 var(--kz-ink);
+}
+
+.qpt.win .nm {
+  background: var(--kz-accent);
+  color: var(--kz-ink);
+  font-weight: 800;
+  font-size: 12px;
+  padding: 3px 6px;
+  box-shadow: 3px 3px 0 var(--kz-ink);
+}
+
+.qxaxis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--kz-fg);
+  padding-top: 0.35rem;
+  max-width: 360px;
+}
+
+/* ======================================================================
+   1D spectrum axis (timeline)
+   ====================================================================== */
+.axis {
+  position: relative;
+  height: 0;
+  border-radius: 0;
+  margin: 0 2rem;
+  background: none;
+  border-top: 3px solid var(--kz-fg);
+}
+
+.axpt {
+  position: absolute;
+  top: -1.5px;
+  transform: translate(-50%, -50%);
+}
+
+.axpt .dot {
+  position: relative;
+  display: block;
+  width: 13px;
+  height: 13px;
+  border-radius: 0;
+  background: var(--kz-fg);
+  border: 2px solid var(--kz-ink);
+}
+
+.axpt.win .dot {
+  width: 18px;
+  height: 18px;
+  background: var(--kz-accent);
+  box-shadow: 3px 3px 0 var(--kz-ink);
+}
+
+.axpt.win .dot::after {
+  content: none;
+}
+
+.axpt .lbl {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 13rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.axpt.up .lbl {
+  bottom: 18px;
+}
+
+.axpt.down .lbl {
+  top: 18px;
+}
+
+.axpt .nm {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--kz-fg);
+}
+
+.axpt.win .nm {
+  display: inline-block;
+  background: var(--kz-accent);
+  color: var(--kz-ink);
+  padding: 2px 6px;
+  box-shadow: 3px 3px 0 var(--kz-ink);
+}
+
+.axpt .sub {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 3px;
+}
+
+.axends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--kz-ink);
+  margin: 76px 2rem 0;
+}
+
+/* ======================================================================
+   Range chart (tradeoffs)
+   ====================================================================== */
+.chart {
+  position: relative;
+  height: 190px !important;
+  margin-top: 1.2rem !important;
+  border-bottom: var(--kz-rule-w) solid var(--kz-rule);
+}
+
+.chart .grid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed var(--kz-rule-soft);
+}
+
+.chart .glabel {
+  position: absolute;
+  left: -2.2rem;
+  /* labels are anchored by `bottom`, so shift down by half to centre on the line */
+  transform: translateY(50%);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--kz-index);
+}
+
+.col {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 56px;
+  border-radius: 0;
+}
+
+.col .cap {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 5px;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--kz-fg);
+}
+
+.col .nm {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.col.good {
+  background: var(--kz-accent);
+}
+
+.col.bad {
+  background: var(--kz-ink);
+}
+
+/* ======================================================================
+   HTML comparison tables (.tbl): rows divided by rules
+   ====================================================================== */
+.tbl {
+  gap: 0 !important;
+  border-bottom: 1px solid var(--kz-rule-soft);
+}
+
+.tbl > div {
+  background: transparent;
+  padding: 0.38rem 0.7rem 0.38rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 0;
+  border-top: 1px solid var(--kz-rule-soft);
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.tbl > .th {
+  background: transparent;
+  color: var(--kz-ink);
+  font-weight: 800;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border-top: none;
+}
+
+.tbl > .rh {
+  font-weight: 800;
+}
+
+/* winning column → green label cells */
+.tbl > .win {
+  background: var(--kz-accent);
+  color: var(--kz-ink);
+  font-weight: 700;
+  padding-left: 0.6rem;
+  border-top-color: var(--kz-bg);
+}
+
+.tbl .yes {
+  color: var(--kz-fg);
+  font-weight: 800;
+}
+
+.tbl .win .yes {
+  color: var(--kz-ink);
+}
+
+.tbl .no {
+  color: var(--kz-ink);
+  font-weight: 800;
+}
+
+.tbl .win code,
+.slidev-layout .tbl > .win code {
+  background: transparent;
+  color: var(--kz-ink);
+}
+
+/* ======================================================================
+   Misc
+   ====================================================================== */
+
+/* shared tape label */
+.kz-tag {
+  display: inline-block;
+  padding: 5px 9px;
+  background: var(--kz-accent);
+  color: var(--kz-ink);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.kz-tag--shadow {
+  box-shadow: 4px 4px 0 var(--kz-ink);
+}
+
+/* talk preview thumbnails: keep them short enough for the QR row, no cropping */
+.slidev-layout img.aspect-video {
+  width: auto !important;
+  max-width: 100%;
+  height: 190px;
+}
+
+/* closing "questions" line → tape label */
+.slidev-layout.center p > strong:only-child {
+  display: inline-block;
+  padding: 6px 12px;
+  background: var(--kz-accent);
+  color: var(--kz-ink);
+  font-size: 22px;
+  box-shadow: 4px 4px 0 var(--kz-ink);
+}
