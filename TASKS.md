@@ -237,8 +237,8 @@ nixcluster part: real output only, fragments in slides, playback scripts in `dem
 4. Replace or extend the NIO slides ("Машина как k8s-ресурс", "NixosConfiguration",
    "NixCluster", "Коммит → раскатилось само") with these fragments; check that YAML on
    the slides matches the real CRD fields (`api/v1alpha1/*_types.go`).
-5. Add NIO steps to the playback scripts (T8): `07-nio-apply.sh`, `08-nio-status.sh`,
-   `09-nio-delete.sh`.
+5. Add NIO steps to the playback scripts (T8): `09-nio-apply.sh`, `10-nio-status.sh`,
+   `11-nio-delete.sh`.
 
 ### T12 — nixcluster bugs found while building the demo `[ ]`
 
