@@ -240,6 +240,26 @@ nixcluster part: real output only, fragments in slides, playback scripts in `dem
 5. Add NIO steps to the playback scripts (T8): `07-nio-apply.sh`, `08-nio-status.sh`,
    `09-nio-delete.sh`.
 
+### T12 — nixcluster bugs found while building the demo `[ ]`
+
+Lives in the nixcluster repo, separate branch/PR (after T9 lands, to avoid conflicts).
+Each bug has a workaround in `demo/` today; the fix removes the workaround.
+
+1. `sops.defaultSopsFile` is set to a relative string `secrets/<cluster>.yaml`; sops-nix
+   rejects it, so any cluster with `sops` fails to evaluate.
+2. `keepalived` + `incus` together do not evaluate: keepalived adds iptables
+   `extraCommands`, Incus enables the nftables firewall, nixpkgs asserts on it.
+   Use `extraInputRules` (`ip protocol vrrp accept`) under nftables.
+3. Firewall: `k3s` does not open UDP 8472 (flannel VXLAN); `incus` does not open
+   TCP 8443 (cluster API).
+4. `converge --dry-run` marks a skipped step as failed, so every later step prints
+   "skipped (dependency … did not succeed)" instead of a dry-run plan.
+5. `sops.gen` decrypts and re-encrypts the secrets file on every converge, so the file
+   changes on each run (should be a no-op when nothing is missing).
+6. Incus pulls qemu/OVMF into the closure even when VMs are impossible (no nested KVM);
+   consider an option to install containers-only Incus.
+7. More from T3/T4 (append here).
+
 ### T7 — Teardown and backup plan `[ ]`
 
 1. Document how to stop the demo VMs (`colima stop --profile kz-node-N`) to free RAM.
