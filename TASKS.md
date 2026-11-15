@@ -57,7 +57,7 @@ Two clusters on four small VMs, in one `demo/` flake:
 
 Status legend: `[ ]` todo, `[~]` in progress, `[x]` done.
 
-### T1 — Colima infrastructure `[ ]`
+### T1 — Colima infrastructure `[x]`
 
 Can run in parallel with T2.
 
@@ -69,7 +69,7 @@ Can run in parallel with T2.
    — T2 depends on this.
 5. Output: `demo/NODES.md` with profile name, IP, disk device, boot mode.
 
-### T2 — Demo cluster config `[ ]`
+### T2 — Demo cluster config `[x]`
 
 Depends on T1 step 4 for the disk/boot facts.
 
@@ -88,7 +88,7 @@ Depends on T1 step 4 for the disk/boot facts.
    - build every member's `system.build.toplevel` inside the builder VM.
 5. Commit after evaluation passes.
 
-### T3 — Bootstrap with nixclusterctl `[ ]`
+### T3 — Bootstrap with nixclusterctl `[~]`
 
 Depends on T1 + T2. Destructive for the node VMs only — confirm IPs before running.
 
@@ -97,7 +97,7 @@ Depends on T1 + T2. Destructive for the node VMs only — confirm IPs before run
 3. Re-run `converge` once more to prove idempotency (expected: switch / skip, no install);
    save as `demo/output/converge-rerun.log`.
 
-### T4 — Proof that everything works `[ ]`
+### T4 — Proof that everything works `[~]`
 
 Depends on T3. Save each command's output to `demo/output/<name>.txt`.
 
@@ -122,7 +122,7 @@ Depends on T4.
 2. Use real output only — trimmed, never edited by hand.
 3. Rebuild with the existing make targets and check the PDF export.
 
-### T6 — Align existing slides with the real nixcluster API `[ ]`
+### T6 — Align existing slides with the real nixcluster API `[x]`
 
 Independent; can run any time.
 
@@ -131,7 +131,7 @@ Independent; can run any time.
 2. Slide "Клишкой — как talosctl": check every command against `nixclusterctl kz-demo --help`
    (`gen-secrets` exists only with `sops`; `kubeconfig fetch` → real command name).
 
-### T8 — Scripted command-flow playback `[ ]`
+### T8 — Scripted command-flow playback `[x]`
 
 Can be built in wave 1 against placeholder logs; final run uses T4 output.
 
@@ -143,7 +143,7 @@ Can be built in wave 1 against placeholder logs; final run uses T4 output.
    needs no VMs; `live` runs the real command.
 4. Pure bash + ANSI colors, no extra dependencies; works in the macOS default terminal.
 
-### T9 — `teardown` command in nixcluster (full cluster teardown) `[ ]`
+### T9 — `teardown` command in nixcluster (full cluster teardown) `[x]`
 
 Lives in `~/git/github.com/kitsunoff/nixcluster`, not in this repo: own feature
 branch from `master` (`feat/teardown`), own PR. Independent of T1–T8; the demo uses it
@@ -187,7 +187,7 @@ Proposed design:
 9. Live check on the demo VMs: `converge` → `teardown --auto-approve` → `converge`,
    the second converge must bring both clusters back.
 
-### T10 — NIO: teardown on `NixCluster` deletion `[ ]`
+### T10 — NIO: teardown on `NixCluster` deletion `[x]`
 
 Lives in `~/git/github.com/kitsunoff/NIO`: own branch from `main`
 (`feat/nixcluster-teardown`), own PR. Depends on T9 (`nixclusterctl teardown` must exist).
@@ -258,7 +258,13 @@ Each bug has a workaround in `demo/` today; the fix removes the workaround.
    changes on each run (should be a no-op when nothing is missing).
 6. Incus pulls qemu/OVMF into the closure even when VMs are impossible (no nested KVM);
    consider an option to install containers-only Incus.
-7. More from T3/T4 (append here).
+7. `teardown`: keepalived/nebula/sops cleanup is ordered after k3s/Incus leave only by
+   priority, with no explicit dependency — a failed leave still removes the VIP/secrets.
+8. `teardown --json` prints bare JSON without the `::nixcluster:result::` marker; NIO
+   parses the marker, so it runs teardown without `--json`.
+9. NIO (separate repo): `nix.suspend` on `NixCronJob` does not suspend the underlying
+   `batch/v1` CronJob, so the builder-mismatch suspend in NIO does not actually stop converge.
+10. More from T3/T4 (append here).
 
 ### T7 — Teardown and backup plan `[ ]`
 
