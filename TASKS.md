@@ -88,7 +88,7 @@ Depends on T1 step 4 for the disk/boot facts.
    - build every member's `system.build.toplevel` inside the builder VM.
 5. Commit after evaluation passes.
 
-### T3 — Bootstrap with nixclusterctl `[~]`
+### T3 — Bootstrap with nixclusterctl `[x]`
 
 Depends on T1 + T2. Destructive for the node VMs only — confirm IPs before running.
 
@@ -97,7 +97,7 @@ Depends on T1 + T2. Destructive for the node VMs only — confirm IPs before run
 3. Re-run `converge` once more to prove idempotency (expected: switch / skip, no install);
    save as `demo/output/converge-rerun.log`.
 
-### T4 — Proof that everything works `[~]`
+### T4 — Proof that everything works `[x]`
 
 Depends on T3. Save each command's output to `demo/output/<name>.txt`.
 
@@ -267,7 +267,16 @@ Each bug has a workaround in `demo/` today; the fix removes the workaround.
    parses the marker, so it runs teardown without `--json`.
 9. NIO (separate repo): `nix.suspend` on `NixCronJob` does not suspend the underlying
    `batch/v1` CronJob, so the builder-mismatch suspend in NIO does not actually stop converge.
-10. More from T3/T4 (append here).
+10. converge treats a kexec installer as an installed system: `test -e /run/current-system`
+    is true in the installer, so an interrupted install gets `switch` instead of install.
+11. nixos-anywhere 1.13 can hang forever after kexec waiting for the host to go down
+    (short kexec reboot + user-v2 keeps the connection); converge has no timeout here.
+12. converge does not wait for a member to come back after install: `k3s.kubeconfig` /
+    `incus.cluster-join` run during the reboot, so a first install always needs a rerun.
+13. SSH options differ between steps: kubeconfig `scp` lacks `UserKnownHostsFile=/dev/null`
+    (host-key-changed banner after reinstall); Incus steps log `gssapiauthentication` noise.
+14. kexec installer needs ~3 GiB RAM: 2 GiB OOMs (`kexec_file_load failed: Out of memory`);
+    document a minimum in templates/README.
 
 ### T7 — Teardown and backup plan `[ ]`
 
