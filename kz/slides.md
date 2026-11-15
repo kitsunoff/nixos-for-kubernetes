@@ -296,35 +296,40 @@ layout: center
 # Декларативность: весь кластер в&nbsp;одном файле
 
 ```nix
-clusterConfigurations.prod = nixcluster.lib.mkCluster {
-  imports = with nixcluster.clusterModules;
-    [ disko k3s sops cozystack ];
+nixcluster.kz-demo = { clusterModules, self, ... }: {
+  imports = with clusterModules;
+    [ disko k3s incus sops keepalived ];
   k3s.enable = true;
+  sops.enable = true;
+  incus.enable = true;
+  incus.cluster.enable = true;
+  keepalived.enable = true;
+  keepalived.instances.k3s-api.vip = "192.168.5.200";
+  defaultNixosConfiguration = self.nixosConfigurations.base;
 
-  members.gpu-01 = {
-    nixosConfiguration = self.nixosConfigurations.base;
-    install.targetHost = "root@10.0.60.10";
-    install.disk = "/dev/nvme0n1";
-    k3s.role = "agent";
+  members.kz-node-1 = {
+    install.ip = "192.168.5.3";
+    install.disk = "/dev/vda";
+    k3s.role = "server";
     # nixos-опции напрямую — patches к base config:
-    hardware.nvidia.modesetting.enable = true;
-    boot.kernelModules = [ "nvidia" ];
+    networking.hostName = "kz-node-1";
   };
 };
 ```
 
-→ Каждый модуль приносит и NixOS-конфиги нодам, и CLI-команды в `nixclusterctl`.
+→ Каждый модуль приносит и NixOS-конфиги нодам, и CLI-команды в `nixclusterctl`, и шаги `converge`.
 
 ---
 
 # Клишкой — как talosctl
 
-<div class="text-sm opacity-75 -mt-2">Один бинарь, один поток: секреты → раскат → kubeconfig</div>
+<div class="text-sm opacity-75 -mt-2">Одна команда, один поток: секреты → раскат → join → kubeconfig</div>
 
 ```bash
-nixclusterctl prod gen-secrets       # секреты кластера (age + SSH)
-nixclusterctl prod apply node1       # раскатить ноду
-nixclusterctl prod kubeconfig fetch  # забрать kubeconfig
+nixclusterctl kz-demo converge --dry-run      # план, ничего не трогает
+nixclusterctl kz-demo converge                # весь кластер за один проход
+nixclusterctl kz-demo apply kz-node-1         # раскатить одну ноду
+nixclusterctl kz-demo k3s kubeconfig fetch    # забрать kubeconfig
 ```
 
 <div class="grid grid-cols-2 gap-8 pt-2 items-start">
@@ -334,27 +339,27 @@ nixclusterctl prod kubeconfig fetch  # забрать kubeconfig
     <div class="th">talosctl</div>
     <div class="th">nixclusterctl</div>
     <div class="rh">gen secrets</div>
-    <div class="win">gen-secrets</div>
+    <div class="win">sops gen</div>
     <div class="rh">apply-config</div>
     <div class="win">apply &lt;node&gt;</div>
     <div class="rh">bootstrap</div>
-    <div class="win">bootstrap</div>
+    <div class="win">converge</div>
     <div class="rh">kubeconfig</div>
-    <div class="win">kubeconfig fetch</div>
+    <div class="win">k3s kubeconfig fetch</div>
   </div>
 </div>
 <div class="text-sm">
   <div class="text-[#18C0B1] font-bold pb-1">Модули расширяют клишку</div>
   <div class="opacity-85 leading-snug pb-1">Каждый включённый модуль добавляет свои подкоманды:</div>
   <div class="flex flex-col gap-1 text-[0.82rem]">
-    <div><code>nixclusterctl prod incus list</code></div>
-    <div><code>nixclusterctl prod nebula gen-certs</code></div>
-    <div><code>nixclusterctl prod keepalived status</code></div>
+    <div><code>nixclusterctl kz-demo incus list</code></div>
+    <div><code>nixclusterctl kz-demo k3s nodes</code></div>
+    <div><code>nixclusterctl kz-demo keepalived status</code></div>
   </div>
 </div>
 </div>
 
-<div class="text-xs opacity-60 pt-3">полная форма — <code>nix run .#nixclusterctl -- prod apply node1</code></div>
+<div class="text-xs opacity-60 pt-3">полная форма — <code>nix run .#cluster-kz-demo -- converge</code></div>
 
 ---
 
@@ -365,7 +370,7 @@ nixclusterctl prod kubeconfig fetch  # забрать kubeconfig
 <div class="flow pt-10">
   <div class="flow-node">Живой Linux<div class="sub">rescue / live-USB, есть SSH</div></div>
   <div class="flow-arrow"><span class="lbl">добавил в members</span><span class="line">→</span></div>
-  <div class="flow-node">nixclusterctl<div class="sub">install target</div></div>
+  <div class="flow-node">nixclusterctl<div class="sub">install &lt;member&gt;</div></div>
   <div class="flow-arrow"><span class="lbl">SSH</span><span class="line">→</span></div>
   <div class="flow-node">Disko +<div class="sub">nixos-anywhere</div></div>
   <div class="flow-arrow"><span class="lbl">k3s join</span><span class="line">→</span></div>
