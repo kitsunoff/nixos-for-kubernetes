@@ -1,0 +1,18 @@
+$ nix run .#cluster-kz-demo -- --help
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+nixclusterctl kz-demo
+
+Commands:
+  apply - Apply config to member
+  converge - Converge the whole cluster (dependency-ordered converge steps)
+  gen-config - Discover a node over SSH and emit a member module
+  install - Install a member via nixos-anywhere
+
+Command groups:
+  incus - Incus virtualization management (cluster-join, exec, init, list, start, status, stop)
+  k3s - k3s cluster management (bootstrap, kubeconfig, manifest, nodes)
+  keepalived - keepalived VRRP management (status)
+  sops - Secret management (sops) (edit, gen, show)
+
+Members: kz-node-1, kz-node-2, kz-node-3
+[exit 0]

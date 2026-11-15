@@ -1,0 +1,36 @@
+$ nix run .#cluster-kz-mgmt -- --help
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+these 10 derivations will be built:
+  /nix/store/0r01crfdrmladcn3s45yard36hcrw0q1-nixcluster-prune-k3s.drv
+  /nix/store/85ib5c4prm7gnapfp7fsx01rw5wf5m0s-nixclusterctl-kz-mgmt-bootstrap.drv
+  /nix/store/b78ccz2xnlgpdw1zs68r7mcxci7rmgh4-nixclusterctl-kz-mgmt-kubeconfig.drv
+  /nix/store/2r7s0zfg4nly45b73gl02ij9wplj8d4i-nixclusterctl-kz-mgmt-converge.drv
+  /nix/store/d8y99yk84bcf982bbwnkqmywfcbswb3a-nixclusterctl-kz-mgmt-apply.drv
+  /nix/store/mhvmil9s1x85harys01dxqym8nd4b6nb-nixclusterctl-kz-mgmt-gen-config.drv
+  /nix/store/nmmrv7z959vzsdbsc5iwvcxbvsj0f8kq-nixclusterctl-kz-mgmt-k3s-nodes.drv
+  /nix/store/r0mkz1yhpp1rhp6lgnk5vbq62j62lxsg-nixclusterctl-kz-mgmt-install.drv
+  /nix/store/xnxl1drk2vqqi2yvc8h3pyaw9xbr7gav-nixclusterctl-kz-mgmt-k3s-manifest.drv
+  /nix/store/avzz7mm8cdl38hg67ni9x26aya7b7gzh-nixclusterctl-kz-mgmt.drv
+building '/nix/store/d8y99yk84bcf982bbwnkqmywfcbswb3a-nixclusterctl-kz-mgmt-apply.drv'...
+building '/nix/store/85ib5c4prm7gnapfp7fsx01rw5wf5m0s-nixclusterctl-kz-mgmt-bootstrap.drv'...
+building '/nix/store/mhvmil9s1x85harys01dxqym8nd4b6nb-nixclusterctl-kz-mgmt-gen-config.drv'...
+building '/nix/store/r0mkz1yhpp1rhp6lgnk5vbq62j62lxsg-nixclusterctl-kz-mgmt-install.drv'...
+building '/nix/store/0r01crfdrmladcn3s45yard36hcrw0q1-nixcluster-prune-k3s.drv'...
+building '/nix/store/xnxl1drk2vqqi2yvc8h3pyaw9xbr7gav-nixclusterctl-kz-mgmt-k3s-manifest.drv'...
+building '/nix/store/nmmrv7z959vzsdbsc5iwvcxbvsj0f8kq-nixclusterctl-kz-mgmt-k3s-nodes.drv'...
+building '/nix/store/b78ccz2xnlgpdw1zs68r7mcxci7rmgh4-nixclusterctl-kz-mgmt-kubeconfig.drv'...
+building '/nix/store/2r7s0zfg4nly45b73gl02ij9wplj8d4i-nixclusterctl-kz-mgmt-converge.drv'...
+building '/nix/store/avzz7mm8cdl38hg67ni9x26aya7b7gzh-nixclusterctl-kz-mgmt.drv'...
+nixclusterctl kz-mgmt
+
+Commands:
+  apply - Apply config to member
+  converge - Converge the whole cluster (dependency-ordered converge steps)
+  gen-config - Discover a node over SSH and emit a member module
+  install - Install a member via nixos-anywhere
+
+Command groups:
+  k3s - k3s cluster management (bootstrap, kubeconfig, manifest, nodes)
+
+Members: kz-mgmt
+[exit 0]

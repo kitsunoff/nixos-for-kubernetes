@@ -1,0 +1,18 @@
+$ nix run .#cluster-kz-demo -- converge --dry-run
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+Converging cluster 'kz-demo'
+Step order: sops.gen member-kz-node-1 member-kz-node-2 member-kz-node-3 k3s.bootstrap k3s.kubeconfig k3s.prune incus.cluster-join incus.reconcile incus.prune
+
+  [step:pre] sops.gen (dry-run, not executed)
+  [member] kz-node-1 skipped (dependency 'sops.gen' did not succeed)
+  [member] kz-node-2 skipped (dependency 'member-kz-node-1' did not succeed)
+  [member] kz-node-3 skipped (dependency 'member-kz-node-1' did not succeed)
+  [step:post] k3s.bootstrap skipped (dependency 'member-kz-node-1' did not succeed)
+  [step:post] k3s.kubeconfig skipped (dependency 'member-kz-node-1' did not succeed)
+  [step:post] k3s.prune skipped (dependency 'member-kz-node-1' did not succeed)
+  [step:post] incus.cluster-join skipped (dependency 'member-kz-node-1' did not succeed)
+  [step:post] incus.reconcile skipped (dependency 'member-kz-node-1' did not succeed)
+  [step:post] incus.prune skipped (dependency 'member-kz-node-1' did not succeed)
+
+::nixcluster:result:: {"cluster":"kz-demo","result":"partial","members":[{"name":"kz-node-1","ip":"192.168.5.3","action":"noop","status":"Skipped","message":"dependency 'sops.gen' did not succeed","durationSeconds":0},{"name":"kz-node-2","ip":"192.168.5.4","action":"noop","status":"Skipped","message":"dependency 'member-kz-node-1' did not succeed","durationSeconds":0},{"name":"kz-node-3","ip":"192.168.5.5","action":"noop","status":"Skipped","message":"dependency 'member-kz-node-1' did not succeed","durationSeconds":0}],"steps":[{"name":"sops.gen","phase":"pre","status":"skipped","message":"dry-run"},{"name":"k3s.bootstrap","phase":"post","status":"skipped","message":"dependency 'member-kz-node-1' did not succeed"},{"name":"k3s.kubeconfig","phase":"post","status":"skipped","message":"dependency 'member-kz-node-1' did not succeed"},{"name":"k3s.prune","phase":"post","status":"skipped","message":"dependency 'member-kz-node-1' did not succeed"},{"name":"incus.cluster-join","phase":"post","status":"skipped","message":"dependency 'member-kz-node-1' did not succeed"},{"name":"incus.reconcile","phase":"post","status":"skipped","message":"dependency 'member-kz-node-1' did not succeed"},{"name":"incus.prune","phase":"post","status":"skipped","message":"dependency 'member-kz-node-1' did not succeed"}]}
+[exit 0]
