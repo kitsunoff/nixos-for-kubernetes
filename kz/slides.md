@@ -570,6 +570,77 @@ kz-node-3   Ready    control-plane,etcd   7m25s   v1.34.3+k3s1
 </div>
 
 ---
+
+# Демо: teardown — план
+
+<div class="text-sm opacity-75 -mt-2">Как <code>terraform destroy</code>: сначала план — шаги converge в обратном порядке</div>
+
+<div style="--slidev-code-font-size: 11px; --slidev-code-line-height: 15px">
+
+```text {*}{lines:false}
+$ nix run .#cluster-kz-demo -- teardown --dry-run
+…
+  Members (each ends on its base NixOS configuration; disks are not wiped):
+…
+  Steps, in order:
+      1. workloads  k3s.drain                      Cordon and drain every k3s node
+      2. workloads  incus.instances-off            Delete every Incus instance
+      3. leave      k3s.leave-kz-node-3            kz-node-3 leaves the k3s cluster and stops k3s
+…
+      8. leave      incus.leave-kz-node-1          kz-node-1 (bootstrap) stops Incus last
+      9. cleanup    k3s.cleanup-kz-node-3          Remove k3s containers, data and config from kz-node-3
+…
+     23. member     member-kz-node-1               Switch kz-node-1 back to its base NixOS configuration
+…
+  Plan: 3 member(s) to destroy, 23 step(s).
+```
+
+</div>
+
+<div class="text-sm pt-2 leading-snug">
+→ Без <code>--dry-run</code>: тот же план, <code>Enter a value:</code> — и дальше только на&nbsp;<code>yes</code>.<br/>
+→ Порядок: workloads → ноды выходят из кластеров (бутстрап последним) → cleanup → базовая NixOS.
+</div>
+
+---
+
+# Демо: teardown → converge
+
+<div class="text-sm opacity-75 -mt-2">Применили план: ноды на базовой NixOS · converge из того же описания собирает кластер заново</div>
+
+<div class="out-wrapline demo-tight" style="--slidev-code-font-size: 9px; --slidev-code-line-height: 11px; --slidev-code-padding: 6px 14px">
+
+```text {*}{lines:false}
+$ nix run .#cluster-kz-demo -- teardown --auto-approve
+…
+::nixcluster:result:: {"cluster":"kz-demo","result":"success","members":[{"name":"kz-node-3","ip":"192.168.5.5","action":"destroyed","status":"Applied","message":"","durationSeconds":7},{"name":"kz-node-2","ip":"192.168.5.4","action":"destroyed","status":"Applied","message":"","durationSeconds":7},{"name":"kz-node-1","ip":"192.168.5.3","action":"destroyed","status":"Applied","message":"","durationSeconds":7}],"steps":[{"name":"k3s.drain","phase":"workloads","status":"ok","message":""},{"name":"incus.instances-off","phase":"workloads","status":"ok","message":""},{"name":"k3s.leave-kz-node-3","phase":"leave","status":"ok","message":""},{"name":"incus.leave-kz-node-3","phase":"leave","status":"ok","message":""},{"name":"k3s.leave-kz-node-2","phase":"leave","status":"ok","message":""},{"name":"incus.leave-kz-node-2","phase":"leave","status":"ok","message":""},{"name":"k3s.leave-kz-node-1","phase":"leave","status":"ok","message":""},{"name":"incus.leave-kz-node-1","phase":"leave","status":"ok","message":""},{"name":"k3s.cleanup-kz-node-3","phase":"cleanup","status":"ok","message":""},{"name":"incus.cleanup-kz-node-3","phase":"cleanup","status":"ok","message":""},{"name":"keepalived.cleanup-kz-node-3","phase":"cleanup","status":"ok","message":""},{"name":"sops.cleanup-kz-node-3","phase":"cleanup","status":"ok","message":""},{"name":"k3s.cleanup-kz-node-2","phase":"cleanup","status":"ok","message":""},{"name":"incus.cleanup-kz-node-2","phase":"cleanup","status":"ok","message":""},{"name":"keepalived.cleanup-kz-node-2","phase":"cleanup","status":"ok","message":""},{"name":"sops.cleanup-kz-node-2","phase":"cleanup","status":"ok","message":""},{"name":"k3s.cleanup-kz-node-1","phase":"cleanup","status":"ok","message":""},{"name":"incus.cleanup-kz-node-1","phase":"cleanup","status":"ok","message":""},{"name":"keepalived.cleanup-kz-node-1","phase":"cleanup","status":"ok","message":""},{"name":"sops.cleanup-kz-node-1","phase":"cleanup","status":"ok","message":""}]}
+[exit 0]
+```
+
+</div>
+
+<div class="text-[#18C0B1] font-bold pt-1 pb-1 text-sm">converge на чистых нодах — Incus-кластер собран заново, в k8s снова 3 Ready</div>
+
+<div class="demo-tight" style="--slidev-code-font-size: 10px; --slidev-code-line-height: 13px; --slidev-code-padding: 6px 14px">
+
+```text {*}{lines:false}
+$ nix run .#cluster-kz-demo -- converge --age-key-file secrets/kz-demo.age.key
+…
+  kz-node-2: joined
+…
+  kz-node-3: joined
+…
+[exit 0]
+```
+
+</div>
+
+<style>
+.out-wrapline pre, .out-wrapline code { white-space: pre-wrap !important; word-break: break-all; }
+.demo-tight .slidev-code-wrapper { margin: 5px 0; }
+</style>
+
+---
 layout: center
 ---
 
@@ -595,7 +666,7 @@ layout: center
   </div>
   <div class="grid grid-cols-2 gap-8">
     <div class="flow-node">NixosConfiguration<div class="sub">CRD</div></div>
-    <div class="flow-node">Cluster<div class="sub">CRD</div></div>
+    <div class="flow-node">NixCluster<div class="sub">CRD</div></div>
   </div>
   <div class="grid grid-cols-2 gap-8 place-items-center">
     <span class="flow-arrow"><span class="line">↓</span></span>
@@ -678,13 +749,13 @@ layout: center
 </div>
 
 <div class="text-xs opacity-60 pt-5">
-Под капотом — <code>NixCronJob</code>: <code>nixbuild</code> + <code>nixos-rebuild switch</code> на каждом тике.<br/>
+Под капотом — <code>NixCronJob</code>: <code>nixos-rebuild switch</code> по расписанию и сразу на новый коммит.<br/>
 Уже в операторе: <code>spec.additionalFiles</code> (Inline · SecretRef · NixosFacter) · <code>spec.onRemoveFlake</code>
 </div>
 
 ---
 
-# NixosCluster: описываю классы нод
+# NixCluster: описываю классы нод
 
 <div class="text-sm opacity-75 -mt-2">Не ноды по одной — группы: control-plane, data-plane, gpu…</div>
 
@@ -695,10 +766,10 @@ layout: center
   </div>
   <div class="rounded-lg p-4 bg-white/5">
     <div class="font-bold text-[#18C0B1] pb-1">Спека группы — три поля</div>
-    <div class="text-sm opacity-85"><code>nodeSelector</code> + <code>count</code> + <code>nodeConfig</code>. Оператор подбирает железо под селектор и держит нужное количество.</div>
+    <div class="text-sm opacity-85"><code>selector</code> + <code>count</code> + <code>values</code>. Оператор берёт <code>Machine</code> по лейблам, <code>count</code> — потолок группы.</div>
   </div>
   <div class="rounded-lg p-4 bg-white/5">
-    <div class="font-bold text-[#18C0B1] pb-1">nodeConfig → members.&lt;нода&gt;</div>
+    <div class="font-bold text-[#18C0B1] pb-1">values → members.&lt;нода&gt;</div>
     <div class="text-sm opacity-85">Содержимое группы прилетает прямо в тот же <code>nixcluster</code> из первой части — один язык на обе половины.</div>
   </div>
   <div class="rounded-lg p-4 bg-white/5">
@@ -739,6 +810,209 @@ layout: center
     <div class="opacity-85">Собирается на кластере, не&nbsp;на&nbsp;моём ноуте.</div>
   </div>
 </div>
+
+---
+
+# Демо: NIO — kubectl apply
+
+<div class="text-sm opacity-75 -mt-2">Три <code>Machine</code> + один <code>NixCluster</code> на том же flake <code>kz-demo</code> · NIO сам завёл converge</div>
+
+<div class="demo-tight" style="--slidev-code-font-size: 10px; --slidev-code-line-height: 13px; --slidev-code-padding: 6px 14px">
+
+```text {*}{lines:false}
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml apply --server-side --filename nio/
+machine.nio.homystack.com/kz-node-1 serverside-applied
+machine.nio.homystack.com/kz-node-2 serverside-applied
+machine.nio.homystack.com/kz-node-3 serverside-applied
+nixcluster.nio.homystack.com/kz-demo serverside-applied
+[exit 0]
+```
+
+```text {*}{lines:false}
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml get machines,nixclusters,nixcronjobs,jobs
+NAME                                  HOST          READY   DISCOVERABLE   CONFIG   AGE
+machine.nio.homystack.com/kz-node-1   192.168.5.3   True    True                    38m
+machine.nio.homystack.com/kz-node-2   192.168.5.4   True    True                    38m
+machine.nio.homystack.com/kz-node-3   192.168.5.5   True    True                    38m
+
+NAME                                   PHASE   CONVERGE           TEARDOWN   AGE
+nixcluster.nio.homystack.com/kz-demo   Ready   kz-demo-converge              38m
+
+NAME                                            PHASE   SCHEDULE    LASTSCHEDULE   AGE
+nixcronjob.nio.homystack.com/kz-demo-converge   Ready   0 3 * * *   6m8s           38m
+
+NAME                                               STATUS     COMPLETIONS   DURATION   AGE
+job.batch/kz-demo-converge-r-26e34252e4eb-manual   Complete   1/1           10m        10m
+[exit 0]
+```
+
+</div>
+
+<style>
+.demo-tight .slidev-code-wrapper { margin: 5px 0; }
+</style>
+
+---
+
+# Демо: NIO — converge в поде
+
+<div class="text-sm opacity-75 -mt-2">Job создал оператор: тот же <code>nix run .#cluster-kz-demo -- converge</code>, только в поде</div>
+
+<div class="out-wrapline demo-tight" style="--slidev-code-font-size: 11px; --slidev-code-line-height: 15px; --slidev-code-padding: 6px 14px">
+
+```text {*}{lines:false}
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml logs job/kz-demo-converge-r-26e34252e4eb-manual --container app
+…
+[ssh] installed cluster identity from NIX_SSHOPTS at /root/.ssh/id_ed25519
+Converging cluster 'kz-demo'
+…
+=== switch kz-node-1 (192.168.5.3) [nixos-rebuild] ===
+…
+  kz-node-2: already a cluster member, skipping
+  kz-node-3: already a cluster member, skipping
+…
+::nixcluster:result:: {"cluster":"kz-demo","result":"success","members":[{"name":"kz-node-1","ip":"192.168.5.3","action":"switch","status":"Applied","message":"","durationSeconds":380},{"name":"kz-node-2","ip":"192.168.5.4","action":"switch","status":"Applied","message":"","durationSeconds":32},{"name":"kz-node-3","ip":"192.168.5.5","action":"switch","status":"Applied","message":"","durationSeconds":20}],"steps":[{"name":"sops.gen","phase":"pre","status":"ok","message":""},{"name":"k3s.bootstrap","phase":"post","status":"ok","message":""},{"name":"k3s.kubeconfig","phase":"post","status":"ok","message":""},{"name":"k3s.prune","phase":"post","status":"ok","message":""},{"name":"incus.cluster-join","phase":"post","status":"ok","message":""},{"name":"incus.reconcile","phase":"post","status":"ok","message":""},{"name":"incus.prune","phase":"post","status":"ok","message":""}]}
+[exit 0]
+```
+
+</div>
+
+<div class="text-xs opacity-60 pt-1">Кластер уже собран CLI из первой части — converge идемпотентен: ноды switch, join и prune — skip</div>
+
+<style>
+.out-wrapline pre, .out-wrapline code { white-space: pre-wrap !important; word-break: break-all; }
+.demo-tight .slidev-code-wrapper { margin: 5px 0; }
+</style>
+
+---
+
+# Демо: NIO — коммит → раскатилось
+
+<div class="text-sm opacity-75 -mt-2">Поменял motd в git · NIO увидел новый коммит и запустил converge, не дожидаясь расписания</div>
+
+<div class="out-wrapline demo-tight" style="--slidev-code-font-size: 10px; --slidev-code-line-height: 13px; --slidev-code-padding: 6px 14px">
+
+```text {*}{lines:false}
+$ git --no-pager diff
+…
++++ b/modules/clusters/kz-demo.nix
+…
++        users.motd = "kz-demo: rolled out by NIO from git";
+…
+```
+
+```text {*}{lines:false}
+$ git commit --all --message "kz-demo: set a motd" && git push origin main
+[main 2dc4933] kz-demo: set a motd
+…
+   249d84a..2dc4933  main -> main
+```
+
+```text {*}{lines:false}
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml get nixcronjob,jobs
+…
+NAME                                               STATUS     COMPLETIONS   DURATION   AGE
+job.batch/kz-demo-converge-r-26e34252e4eb-manual   Complete   1/1           10m        11m
+job.batch/kz-demo-converge-r-6580f92a1dc7-manual   Running    0/1           1s         1s
+[exit 0]
+```
+
+```text {*}{lines:false}
+$ ssh root@192.168.5.3 'grep --only-matching "motd=[^ ]*" /etc/pam.d/sshd | cut --delimiter== --fields=2 | xargs cat; echo'
+kz-demo: rolled out by NIO from git
+[exit 0]
+```
+
+</div>
+
+<style>
+.out-wrapline pre, .out-wrapline code { white-space: pre-wrap !important; word-break: break-all; }
+.demo-tight .slidev-code-wrapper { margin: 5px 0; }
+</style>
+
+---
+
+# Демо: NIO — delete → teardown
+
+<div class="text-sm opacity-75 -mt-2"><code>deletionPolicy: Teardown</code> (дефолт): финализер ждёт teardown · <code>Retain</code>: только k8s-объекты</div>
+
+<div class="out-wrapline demo-tight" style="--slidev-code-font-size: 10px; --slidev-code-line-height: 13px; --slidev-code-padding: 6px 14px">
+
+```text {*}{lines:false}
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml delete nixcluster kz-demo --wait=false
+nixcluster.nio.homystack.com "kz-demo" deleted from default namespace
+[exit 0]
+```
+
+```text {*}{lines:false}
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml get nixcluster,nixcronjobs,nixjobs,jobs
+NAME                                   PHASE         CONVERGE           TEARDOWN   AGE
+nixcluster.nio.homystack.com/kz-demo   TearingDown   kz-demo-converge   Running    46m
+…
+NAME                                        PHASE         REVISION   SUCCEEDED   AGE
+nixjob.nio.homystack.com/kz-demo-teardown   Progressing                          21s
+…
+job.batch/kz-demo-teardown-r-5523d26b33a2          Running    0/1           20s        20s
+[exit 0]
+```
+
+```text {*}{lines:false}
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml logs --follow job/kz-demo-teardown-r-5523d26b33a2 --container app
+…
+  Plan: 3 member(s) to destroy, 23 step(s).
+…
+Tearing down cluster 'kz-demo'
+…
+=== switch kz-node-1 (192.168.5.3) back to its base configuration ===
+…
+```
+
+</div>
+
+<style>
+.out-wrapline pre, .out-wrapline code { white-space: pre-wrap !important; word-break: break-all; }
+.demo-tight .slidev-code-wrapper { margin: 5px 0; }
+</style>
+
+---
+
+# Демо: NIO — объект ушёл, ноды чистые
+
+<div class="text-sm opacity-75 -mt-2">Teardown-джоба: success → финализер снят · на нодах ни k3s, ни Incus · <code>Machine</code> остались</div>
+
+<div class="out-wrapline demo-tight" style="--slidev-code-font-size: 9px; --slidev-code-line-height: 11px; --slidev-code-padding: 6px 14px">
+
+```text {*}{lines:false}
+::nixcluster:result:: {"cluster":"kz-demo","result":"success","members":[{"name":"kz-node-3","ip":"192.168.5.5","action":"destroyed","status":"Applied","message":"","durationSeconds":100},{"name":"kz-node-2","ip":"192.168.5.4","action":"destroyed","status":"Applied","message":"","durationSeconds":12},{"name":"kz-node-1","ip":"192.168.5.3","action":"destroyed","status":"Applied","message":"","durationSeconds":11}],"steps":[{"name":"k3s.drain","phase":"workloads","status":"ok","message":""},{"name":"incus.instances-off","phase":"workloads","status":"ok","message":""},{"name":"k3s.leave-kz-node-3","phase":"leave","status":"ok","message":""},{"name":"incus.leave-kz-node-3","phase":"leave","status":"ok","message":""},{"name":"k3s.leave-kz-node-2","phase":"leave","status":"ok","message":""},{"name":"incus.leave-kz-node-2","phase":"leave","status":"ok","message":""},{"name":"k3s.leave-kz-node-1","phase":"leave","status":"ok","message":""},{"name":"incus.leave-kz-node-1","phase":"leave","status":"ok","message":""},{"name":"k3s.cleanup-kz-node-3","phase":"cleanup","status":"ok","message":""},{"name":"incus.cleanup-kz-node-3","phase":"cleanup","status":"ok","message":""},{"name":"keepalived.cleanup-kz-node-3","phase":"cleanup","status":"ok","message":""},{"name":"sops.cleanup-kz-node-3","phase":"cleanup","status":"ok","message":""},{"name":"k3s.cleanup-kz-node-2","phase":"cleanup","status":"ok","message":""},{"name":"incus.cleanup-kz-node-2","phase":"cleanup","status":"ok","message":""},{"name":"keepalived.cleanup-kz-node-2","phase":"cleanup","status":"ok","message":""},{"name":"sops.cleanup-kz-node-2","phase":"cleanup","status":"ok","message":""},{"name":"k3s.cleanup-kz-node-1","phase":"cleanup","status":"ok","message":""},{"name":"incus.cleanup-kz-node-1","phase":"cleanup","status":"ok","message":""},{"name":"keepalived.cleanup-kz-node-1","phase":"cleanup","status":"ok","message":""},{"name":"sops.cleanup-kz-node-1","phase":"cleanup","status":"ok","message":""}]}
+[exit 0]
+```
+
+</div>
+
+<div class="demo-tight" style="--slidev-code-font-size: 10px; --slidev-code-line-height: 13px; --slidev-code-padding: 6px 14px">
+
+```text {*}{lines:false}
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml get nixclusters,nixcronjobs,nixjobs,jobs
+No resources found in default namespace.
+[exit 0]
+```
+
+```text {*}{lines:false}
+$ ssh root@192.168.5.3 'systemctl is-active k3s incus keepalived; ls /var/lib/rancher /var/lib/incus'
+inactive
+inactive
+inactive
+ls: cannot access '/var/lib/rancher': No such file or directory
+ls: cannot access '/var/lib/incus': No such file or directory
+[exit 2]
+```
+
+</div>
+
+<style>
+.out-wrapline pre, .out-wrapline code { white-space: pre-wrap !important; word-break: break-all; }
+.demo-tight .slidev-code-wrapper { margin: 5px 0; }
+</style>
 
 ---
 
