@@ -1,0 +1,3 @@
+$ ssh root@192.168.5.3 'grep --only-matching "motd=[^ ]*" /etc/pam.d/sshd | cut --delimiter== --fields=2 | xargs cat; echo'
+kz-demo: rolled out by NIO from git
+[exit 0]

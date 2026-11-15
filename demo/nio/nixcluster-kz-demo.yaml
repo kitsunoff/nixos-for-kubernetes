@@ -1,0 +1,27 @@
+# The whole kz-demo cluster: NIO selects the Machines by label, renders
+# modules/nodes/<machine>.nix into the flake checkout and runs
+# `nix run .#cluster-kz-demo -- converge` in a pod.
+apiVersion: nio.homystack.com/v1alpha1
+kind: NixCluster
+metadata:
+  name: kz-demo
+spec:
+  source:
+    gitRepo: git://192.168.5.1/kz-demo.git # lab git server on the builder VM
+    ref: main
+  sshKeyRef:
+    name: kz-demo-ssh # ssh-privatekey: the cluster key
+  ageKeyRef:
+    name: kz-demo-age # keys.txt: decrypts secrets/kz-demo.yaml
+  dayTwoSchedule: "0 3 * * *" # nightly; a commit triggers a run right away
+  deletionPolicy: Teardown # delete = run `teardown` on every member
+  nodeGroups:
+    - name: servers
+      selector:
+        matchLabels:
+          cluster: kz-demo
+          role: server
+      count: 3
+      values:
+        k3s:
+          role: server

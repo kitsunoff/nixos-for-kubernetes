@@ -1,0 +1,13 @@
+# A host NIO reaches over SSH (eth0 address: VM-to-VM traffic only).
+apiVersion: nio.homystack.com/v1alpha1
+kind: Machine
+metadata:
+  name: kz-node-1
+  labels:
+    cluster: kz-demo
+    role: server
+spec:
+  host: 192.168.5.3
+  sshUser: root
+  sshKeySecretRef:
+    name: kz-demo-ssh

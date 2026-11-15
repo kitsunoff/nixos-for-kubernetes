@@ -1,0 +1,6 @@
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml get machines
+NAME        HOST          READY   DISCOVERABLE   CONFIG   AGE
+kz-node-1   192.168.5.3   True    True                    53m
+kz-node-2   192.168.5.4   True    True                    53m
+kz-node-3   192.168.5.5   True    True                    53m
+[exit 0]

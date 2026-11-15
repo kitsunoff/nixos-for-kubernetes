@@ -1,0 +1,8 @@
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml get nixcronjob,jobs
+NAME                                            PHASE   SCHEDULE    LASTSCHEDULE   AGE
+nixcronjob.nio.homystack.com/kz-demo-converge   Ready   0 3 * * *   6m58s          39m
+
+NAME                                               STATUS     COMPLETIONS   DURATION   AGE
+job.batch/kz-demo-converge-r-26e34252e4eb-manual   Complete   1/1           10m        11m
+job.batch/kz-demo-converge-r-6580f92a1dc7-manual   Running    0/1           1s         1s
+[exit 0]

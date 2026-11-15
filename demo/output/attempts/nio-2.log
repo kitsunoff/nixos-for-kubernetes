@@ -1,0 +1,117 @@
+unpacking 'https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst' into the Git cache...
+these 16 paths will be fetched (6.2 MiB download, 27.7 MiB unpacked):
+  /nix/store/avdsjbxcpih48gxjbcyxnp1k5pf1jsw3-audit-4.2.1-lib
+  /nix/store/ihlpbh84xzxxrqrjbs5j9smzyif5jh22-db-4.8.30
+  /nix/store/3d5m1h0n001na0ksapl8ngla4mnv8ay0-libcap-ng-0.9.6
+  /nix/store/awhzch45pzazbqpcnx2ikrkyysg5spdd-libcbor-0.14.0
+  /nix/store/wnz942zz2zx7xgj6lx7hmzfx480m5d88-libedit-20260508-3.1
+  /nix/store/dy455a2qncqiv0gajv7n7fcz3s9bz4wl-libfido2-1.17.0
+  /nix/store/vflrq602cnrgync3q2jcz5cg8hfvjcs5-libxcrypt-4.5.2
+  /nix/store/z4j8flcrz8asydcsqx63jmsqj6m9652h-linux-pam-1.7.2
+  /nix/store/zg095hlh9d8lnvignhjyqg5xk15n4d15-lz4-1.10.0-lib
+  /nix/store/sp2y53mjk9fifz049rakcb53vrdxgvvb-ncurses-6.6
+  /nix/store/44rpaiwlpdc4fc260b0pf9r42nrhp5p9-openssh-10.6p1
+  /nix/store/7wfd5718m26xhaanka1m0plqwxdvmaay-openssh-10.6p1-man
+  /nix/store/v9dh0sjhhkcifyl9d01kdh0w4z4a6z8n-pcsclite-2.5.2-lib
+  /nix/store/50cx9dj584m2zhfjy5qkcqphap07hjmi-systemd-minimal-libs-262
+  /nix/store/fqfy1lllxaw0ank5m74i0a8n3vshalmc-util-linux-minimal-2.42.4-login
+  /nix/store/4cfiirzwpv2g6nnmkd4k98frdynzb7nb-xz-5.8.4
+copying path '/nix/store/7wfd5718m26xhaanka1m0plqwxdvmaay-openssh-10.6p1-man' from 'https://cache.nixos.org'...
+copying path '/nix/store/awhzch45pzazbqpcnx2ikrkyysg5spdd-libcbor-0.14.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/ihlpbh84xzxxrqrjbs5j9smzyif5jh22-db-4.8.30' from 'https://cache.nixos.org'...
+copying path '/nix/store/vflrq602cnrgync3q2jcz5cg8hfvjcs5-libxcrypt-4.5.2' from 'https://cache.nixos.org'...
+copying path '/nix/store/sp2y53mjk9fifz049rakcb53vrdxgvvb-ncurses-6.6' from 'https://cache.nixos.org'...
+copying path '/nix/store/v9dh0sjhhkcifyl9d01kdh0w4z4a6z8n-pcsclite-2.5.2-lib' from 'https://cache.nixos.org'...
+copying path '/nix/store/3d5m1h0n001na0ksapl8ngla4mnv8ay0-libcap-ng-0.9.6' from 'https://cache.nixos.org'...
+copying path '/nix/store/zg095hlh9d8lnvignhjyqg5xk15n4d15-lz4-1.10.0-lib' from 'https://cache.nixos.org'...
+copying path '/nix/store/4cfiirzwpv2g6nnmkd4k98frdynzb7nb-xz-5.8.4' from 'https://cache.nixos.org'...
+copying path '/nix/store/fqfy1lllxaw0ank5m74i0a8n3vshalmc-util-linux-minimal-2.42.4-login' from 'https://cache.nixos.org'...
+copying path '/nix/store/avdsjbxcpih48gxjbcyxnp1k5pf1jsw3-audit-4.2.1-lib' from 'https://cache.nixos.org'...
+copying path '/nix/store/50cx9dj584m2zhfjy5qkcqphap07hjmi-systemd-minimal-libs-262' from 'https://cache.nixos.org'...
+copying path '/nix/store/dy455a2qncqiv0gajv7n7fcz3s9bz4wl-libfido2-1.17.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/z4j8flcrz8asydcsqx63jmsqj6m9652h-linux-pam-1.7.2' from 'https://cache.nixos.org'...
+copying path '/nix/store/wnz942zz2zx7xgj6lx7hmzfx480m5d88-libedit-20260508-3.1' from 'https://cache.nixos.org'...
+copying path '/nix/store/44rpaiwlpdc4fc260b0pf9r42nrhp5p9-openssh-10.6p1' from 'https://cache.nixos.org'...
+warning: Git tree '/workspace' is dirty
+unpacking 'github:hercules-ci/flake-parts/f7c1a2d347e4c52d5fb8d10cb4d94b5884e546fb?narHash=sha256-m1Yf0wZ8j1OHjTc2UwHwyQRSnNeSgLJOd7q5Y45hzi4%3D' into the Git cache...
+unpacking 'github:nix-community/nixpkgs.lib/f5901329dade4a6ea039af1433fb087bd9c1fe14?narHash=sha256-GOkGPcboWE9BmGCRMLX3worL4EMnsnG8MyKmXNeYuhQ%3D' into the Git cache...
+remote: Enumerating objects: 108, done.        
+remote: Counting objects:   0% (1/108)        remote: Counting objects:   1% (2/108)        remote: Counting objects:   2% (3/108)        remote: Counting objects:   3% (4/108)        remote: Counting objects:   4% (5/108)        remote: Counting objects:   5% (6/108)        remote: Counting objects:   6% (7/108)        remote: Counting objects:   7% (8/108)        remote: Counting objects:   8% (9/108)        remote: Counting objects:   9% (10/108)        remote: Counting objects:  10% (11/108)        remote: Counting objects:  11% (12/108)        remote: Counting objects:  12% (13/108)        remote: Counting objects:  13% (15/108)        remote: Counting objects:  14% (16/108)        remote: Counting objects:  15% (17/108)        remote: Counting objects:  16% (18/108)        remote: Counting objects:  17% (19/108)        remote: Counting objects:  18% (20/108)        remote: Counting objects:  19% (21/108)        remote: Counting objects:  20% (22/108)        remote: Counting objects:  21% (23/108)        remote: Counting objects:  22% (24/108)        remote: Counting objects:  23% (25/108)        remote: Counting objects:  24% (26/108)        remote: Counting objects:  25% (27/108)        remote: Counting objects:  26% (29/108)        remote: Counting objects:  27% (30/108)        remote: Counting objects:  28% (31/108)        remote: Counting objects:  29% (32/108)        remote: Counting objects:  30% (33/108)        remote: Counting objects:  31% (34/108)        remote: Counting objects:  32% (35/108)        remote: Counting objects:  33% (36/108)        remote: Counting objects:  34% (37/108)        remote: Counting objects:  35% (38/108)        remote: Counting objects:  36% (39/108)        remote: Counting objects:  37% (40/108)        remote: Counting objects:  38% (42/108)        remote: Counting objects:  39% (43/108)        remote: Counting objects:  40% (44/108)        remote: Counting objects:  41% (45/108)        remote: Counting objects:  42% (46/108)        remote: Counting objects:  43% (47/108)        remote: Counting objects:  44% (48/108)        remote: Counting objects:  45% (49/108)        remote: Counting objects:  46% (50/108)        remote: Counting objects:  47% (51/108)        remote: Counting objects:  48% (52/108)        remote: Counting objects:  49% (53/108)        remote: Counting objects:  50% (54/108)        remote: Counting objects:  51% (56/108)        remote: Counting objects:  52% (57/108)        remote: Counting objects:  53% (58/108)        remote: Counting objects:  54% (59/108)        remote: Counting objects:  55% (60/108)        remote: Counting objects:  56% (61/108)        remote: Counting objects:  57% (62/108)        remote: Counting objects:  58% (63/108)        remote: Counting objects:  59% (64/108)        remote: Counting objects:  60% (65/108)        remote: Counting objects:  61% (66/108)        remote: Counting objects:  62% (67/108)        remote: Counting objects:  63% (69/108)        remote: Counting objects:  64% (70/108)        remote: Counting objects:  65% (71/108)        remote: Counting objects:  66% (72/108)        remote: Counting objects:  67% (73/108)        remote: Counting objects:  68% (74/108)        remote: Counting objects:  69% (75/108)        remote: Counting objects:  70% (76/108)        remote: Counting objects:  71% (77/108)        remote: Counting objects:  72% (78/108)        remote: Counting objects:  73% (79/108)        remote: Counting objects:  74% (80/108)        remote: Counting objects:  75% (81/108)        remote: Counting objects:  76% (83/108)        remote: Counting objects:  77% (84/108)        remote: Counting objects:  78% (85/108)        remote: Counting objects:  79% (86/108)        remote: Counting objects:  80% (87/108)        remote: Counting objects:  81% (88/108)        remote: Counting objects:  82% (89/108)        remote: Counting objects:  83% (90/108)        remote: Counting objects:  84% (91/108)        remote: Counting objects:  85% (92/108)        remote: Counting objects:  86% (93/108)        remote: Counting objects:  87% (94/108)        remote: Counting objects:  88% (96/108)        remote: Counting objects:  89% (97/108)        remote: Counting objects:  90% (98/108)        remote: Counting objects:  91% (99/108)        remote: Counting objects:  92% (100/108)        remote: Counting objects:  93% (101/108)        remote: Counting objects:  94% (102/108)        remote: Counting objects:  95% (103/108)        remote: Counting objects:  96% (104/108)        remote: Counting objects:  97% (105/108)        remote: Counting objects:  98% (106/108)        remote: Counting objects:  99% (107/108)        remote: Counting objects: 100% (108/108)        remote: Counting objects: 100% (108/108), done.        
+remote: Compressing objects:   1% (1/81)        remote: Compressing objects:   2% (2/81)        remote: Compressing objects:   3% (3/81)        remote: Compressing objects:   4% (4/81)        remote: Compressing objects:   6% (5/81)        remote: Compressing objects:   7% (6/81)        remote: Compressing objects:   8% (7/81)        remote: Compressing objects:   9% (8/81)        remote: Compressing objects:  11% (9/81)        remote: Compressing objects:  12% (10/81)        remote: Compressing objects:  13% (11/81)        remote: Compressing objects:  14% (12/81)        remote: Compressing objects:  16% (13/81)        remote: Compressing objects:  17% (14/81)        remote: Compressing objects:  18% (15/81)        remote: Compressing objects:  19% (16/81)        remote: Compressing objects:  20% (17/81)        remote: Compressing objects:  22% (18/81)        remote: Compressing objects:  23% (19/81)        remote: Compressing objects:  24% (20/81)        remote: Compressing objects:  25% (21/81)        remote: Compressing objects:  27% (22/81)        remote: Compressing objects:  28% (23/81)        remote: Compressing objects:  29% (24/81)        remote: Compressing objects:  30% (25/81)        remote: Compressing objects:  32% (26/81)        remote: Compressing objects:  33% (27/81)        remote: Compressing objects:  34% (28/81)        remote: Compressing objects:  35% (29/81)        remote: Compressing objects:  37% (30/81)        remote: Compressing objects:  38% (31/81)        remote: Compressing objects:  39% (32/81)        remote: Compressing objects:  40% (33/81)        remote: Compressing objects:  41% (34/81)        remote: Compressing objects:  43% (35/81)        remote: Compressing objects:  44% (36/81)        remote: Compressing objects:  45% (37/81)        remote: Compressing objects:  46% (38/81)        remote: Compressing objects:  48% (39/81)        remote: Compressing objects:  49% (40/81)        remote: Compressing objects:  50% (41/81)        remote: Compressing objects:  51% (42/81)        remote: Compressing objects:  53% (43/81)        remote: Compressing objects:  54% (44/81)        remote: Compressing objects:  55% (45/81)        remote: Compressing objects:  56% (46/81)        remote: Compressing objects:  58% (47/81)        remote: Compressing objects:  59% (48/81)        remote: Compressing objects:  60% (49/81)        remote: Compressing objects:  61% (50/81)        remote: Compressing objects:  62% (51/81)        remote: Compressing objects:  64% (52/81)        remote: Compressing objects:  65% (53/81)        remote: Compressing objects:  66% (54/81)        remote: Compressing objects:  67% (55/81)        remote: Compressing objects:  69% (56/81)        remote: Compressing objects:  70% (57/81)        remote: Compressing objects:  71% (58/81)        remote: Compressing objects:  72% (59/81)        remote: Compressing objects:  74% (60/81)        remote: Compressing objects:  75% (61/81)        remote: Compressing objects:  76% (62/81)        remote: Compressing objects:  77% (63/81)        remote: Compressing objects:  79% (64/81)        remote: Compressing objects:  80% (65/81)        remote: Compressing objects:  81% (66/81)        remote: Compressing objects:  82% (67/81)        remote: Compressing objects:  83% (68/81)        remote: Compressing objects:  85% (69/81)        remote: Compressing objects:  86% (70/81)        remote: Compressing objects:  87% (71/81)        remote: Compressing objects:  88% (72/81)        remote: Compressing objects:  90% (73/81)        remote: Compressing objects:  91% (74/81)        remote: Compressing objects:  92% (75/81)        remote: Compressing objects:  93% (76/81)        remote: Compressing objects:  95% (77/81)        remote: Compressing objects:  96% (78/81)        remote: Compressing objects:  97% (79/81)        remote: Compressing objects:  98% (80/81)        remote: Compressing objects: 100% (81/81)        remote: Compressing objects: 100% (81/81), done.        
+Receiving objects:   0% (1/108)Receiving objects:   1% (2/108)Receiving objects:   2% (3/108)Receiving objects:   3% (4/108)Receiving objects:   4% (5/108)Receiving objects:   5% (6/108)Receiving objects:   6% (7/108)Receiving objects:   7% (8/108)Receiving objects:   8% (9/108)Receiving objects:   9% (10/108)Receiving objects:  10% (11/108)Receiving objects:  11% (12/108)Receiving objects:  12% (13/108)Receiving objects:  13% (15/108)Receiving objects:  14% (16/108)Receiving objects:  15% (17/108)Receiving objects:  16% (18/108)Receiving objects:  17% (19/108)Receiving objects:  18% (20/108)Receiving objects:  19% (21/108)Receiving objects:  20% (22/108)remote: Total 108 (delta 15), reused 68 (delta 15), pack-reused 0        
+Receiving objects:  21% (23/108)Receiving objects:  22% (24/108)Receiving objects:  23% (25/108)Receiving objects:  24% (26/108)Receiving objects:  25% (27/108)Receiving objects:  26% (29/108)Receiving objects:  27% (30/108)Receiving objects:  28% (31/108)Receiving objects:  29% (32/108)Receiving objects:  30% (33/108)Receiving objects:  31% (34/108)Receiving objects:  32% (35/108)Receiving objects:  33% (36/108)Receiving objects:  34% (37/108)Receiving objects:  35% (38/108)Receiving objects:  36% (39/108)Receiving objects:  37% (40/108)Receiving objects:  38% (42/108)Receiving objects:  39% (43/108)Receiving objects:  40% (44/108)Receiving objects:  41% (45/108)Receiving objects:  42% (46/108)Receiving objects:  43% (47/108)Receiving objects:  44% (48/108)Receiving objects:  45% (49/108)Receiving objects:  46% (50/108)Receiving objects:  47% (51/108)Receiving objects:  48% (52/108)Receiving objects:  49% (53/108)Receiving objects:  50% (54/108)Receiving objects:  51% (56/108)Receiving objects:  52% (57/108)Receiving objects:  53% (58/108)Receiving objects:  54% (59/108)Receiving objects:  55% (60/108)Receiving objects:  56% (61/108)Receiving objects:  57% (62/108)Receiving objects:  58% (63/108)Receiving objects:  59% (64/108)Receiving objects:  60% (65/108)Receiving objects:  61% (66/108)Receiving objects:  62% (67/108)Receiving objects:  63% (69/108)Receiving objects:  64% (70/108)Receiving objects:  65% (71/108)Receiving objects:  66% (72/108)Receiving objects:  67% (73/108)Receiving objects:  68% (74/108)Receiving objects:  69% (75/108)Receiving objects:  70% (76/108)Receiving objects:  71% (77/108)Receiving objects:  72% (78/108)Receiving objects:  73% (79/108)Receiving objects:  74% (80/108)Receiving objects:  75% (81/108)Receiving objects:  76% (83/108)Receiving objects:  77% (84/108)Receiving objects:  78% (85/108)Receiving objects:  79% (86/108)Receiving objects:  80% (87/108)Receiving objects:  81% (88/108)Receiving objects:  82% (89/108)Receiving objects:  83% (90/108)Receiving objects:  84% (91/108)Receiving objects:  85% (92/108)Receiving objects:  86% (93/108)Receiving objects:  87% (94/108)Receiving objects:  88% (96/108)Receiving objects:  89% (97/108)Receiving objects:  90% (98/108)Receiving objects:  91% (99/108)Receiving objects:  92% (100/108)Receiving objects:  93% (101/108)Receiving objects:  94% (102/108)Receiving objects:  95% (103/108)Receiving objects:  96% (104/108)Receiving objects:  97% (105/108)Receiving objects:  98% (106/108)Receiving objects:  99% (107/108)Receiving objects: 100% (108/108)Receiving objects: 100% (108/108), 920.13 KiB | 23.00 MiB/s, done.
+Resolving deltas:   0% (0/15)Resolving deltas:   6% (1/15)Resolving deltas:  13% (2/15)Resolving deltas:  20% (3/15)Resolving deltas:  26% (4/15)Resolving deltas:  33% (5/15)Resolving deltas:  40% (6/15)Resolving deltas:  46% (7/15)Resolving deltas:  53% (8/15)Resolving deltas:  60% (9/15)Resolving deltas:  66% (10/15)Resolving deltas:  73% (11/15)Resolving deltas:  80% (12/15)Resolving deltas:  86% (13/15)Resolving deltas:  93% (14/15)Resolving deltas: 100% (15/15)Resolving deltas: 100% (15/15), done.
+From git://192.168.5.1/nixcluster
+ * branch            c75ac095e0e612b2fd19f50f74b9b9717bdf4c1e -> FETCH_HEAD
+unpacking 'github:vic/import-tree/d321337efd0f23a9eb14a42adb7b2c29313ab274?narHash=sha256-Jjuz5CmSkur8KvLDoGa%2BvylEp%2BRkQtv4mt/qcMznpH0%3D' into the Git cache...
+[ssh] installed cluster identity from NIX_SSHOPTS at /root/.ssh/id_ed25519
+Converging cluster 'kz-demo'
+Step order: sops.gen member-kz-node-1 member-kz-node-2 member-kz-node-3 k3s.bootstrap k3s.kubeconfig k3s.prune incus.cluster-join incus.reconcile incus.prune
+
+=== step [pre] sops.gen ===
+[age] keeping existing keypair
+[age] public key: age13nwx8xks0z6d3af3ysgygcucwtksj76x5r7q3nm666fnu0ppwqjqvpt4zn
+[ssh] keeping existing keypair
+[merge] decrypting existing secrets to add only missing keys
+[providers] collecting secrets
+  keep   .demo.token
+  keep   .k3s.agentToken
+  keep   .k3s.token
+  keep   .keepalived.k3s-api.authPass
+[encrypt] writing secrets/kz-demo.yaml
+
+Secrets ready: secrets/kz-demo.yaml (encrypted, safe to commit)
+Private keys (NEVER commit, gitignored): secrets/kz-demo.age.key, secrets/kz-demo_ssh
+Commit: git add secrets/kz-demo.age.pub secrets/kz-demo_ssh.pub secrets/kz-demo.yaml secrets/.sops.yaml
+=== switch kz-node-1 (192.168.5.3) [nixos-rebuild] ===
+warning: Git tree '/workspace' is dirty
+error: input 'git+git://192.168.5.1/nixcluster.git?ref=feat/teardown' is unsupported
+Command 'nix --extra-experimental-features 'nix-command flakes' build --print-out-paths '.#nixosConfigurations."kz-demo-kz-node-1".config.system.build.nixos-rebuild' --no-link' returned non-zero exit status 1.
+=== switch kz-node-2 (192.168.5.4) [nixos-rebuild] ===
+warning: Git tree '/workspace' is dirty
+error: input 'git+git://192.168.5.1/nixcluster.git?ref=feat/teardown' is unsupported
+Command 'nix --extra-experimental-features 'nix-command flakes' build --print-out-paths '.#nixosConfigurations."kz-demo-kz-node-2".config.system.build.nixos-rebuild' --no-link' returned non-zero exit status 1.
+=== switch kz-node-3 (192.168.5.5) [nixos-rebuild] ===
+warning: Git tree '/workspace' is dirty
+error: input 'git+git://192.168.5.1/nixcluster.git?ref=feat/teardown' is unsupported
+Command 'nix --extra-experimental-features 'nix-command flakes' build --print-out-paths '.#nixosConfigurations."kz-demo-kz-node-3".config.system.build.nixos-rebuild' --no-link' returned non-zero exit status 1.
+=== step [post] k3s.bootstrap ===
+Bootstrapping k3s cluster 'kz-demo'
+
+Servers: kz-node-1 kz-node-2 kz-node-3
+Agents: 
+First server: kz-node-1
+
+Deploy order:
+  1. nixclusterctl kz-demo apply kz-node-1
+  2. nixclusterctl kz-demo apply kz-node-2
+  2. nixclusterctl kz-demo apply kz-node-3
+=== step [post] k3s.kubeconfig ===
+Fetching kubeconfig from 192.168.5.3...
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+/nix/store/bjj7ssfjzjaq0kbmg0vgir8has1h1hj0-nixclusterctl-kz-demo-kubeconfig/bin/nixclusterctl-kz-demo-kubeconfig: line 16: sed: command not found
+  [step:post] k3s.prune skipped (dependency 'k3s.kubeconfig' did not succeed)
+=== step [post] incus.cluster-join ===
+=== Incus cluster-join (bootstrap: kz-node-1 @ 192.168.5.3:8443) ===
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+  kz-node-2: already a cluster member, skipping
+  kz-node-3: already a cluster member, skipping
+=== step [post] incus.reconcile ===
+Re-running Incus preseed + reconcile on: kz-node-1 kz-node-2 kz-node-3
+
+--- kz-node-1 (192.168.5.3) ---
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+  preseed re-applied
+  no reconcile unit
+--- kz-node-2 (192.168.5.4) ---
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+  no incus-preseed.service
+  no reconcile unit
+--- kz-node-3 (192.168.5.5) ---
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+  no incus-preseed.service
+  no reconcile unit
+=== step [post] incus.prune ===
+[incus.prune] registry matches the desired members (3 entries), nothing to prune
+
+::nixcluster:result:: {"cluster":"kz-demo","result":"failed","members":[{"name":"kz-node-1","ip":"192.168.5.3","action":"switch","status":"Failed","message":"nixos-rebuild switch failed","durationSeconds":1},{"name":"kz-node-2","ip":"192.168.5.4","action":"switch","status":"Failed","message":"nixos-rebuild switch failed","durationSeconds":0},{"name":"kz-node-3","ip":"192.168.5.5","action":"switch","status":"Failed","message":"nixos-rebuild switch failed","durationSeconds":0}],"steps":[{"name":"sops.gen","phase":"pre","status":"ok","message":""},{"name":"k3s.bootstrap","phase":"post","status":"ok","message":""},{"name":"k3s.kubeconfig","phase":"post","status":"failed","message":"step exited non-zero"},{"name":"k3s.prune","phase":"post","status":"skipped","message":"dependency 'k3s.kubeconfig' did not succeed"},{"name":"incus.cluster-join","phase":"post","status":"ok","message":""},{"name":"incus.reconcile","phase":"post","status":"ok","message":""},{"name":"incus.prune","phase":"post","status":"ok","message":""}]}

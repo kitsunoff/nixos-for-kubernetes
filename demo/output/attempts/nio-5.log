@@ -1,0 +1,15 @@
+# attempt nio-5: the */30 cron fired at 21:00 while the trigger-on-change job for 249d84a was still running: two converges at once (concurrencyPolicy Forbid does not cover the -manual jobs)
+$ kubectl get jobs,pods
+The connection to the server 192.168.106.7:6443 was refused - did you specify the right host or port?
+Error from server (ServiceUnavailable): the server is currently unable to handle the request (get pods)
+[exit 0]
+# k3s on kz-mgmt was OOM-restarted during the overlap; the cron pod was stopped with crictl and its Job deleted
+$ kubectl get jobs,pods
+NAME                                               STATUS    COMPLETIONS   DURATION   AGE
+job.batch/kz-demo-converge-r-26e34252e4eb-manual   Running   0/1           7m39s      7m39s
+
+NAME                                               READY   STATUS       RESTARTS   AGE
+pod/kz-demo-converge-29912520-79989                0/1     Init:Error   0          2m54s
+pod/kz-demo-converge-29912520-rtv77                0/1     Init:0/4     0          2s
+pod/kz-demo-converge-r-26e34252e4eb-manual-klptb   1/1     Running      0          7m39s
+[exit 0]

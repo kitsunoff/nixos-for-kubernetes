@@ -1,0 +1,15 @@
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml get nixcluster,nixcronjobs,nixjobs,jobs
+NAME                                   PHASE         CONVERGE           TEARDOWN   AGE
+nixcluster.nio.homystack.com/kz-demo   TearingDown   kz-demo-converge   Running    46m
+
+NAME                                            PHASE   SCHEDULE    LASTSCHEDULE   AGE
+nixcronjob.nio.homystack.com/kz-demo-converge   Ready   0 3 * * *   14m            46m
+
+NAME                                        PHASE         REVISION   SUCCEEDED   AGE
+nixjob.nio.homystack.com/kz-demo-teardown   Progressing                          21s
+
+NAME                                               STATUS     COMPLETIONS   DURATION   AGE
+job.batch/kz-demo-converge-r-26e34252e4eb-manual   Complete   1/1           10m        19m
+job.batch/kz-demo-converge-r-6580f92a1dc7-manual   Complete   1/1           6m28s      7m39s
+job.batch/kz-demo-teardown-r-5523d26b33a2          Running    0/1           20s        20s
+[exit 0]

@@ -1,0 +1,3 @@
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml get nixclusters,nixcronjobs,nixjobs,jobs
+No resources found in default namespace.
+[exit 0]

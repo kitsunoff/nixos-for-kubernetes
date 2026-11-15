@@ -1,0 +1,5 @@
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml get nixcluster kz-demo --output jsonpath="{range .status.nodeGroups[*].members[*]}{.name}{\"\t\"}{.status}{\"\n\"}{end}"
+kz-node-1	Applied
+kz-node-2	Applied
+kz-node-3	Applied
+[exit 0]

@@ -1,0 +1,6 @@
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml apply --server-side --filename nio/
+machine.nio.homystack.com/kz-node-1 serverside-applied
+machine.nio.homystack.com/kz-node-2 serverside-applied
+machine.nio.homystack.com/kz-node-3 serverside-applied
+nixcluster.nio.homystack.com/kz-demo serverside-applied
+[exit 0]

@@ -1,0 +1,15 @@
+$ git --no-pager diff
+diff --git a/modules/clusters/kz-demo.nix b/modules/clusters/kz-demo.nix
+index 310fecf..fdcefff 100644
+--- a/modules/clusters/kz-demo.nix
++++ b/modules/clusters/kz-demo.nix
+@@ -29,6 +29,8 @@
+           extraInputRules = "ip protocol vrrp accept";
+         };
+ 
++        users.motd = "kz-demo: rolled out by NIO from git";
++
+         # The demo secret below, decrypted to /run/secrets/demo/token.
+         sops.secrets."demo/token" = { };
+         # nixcluster sets a relative path, which sops-nix rejects; point it at
+[exit 0]
