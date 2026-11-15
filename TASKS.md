@@ -243,7 +243,10 @@ nixcluster part: real output only, fragments in slides, playback scripts in `dem
 5. Add NIO steps to the playback scripts (T8): `09-nio-apply.sh`, `10-nio-status.sh`,
    `11-nio-delete.sh`.
 
-### T12 — nixcluster bugs found while building the demo `[ ]`
+### T12 — nixcluster bugs found while building the demo `[x]`
+
+Done on branch `fix/demo-findings` (stacked on `feat/teardown`, worktree
+`~/git/worktrees/nixcluster-demo-findings`), 14 commits; items 7 and 9 are still open.
 
 Lives in the nixcluster repo, separate branch/PR (after T9 lands, to avoid conflicts).
 Each bug has a workaround in `demo/` today; the fix removes the workaround.
