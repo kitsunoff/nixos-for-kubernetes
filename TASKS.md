@@ -129,26 +129,39 @@ Current state (checked on `master`, all branches, worktrees, stash): there is no
 whole-cluster teardown. Only per-member prune exists (`lib/prune.nix`), and it
 deliberately refuses an empty desired set, so it cannot be used to dissolve a cluster.
 
-Proposed design (to confirm before implementation):
+Semantics: like `terraform destroy`. `teardown` removes everything the cluster
+definition created; `converge` is the inverse and recreates all of it from the
+same definition. `teardown` → `converge` must give the same cluster again.
 
-1. New core command `nixclusterctl <cluster> teardown [--dry-run] [--json] [--yes] [--poweroff|--wipe]`.
-2. Modules contribute `teardown.steps` the same way they contribute `converge.steps`;
+Proposed design:
+
+1. New core command `nixclusterctl <cluster> teardown [--dry-run] [--json] [--auto-approve]`.
+2. Terraform-style flow: compute and print the destroy plan (every member, every
+   module step, in order), then ask `Enter a value:` and proceed only on the literal
+   `yes`. `--auto-approve` skips the prompt; `--dry-run` prints the plan and exits.
+3. End state of every member: all cluster state removed and the host switched back to
+   `defaultNixosConfiguration` (base NixOS + SSH, no cluster modules). The host stays
+   reachable, so the next `converge` takes the normal switch path and rebuilds the
+   cluster. Disk wipe is NOT part of teardown: a wiped host has no SSH, and converge
+   could not reach it without PXE.
+4. Modules contribute `teardown.steps` the same way they contribute `converge.steps`;
    `lib/convergePlan.nix` sorts them. Order is the reverse of converge:
    1. workloads off: Incus instances stopped/removed, k3s drained;
    2. joiners leave first: k3s agents, then non-bootstrap servers, then Incus joiners;
    3. bootstrap member last;
    4. per-module cleanup on each host: k3s data (`/var/lib/rancher`, `/etc/rancher`),
       Incus cluster state, keepalived/nebula stopped, sops secrets removed from `/run/secrets`;
-   5. end state per member: `--poweroff` (default) or `--wipe` (disk wipe, needs
-      reinstall via `converge`).
-3. Safety: refuses without `--yes` (or interactive typed confirmation of the cluster
-   name); `--dry-run` prints the plan; unreachable members are reported, not fatal.
-4. Same output contract as converge: human log on stderr, one
-   `::nixcluster:result::` JSON line on stdout with per-member `action: "teardown"`.
-5. Tests first (TDD): extend the stub approach of `scripts/check-prune.sh` with a
-   `scripts/check-teardown.sh` — plan order per template, refusal without `--yes`,
-   dry-run touches nothing, unreachable host path. Add it to CI next to the others.
-6. README: new "Teardown" section and CLI entry.
+   5. switch each member to `defaultNixosConfiguration`.
+5. Unreachable members are reported in the result, not fatal.
+6. Same output contract as converge: human log on stderr, one
+   `::nixcluster:result::` JSON line on stdout with per-member `action: "destroyed"`.
+7. Tests first (TDD): extend the stub approach of `scripts/check-prune.sh` with a
+   `scripts/check-teardown.sh` — plan order per template, refusal on anything but `yes`,
+   `--dry-run` touches nothing, unreachable host path, and a round-trip check that the
+   teardown plan is the reverse of the converge plan. Add it to CI next to the others.
+8. README: new "Teardown" section and CLI entry.
+9. Live check on the demo VMs: `converge` → `teardown --auto-approve` → `converge`,
+   the second converge must bring both clusters back.
 
 ### T7 — Teardown and backup plan `[ ]`
 
