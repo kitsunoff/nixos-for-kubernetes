@@ -22,15 +22,14 @@ CLI `nix run .#cluster-<name> -- …` or `nixclusterctl <name> …`).
 | Converge output | Human log to stderr, one `::nixcluster:result::` JSON line to stdout | Both are good slide material |
 | Deck drift | Slides show `nixcluster.lib.mkCluster`, `gen-secrets`, `kubeconfig fetch`; current API is the `nixcluster.<name>` flake module and a `kubeconfig` command | Align slides with the real API (T6) |
 
-## Open decisions (need the user's answer before T2)
+## Decisions
 
-1. **Where the demo config lives**: `demo/` in this repo (proposed), or a separate repo.
-2. **Topology**: 3 members, each k3s server + Incus member (proposed, fits RAM), or
-   3 servers + 2 agents like `k3s-ha` (5 VMs, does not fit comfortably in 16 GiB).
-3. **Modules beyond k3s + incus**: add `sops` (secrets) and `keepalived` (VIP)? Each
-   adds a slide-worthy line but also a failure point.
-4. **Live or recorded**: run live on stage, or record output (asciinema / screenshots)
-   and show it as slides. Proposed: record, keep a live `--dry-run` as backup.
+1. **Location**: everything lives in `demo/` in this repo.
+2. **Topology**: 3 members, each one is a k3s server and an Incus cluster member.
+3. **Modules**: `k3s` + `incus` + `sops` + `keepalived` (VIP over unicast peers,
+   because VRRP multicast on the Colima vmnet network is not guaranteed).
+4. **No live coding on stage**: the deck shows recorded output fragments. In addition,
+   a set of bash scripts replays the command flow step by step (T8).
 
 ## Tasks
 
@@ -54,8 +53,9 @@ Depends on T1 step 4 for the disk/boot facts.
 
 1. `nix flake init --template github:kitsunoff/nixcluster#incus-cluster` into the chosen
    directory, then merge in the k3s module from `k3s-ha`.
-2. Cluster `kz-demo`: imports `clusterModules.k3s` + `clusterModules.incus`,
-   `incus.cluster.enable = true`, `storageBackend = "dir"`, all members `k3s.role = "server"`.
+2. Cluster `kz-demo`: imports `clusterModules.k3s` + `incus` + `sops` + `keepalived`,
+   `incus.cluster.enable = true`, `storageBackend = "dir"`, all members `k3s.role = "server"`,
+   one keepalived VIP in the node subnet for the k3s API (added to the k3s TLS SANs).
 3. `base.nix`: EFI boot, disko layout for the real disk, DHCP networking,
    builder's public key for root, `nixpkgs.hostPlatform = "aarch64-linux"`.
 4. Evaluation checks (no install):
@@ -81,9 +81,13 @@ Depends on T3. Save each command's output to `demo/output/<name>.txt`.
    `kubectl get pods -A`.
 2. Incus: `nixclusterctl kz-demo incus status`, `incus cluster list` (all ONLINE),
    launch one container (`incus launch images:alpine/edge demo`) and `incus list`.
-3. NixOS: `nixos-version` and `readlink /run/current-system` on each node.
-4. Converge plan: `nix eval .#clusterConfigurations.kz-demo.convergeOrder`.
-5. Optional: screenshots of the terminal for the deck (`kz/public/`).
+3. sops: `nixclusterctl kz-demo show-secrets` (names only, never values) and the
+   decrypted secret paths on a node (`ls -l /run/secrets`).
+4. keepalived: `nixclusterctl kz-demo keepalived status`, `ip addr` showing the VIP on
+   the master, `kubectl --server https://<VIP>:6443 get nodes`.
+5. NixOS: `nixos-version` and `readlink /run/current-system` on each node.
+6. Converge plan: `nix eval .#clusterConfigurations.kz-demo.convergeOrder`.
+7. Optional: screenshots of the terminal for the deck (`kz/public/`).
 
 ### T5 — Demo slides in the KZ deck `[ ]`
 
@@ -103,6 +107,18 @@ Independent; can run any time.
 2. Slide "Клишкой — как talosctl": check every command against `nixclusterctl kz-demo --help`
    (`gen-secrets` exists only with `sops`; `kubeconfig fetch` → real command name).
 
+### T8 — Scripted command-flow playback `[ ]`
+
+Can be built in wave 1 against placeholder logs; final run uses T4 output.
+
+1. `demo/play/` with numbered scripts (`01-plan.sh`, `02-secrets.sh`, `03-converge.sh`,
+   `04-kubernetes.sh`, `05-incus.sh`, `06-vip.sh`, …) and `demo/play/all.sh`.
+2. Each step: print a short caption, "type" the command with a typing effect,
+   wait for Enter, then print the recorded output from `demo/output/`.
+3. Mode switch `DEMO_MODE=replay|live`: `replay` (default) shows recorded output and
+   needs no VMs; `live` runs the real command.
+4. Pure bash + ANSI colors, no extra dependencies; works in the macOS default terminal.
+
 ### T7 — Teardown and backup plan `[ ]`
 
 1. Document how to stop the demo VMs (`colima stop --profile kz-node-N`) to free RAM.
@@ -112,9 +128,9 @@ Independent; can run any time.
 ## Parallelization plan for subagents
 
 ```text
-wave 1:  T1 (infra)   ║  T2 (config, eval only)  ║  T6 (slide API fixes)
+wave 1:  T1 (infra)  ║  T2 (config, eval only)  ║  T6 (slide API fixes)  ║  T8 (playback scripts)
 wave 2:  T3 (bootstrap) → T4 (proof)                 — one agent, sequential
-wave 3:  T5 (demo slides)  ║  T7 (teardown doc)
+wave 3:  T5 (demo slides)  ║  T7 (teardown doc)  ║  T8 final pass on real logs
 ```
 
 Wave 2 is one agent on purpose: converge and verification share live VM state.
