@@ -31,6 +31,28 @@ CLI `nix run .#cluster-<name> -- …` or `nixclusterctl <name> …`).
 4. **No live coding on stage**: the deck shows recorded output fragments. In addition,
    a set of bash scripts replays the command flow step by step (T8).
 
+## Resource budget (everything must fit on the 16 GiB Mac)
+
+Two clusters on four small VMs, in one `demo/` flake:
+
+| VM (Colima profile) | Role | CPU | RAM | Disk |
+| --- | --- | --- | --- | --- |
+| `kz-mgmt` | cluster `kz-mgmt`: single-node k3s, runs the NIO operator, is the Nix builder NIO uses | 2 | 2.5 GiB | 30 GiB |
+| `kz-node-1..3` | cluster `kz-demo`: k3s server + Incus member each, sops, keepalived VIP | 2 | 2 GiB | 20 GiB |
+| `nix-builder` | builds and installs NixOS for the first time only, then stopped | 4 | 4 GiB | existing |
+
+1. **Provisioning phase**: `nix-builder` + 4 VMs ≈ 12.5 GiB. Run only this, close
+   heavy apps. Start the builder with `--memory 4` (its profile says 8 GiB).
+2. **Run phase** (demo, NIO, recording): `nix-builder` stopped, 4 VMs ≈ 8.5 GiB.
+   Later rebuilds go to `kz-mgmt` as a remote builder (`NixBuilder` resource for NIO,
+   `nix.buildMachines` for manual converge). The binary cache covers most of the closures.
+3. NIO lives on `kz-mgmt` and manages `kz-demo`, so `kubectl delete nixcluster kz-demo`
+   tears down `kz-demo` while the operator keeps running.
+4. Both clusters live in one flake, so `nixclusterctl` lists two clusters — this is
+   slide material by itself.
+5. Old stopped profiles `node-01`, `node-02` (4 GiB each) stay stopped; deleting them is
+   up to the user.
+
 ## Tasks
 
 Status legend: `[ ]` todo, `[~]` in progress, `[x]` done.
@@ -39,9 +61,9 @@ Status legend: `[ ]` todo, `[~]` in progress, `[x]` done.
 
 Can run in parallel with T2.
 
-1. Start the control VM: `colima-builder-start`; verify `nix --version` inside it.
-2. Create 3 node profiles `kz-node-1..3` (2 CPU, 3 GiB, 20 GiB disk) per the
-   `colima-vm` skill.
+1. Start the control VM with 4 GiB (see the budget); verify `nix --version` inside it.
+2. Create profiles `kz-node-1..3` (2 CPU, 2 GiB, 20 GiB disk) and `kz-mgmt` (2 CPU,
+   2.5 GiB, 30 GiB disk) per the `colima-vm` skill.
 3. Collect IPs (`colima list --json`), add the builder key to `root` on each node.
 4. Record the real boot mode and disk layout of a node (`lsblk`, `ls /sys/firmware/efi`)
    — T2 depends on this.
@@ -56,6 +78,8 @@ Depends on T1 step 4 for the disk/boot facts.
 2. Cluster `kz-demo`: imports `clusterModules.k3s` + `incus` + `sops` + `keepalived`,
    `incus.cluster.enable = true`, `storageBackend = "dir"`, all members `k3s.role = "server"`,
    one keepalived VIP in the node subnet for the k3s API (added to the k3s TLS SANs).
+   Second cluster `kz-mgmt` in the same flake from the `k3s-single` template: one k3s
+   server, Nix daemon usable as a remote builder (`nix.settings.trusted-users`, SSH key).
 3. `base.nix`: EFI boot, disko layout for the real disk, DHCP networking,
    builder's public key for root, `nixpkgs.hostPlatform = "aarch64-linux"`.
 4. Evaluation checks (no install):
@@ -199,8 +223,8 @@ Proposed design:
 Depends on T3/T4 (running VMs) and, for the deletion step, T10. Same approach as the
 nixcluster part: real output only, fragments in slides, playback scripts in `demo/play/`.
 
-1. Management cluster for NIO: decide where the operator runs (see open question below),
-   install NIO there (`config/`, server-side apply as the README requires).
+1. Install NIO on `kz-mgmt` (`config/`, server-side apply as the README requires);
+   `NixBuilder` points at `kz-mgmt` itself.
 2. Resources in `demo/nio/`: `Machine` per node, `NixBuilder`, `NixCluster` for the
    same `kz-demo` flake (fixture reference: `~/git/github.com/kitsunoff/nio-e2e-flake`).
 3. Capture to `demo/output/nio-*.txt`:
@@ -215,14 +239,6 @@ nixcluster part: real output only, fragments in slides, playback scripts in `dem
    the slides matches the real CRD fields (`api/v1alpha1/*_types.go`).
 5. Add NIO steps to the playback scripts (T8): `07-nio-apply.sh`, `08-nio-status.sh`,
    `09-nio-delete.sh`.
-
-Open question for T11: where NIO runs. Options:
-
-1. A 4th Colima VM `kz-mgmt` with single-node k3s (cleanest, but RAM: builder +
-   4 VMs on 16 GiB is very tight).
-2. NIO inside the `kz-demo` k3s itself (no extra VM, but `kubectl delete nixcluster`
-   would tear down the cluster the operator runs on — the delete demo breaks).
-3. NIO on `kz-demo`, managing a smaller second cluster on 1–2 extra VMs.
 
 ### T7 — Teardown and backup plan `[ ]`
 
