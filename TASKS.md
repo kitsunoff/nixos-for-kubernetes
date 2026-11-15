@@ -217,6 +217,9 @@ Proposed design:
    path, teardown failure keeps the finalizer, policy flip to Retain unblocks deletion,
    converge cron suspended before the teardown job starts.
 5. Docs: `examples/nixcluster.yaml` and README section on deletion.
+6. Breaking change (decided): release notes `docs/release-notes/v2.0.0.md`, next tag
+   `v2.0.0`; PR title must carry `!` (`feat(nixcluster)!: …`) and the PR body a
+   `BREAKING CHANGE:` section, because squash-merge keeps only the PR title/body.
 
 ### T11 — NIO part of the deck with real output `[ ]`
 
