@@ -113,7 +113,7 @@ Depends on T3. Save each command's output to `demo/output/<name>.txt`.
 6. Converge plan: `nix eval .#clusterConfigurations.kz-demo.convergeOrder`.
 7. Optional: screenshots of the terminal for the deck (`kz/public/`).
 
-### T5 — Demo slides in the KZ deck `[ ]`
+### T5 — Demo slides in the KZ deck `[x]`
 
 Depends on T4.
 
@@ -221,7 +221,7 @@ Proposed design:
    `v2.0.0`; PR title must carry `!` (`feat(nixcluster)!: …`) and the PR body a
    `BREAKING CHANGE:` section, because squash-merge keeps only the PR title/body.
 
-### T11 — NIO part of the deck with real output `[~]`
+### T11 — NIO part of the deck with real output `[x]`
 
 Capture done (recordings `demo/output/nio-*`, manifests `demo/nio/`). Demo-only setup
 lives on the builder VM: cluster repo `/srv/git/kz-demo.git` served by `git daemon`
@@ -304,7 +304,7 @@ nixcluster (follow-up on top of `fix/demo-findings`):
 1. `sops.gen` ignores `SOPS_AGE_KEY_FILE` and the SSH key from `NIX_SSHOPTS` given by NIO.
 2. `k3s.kubeconfig` needs `sed`, missing from `runtimeInputs` (absent in the `nixos/nix` image).
 
-### T7 — Teardown and backup plan `[ ]`
+### T7 — Teardown and backup plan `[x]`
 
 1. Document how to stop the demo VMs (`colima stop --profile kz-node-N`) to free RAM.
 2. Deletion of profiles is done by the user only.
