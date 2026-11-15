@@ -221,7 +221,12 @@ Proposed design:
    `v2.0.0`; PR title must carry `!` (`feat(nixcluster)!: …`) and the PR body a
    `BREAKING CHANGE:` section, because squash-merge keeps only the PR title/body.
 
-### T11 — NIO part of the deck with real output `[ ]`
+### T11 — NIO part of the deck with real output `[~]`
+
+Capture done (recordings `demo/output/nio-*`, manifests `demo/nio/`). Demo-only setup
+lives on the builder VM: cluster repo `/srv/git/kz-demo.git` served by `git daemon`
+(unit `nio-git-daemon`), nixcluster tarball over HTTP (unit `nio-http`), bundle backup in
+the session scratchpad. Remaining: NIO slides.
 
 Depends on T3/T4 (running VMs) and, for the deletion step, T10. Same approach as the
 nixcluster part: real output only, fragments in slides, playback scripts in `demo/play/`.
@@ -280,6 +285,24 @@ Each bug has a workaround in `demo/` today; the fix removes the workaround.
     (host-key-changed banner after reinstall); Incus steps log `gssapiauthentication` noise.
 14. kexec installer needs ~3 GiB RAM: 2 GiB OOMs (`kexec_file_load failed: Out of memory`);
     document a minimum in templates/README.
+
+### T13 — NIO bugs found during the live demo `[ ]`
+
+Repo NIO; fixed already on `feat/nixcluster-teardown`: manager image lacked `git`/`ssh`
+(`98406da`). Open:
+
+1. Node files are written under `modules/nodes/` of the checkout root, ignoring `source.dir`.
+2. `-manual` jobs created on a new commit bypass `concurrencyPolicy: Forbid` — two converges
+   ran at once and OOM-restarted k3s on kz-mgmt.
+3. `NixCluster` reports phase `Ready` while the first converge is still running.
+4. `NixBuilder` cannot point at an external host builder.
+5. Probably: `gitauth` uses `MkdirTemp` under `readOnlyRootFilesystem: true` — private repos break.
+6. `nix.suspend` does not suspend the underlying CronJob (T12 item 9).
+
+nixcluster (follow-up on top of `fix/demo-findings`):
+
+1. `sops.gen` ignores `SOPS_AGE_KEY_FILE` and the SSH key from `NIX_SSHOPTS` given by NIO.
+2. `k3s.kubeconfig` needs `sed`, missing from `runtimeInputs` (absent in the `nixos/nix` image).
 
 ### T7 — Teardown and backup plan `[ ]`
 
