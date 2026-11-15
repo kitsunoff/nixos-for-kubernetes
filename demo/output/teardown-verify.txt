@@ -1,0 +1,62 @@
+$ bash verify-teardown.sh
+=== kz-node-1 (192.168.5.3)
+ssh:             ok (kz-node-1)
+current-system:  /nix/store/jqhbicsspf6k22rrh7xb4yh9f2iaibc4-nixos-system-kz-node-1-26.05.20260126.bfc1b8a
+                 = teardownNixosConfigurations base
+unit k3s.service         inactive / not-found
+unit incus.service       inactive / not-found
+unit incus.socket        inactive / not-found
+unit keepalived.service  inactive / not-found
+path /var/lib/rancher: absent
+path /etc/rancher: absent
+path /var/lib/kubelet: absent
+path /var/lib/incus: absent
+path /run/keepalived: absent
+/run/secrets: absent
+age key kept:    yes
+VIP 192.168.5.200:   0
+VIP 192.168.106.200: 0
+incusbr links:   0
+containers:      0 containerd-shim
+addresses:       eth0=192.168.5.3/24 col0=192.168.106.4/24 
+=== kz-node-2 (192.168.5.4)
+ssh:             ok (kz-node-2)
+current-system:  /nix/store/3p76g3zflc1rfxgb2qr74ma8pb2any2q-nixos-system-kz-node-2-26.05.20260126.bfc1b8a
+                 = teardownNixosConfigurations base
+unit k3s.service         inactive / not-found
+unit incus.service       inactive / not-found
+unit incus.socket        inactive / not-found
+unit keepalived.service  inactive / not-found
+path /var/lib/rancher: absent
+path /etc/rancher: absent
+path /var/lib/kubelet: absent
+path /var/lib/incus: absent
+path /run/keepalived: absent
+/run/secrets: absent
+age key kept:    yes
+VIP 192.168.5.200:   0
+VIP 192.168.106.200: 0
+incusbr links:   0
+containers:      0 containerd-shim
+addresses:       eth0=192.168.5.4/24 col0=192.168.106.5/24 
+=== kz-node-3 (192.168.5.5)
+ssh:             ok (kz-node-3)
+current-system:  /nix/store/qmpmd4rdnwfm0zpkmabi9s95l2nqj0ni-nixos-system-kz-node-3-26.05.20260126.bfc1b8a
+                 = teardownNixosConfigurations base
+unit k3s.service         inactive / not-found
+unit incus.service       inactive / not-found
+unit incus.socket        inactive / not-found
+unit keepalived.service  inactive / not-found
+path /var/lib/rancher: absent
+path /etc/rancher: absent
+path /var/lib/kubelet: absent
+path /var/lib/incus: absent
+path /run/keepalived: absent
+/run/secrets: absent
+age key kept:    yes
+VIP 192.168.5.200:   0
+VIP 192.168.106.200: 0
+incusbr links:   0
+containers:      0 containerd-shim
+addresses:       eth0=192.168.5.5/24 col0=192.168.106.6/24 
+[exit 0]

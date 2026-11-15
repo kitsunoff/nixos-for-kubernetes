@@ -1,0 +1,204 @@
+$ nix run .#cluster-kz-demo -- teardown --auto-approve
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+nixcluster will tear down cluster 'kz-demo'.
+
+  Members (each ends on its base NixOS configuration; disks are not wiped):
+    - kz-node-1 (192.168.5.3)
+    - kz-node-2 (192.168.5.4)
+    - kz-node-3 (192.168.5.5)
+
+  Steps, in order:
+      1. workloads  k3s.drain                      Cordon and drain every k3s node
+      2. workloads  incus.instances-off            Delete every Incus instance
+      3. leave      k3s.leave-kz-node-3            kz-node-3 leaves the k3s cluster and stops k3s
+      4. leave      incus.leave-kz-node-3          kz-node-3 leaves the Incus cluster and stops Incus
+      5. leave      k3s.leave-kz-node-2            kz-node-2 leaves the k3s cluster and stops k3s
+      6. leave      incus.leave-kz-node-2          kz-node-2 leaves the Incus cluster and stops Incus
+      7. leave      k3s.leave-kz-node-1            kz-node-1 leaves the k3s cluster and stops k3s
+      8. leave      incus.leave-kz-node-1          kz-node-1 (bootstrap) stops Incus last
+      9. cleanup    k3s.cleanup-kz-node-3          Remove k3s containers, data and config from kz-node-3
+     10. cleanup    incus.cleanup-kz-node-3        Remove Incus units, bridges and state from kz-node-3
+     11. cleanup    keepalived.cleanup-kz-node-3   Stop keepalived and release its VIPs on kz-node-3
+     12. cleanup    sops.cleanup-kz-node-3         Remove decrypted secrets from kz-node-3 (the age key stays)
+     13. cleanup    k3s.cleanup-kz-node-2          Remove k3s containers, data and config from kz-node-2
+     14. cleanup    incus.cleanup-kz-node-2        Remove Incus units, bridges and state from kz-node-2
+     15. cleanup    keepalived.cleanup-kz-node-2   Stop keepalived and release its VIPs on kz-node-2
+     16. cleanup    sops.cleanup-kz-node-2         Remove decrypted secrets from kz-node-2 (the age key stays)
+     17. cleanup    k3s.cleanup-kz-node-1          Remove k3s containers, data and config from kz-node-1
+     18. cleanup    incus.cleanup-kz-node-1        Remove Incus units, bridges and state from kz-node-1
+     19. cleanup    keepalived.cleanup-kz-node-1   Stop keepalived and release its VIPs on kz-node-1
+     20. cleanup    sops.cleanup-kz-node-1         Remove decrypted secrets from kz-node-1 (the age key stays)
+     21. member     member-kz-node-3               Switch kz-node-3 back to its base NixOS configuration
+     22. member     member-kz-node-2               Switch kz-node-2 back to its base NixOS configuration
+     23. member     member-kz-node-1               Switch kz-node-1 back to its base NixOS configuration
+
+  Plan: 3 member(s) to destroy, 23 step(s).
+
+Tearing down cluster 'kz-demo'
+
+=== step [workloads] k3s.drain ===
+Fetching kubeconfig from 192.168.5.3...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Saved: kubeconfig/kz-demo.yaml
+node/kz-node-1 cordoned
+node/kz-node-2 cordoned
+node/kz-node-3 cordoned
+node/kz-node-1 already cordoned
+pod/coredns-7f496c8d7d-rfgb6 deleted
+pod/local-path-provisioner-578895bd58-pvgw5 deleted
+pod/metrics-server-7b9c9c4b9c-78q8b deleted
+node/kz-node-1 drained
+node/kz-node-2 already cordoned
+node/kz-node-2 drained
+node/kz-node-3 already cordoned
+node/kz-node-3 drained
+=== step [workloads] incus.instances-off ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+deleting instance demo (project default)
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+=== step [leave] k3s.leave-kz-node-3 ===
+node/kz-node-3 annotated
+node "kz-node-3" deleted
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+=== step [leave] incus.leave-kz-node-3 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+Member kz-node-3 removed
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+=== step [leave] k3s.leave-kz-node-2 ===
+node/kz-node-2 annotated
+node "kz-node-2" deleted
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+=== step [leave] incus.leave-kz-node-2 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+Member kz-node-2 removed
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+=== step [leave] k3s.leave-kz-node-1 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+=== step [leave] incus.leave-kz-node-1 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+=== step [cleanup] k3s.cleanup-kz-node-3 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+=== step [cleanup] incus.cleanup-kz-node-3 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+=== step [cleanup] keepalived.cleanup-kz-node-3 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+=== step [cleanup] sops.cleanup-kz-node-3 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+=== step [cleanup] k3s.cleanup-kz-node-2 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+=== step [cleanup] incus.cleanup-kz-node-2 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+=== step [cleanup] keepalived.cleanup-kz-node-2 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+=== step [cleanup] sops.cleanup-kz-node-2 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+=== step [cleanup] k3s.cleanup-kz-node-1 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+=== step [cleanup] incus.cleanup-kz-node-1 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+=== step [cleanup] keepalived.cleanup-kz-node-1 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+=== step [cleanup] sops.cleanup-kz-node-1 ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+=== switch kz-node-3 (192.168.5.5) back to its base configuration ===
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+error:
+       … while calling the 'seq' builtin
+         at /nix/store/12azrzlywd7jmsg1q9n4dpqqgb33p2wl-source/lib/modules.nix:361:18:
+          360|         options = checked options;
+          361|         config = checked (removeAttrs config [ "_module" ]);
+             |                  ^
+          362|         _module = checked (config._module);
+
+       … while calling the 'throw' builtin
+         at /nix/store/12azrzlywd7jmsg1q9n4dpqqgb33p2wl-source/lib/modules.nix:333:13:
+          332|           else
+          333|             throw baseMsg
+             |             ^
+          334|         else
+
+       error: The option `k3s' does not exist. Definition values:
+       - In `<unknown-file>':
+           {
+             extraServerFlags = [
+               "--disable=traefik"
+               "--tls-san=192.168.5.200"
+               "--tls-san=192.168.106.200"
+           ...
+=== switch kz-node-2 (192.168.5.4) back to its base configuration ===
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+error:
+       … while calling the 'seq' builtin
+         at /nix/store/12azrzlywd7jmsg1q9n4dpqqgb33p2wl-source/lib/modules.nix:361:18:
+          360|         options = checked options;
+          361|         config = checked (removeAttrs config [ "_module" ]);
+             |                  ^
+          362|         _module = checked (config._module);
+
+       … while calling the 'throw' builtin
+         at /nix/store/12azrzlywd7jmsg1q9n4dpqqgb33p2wl-source/lib/modules.nix:333:13:
+          332|           else
+          333|             throw baseMsg
+             |             ^
+          334|         else
+
+       error: The option `k3s' does not exist. Definition values:
+       - In `<unknown-file>':
+           {
+             extraServerFlags = [
+               "--disable=traefik"
+               "--tls-san=192.168.5.200"
+               "--tls-san=192.168.106.200"
+           ...
+=== switch kz-node-1 (192.168.5.3) back to its base configuration ===
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+error:
+       … while calling the 'seq' builtin
+         at /nix/store/12azrzlywd7jmsg1q9n4dpqqgb33p2wl-source/lib/modules.nix:361:18:
+          360|         options = checked options;
+          361|         config = checked (removeAttrs config [ "_module" ]);
+             |                  ^
+          362|         _module = checked (config._module);
+
+       … while calling the 'throw' builtin
+         at /nix/store/12azrzlywd7jmsg1q9n4dpqqgb33p2wl-source/lib/modules.nix:333:13:
+          332|           else
+          333|             throw baseMsg
+             |             ^
+          334|         else
+
+       error: The option `k3s' does not exist. Definition values:
+       - In `<unknown-file>':
+           {
+             extraServerFlags = [
+               "--disable=traefik"
+               "--tls-san=192.168.5.200"
+               "--tls-san=192.168.106.200"
+           ...
+
+::nixcluster:result:: {"cluster":"kz-demo","result":"failed","members":[{"name":"kz-node-3","ip":"192.168.5.5","action":"destroyed","status":"Failed","message":"could not build, copy or switch to the base configuration","durationSeconds":1},{"name":"kz-node-2","ip":"192.168.5.4","action":"destroyed","status":"Failed","message":"could not build, copy or switch to the base configuration","durationSeconds":1},{"name":"kz-node-1","ip":"192.168.5.3","action":"destroyed","status":"Failed","message":"could not build, copy or switch to the base configuration","durationSeconds":1}],"steps":[{"name":"k3s.drain","phase":"workloads","status":"ok","message":""},{"name":"incus.instances-off","phase":"workloads","status":"ok","message":""},{"name":"k3s.leave-kz-node-3","phase":"leave","status":"ok","message":""},{"name":"incus.leave-kz-node-3","phase":"leave","status":"ok","message":""},{"name":"k3s.leave-kz-node-2","phase":"leave","status":"ok","message":""},{"name":"incus.leave-kz-node-2","phase":"leave","status":"ok","message":""},{"name":"k3s.leave-kz-node-1","phase":"leave","status":"ok","message":""},{"name":"incus.leave-kz-node-1","phase":"leave","status":"ok","message":""},{"name":"k3s.cleanup-kz-node-3","phase":"cleanup","status":"ok","message":""},{"name":"incus.cleanup-kz-node-3","phase":"cleanup","status":"ok","message":""},{"name":"keepalived.cleanup-kz-node-3","phase":"cleanup","status":"ok","message":""},{"name":"sops.cleanup-kz-node-3","phase":"cleanup","status":"ok","message":""},{"name":"k3s.cleanup-kz-node-2","phase":"cleanup","status":"ok","message":""},{"name":"incus.cleanup-kz-node-2","phase":"cleanup","status":"ok","message":""},{"name":"keepalived.cleanup-kz-node-2","phase":"cleanup","status":"ok","message":""},{"name":"sops.cleanup-kz-node-2","phase":"cleanup","status":"ok","message":""},{"name":"k3s.cleanup-kz-node-1","phase":"cleanup","status":"ok","message":""},{"name":"incus.cleanup-kz-node-1","phase":"cleanup","status":"ok","message":""},{"name":"keepalived.cleanup-kz-node-1","phase":"cleanup","status":"ok","message":""},{"name":"sops.cleanup-kz-node-1","phase":"cleanup","status":"ok","message":""}]}
+[exit 1]

@@ -1,0 +1,166 @@
+$ nix run .#cluster-kz-demo -- converge --age-key-file secrets/kz-demo.age.key
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+Converging cluster 'kz-demo'
+Step order: sops.gen member-kz-node-1 member-kz-node-2 member-kz-node-3 k3s.bootstrap k3s.kubeconfig k3s.prune incus.cluster-join incus.reconcile incus.prune
+
+=== step [pre] sops.gen ===
+[age] keeping existing keypair
+[age] public key: age13nwx8xks0z6d3af3ysgygcucwtksj76x5r7q3nm666fnu0ppwqjqvpt4zn
+[ssh] keeping existing keypair
+[merge] decrypting existing secrets to add only missing keys
+[providers] collecting secrets
+  keep   .demo.token
+  keep   .k3s.agentToken
+  keep   .k3s.token
+  keep   .keepalived.k3s-api.authPass
+[encrypt] writing secrets/kz-demo.yaml
+
+Secrets ready: secrets/kz-demo.yaml (encrypted, safe to commit)
+Private keys (NEVER commit, gitignored): secrets/kz-demo.age.key, secrets/kz-demo_ssh
+Commit: git add secrets/kz-demo.age.pub secrets/kz-demo_ssh.pub secrets/kz-demo.yaml secrets/.sops.yaml
+=== switch kz-node-1 (192.168.5.3) [nixos-rebuild] ===
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+building the system configuration...
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+these 4 derivations will be built:
+  /nix/store/wy0ldgav3ddp0a2bxg047f6z24m050q2-manifest.json.drv
+  /nix/store/vckdrn5vginvj38hki1473rnmdqbcgi8-activate.drv
+  /nix/store/vcmlk8lw37w42fkg1qczhgy2qm6a1w4c-dry-activate.drv
+  /nix/store/4mnirivp48yhb1qn6qrkqgd4cgnnfhfi-nixos-system-kz-node-1-26.05.20260126.bfc1b8a.drv
+building '/nix/store/wy0ldgav3ddp0a2bxg047f6z24m050q2-manifest.json.drv'...
+building '/nix/store/vckdrn5vginvj38hki1473rnmdqbcgi8-activate.drv'...
+building '/nix/store/vcmlk8lw37w42fkg1qczhgy2qm6a1w4c-dry-activate.drv'...
+building '/nix/store/4mnirivp48yhb1qn6qrkqgd4cgnnfhfi-nixos-system-kz-node-1-26.05.20260126.bfc1b8a.drv'...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+copying 3 paths...
+copying path '/nix/store/v7wafar91pjfr2flnj2jfyaysxgfj7c9-kz-demo.yaml' to 'ssh://root@192.168.5.3'...
+copying path '/nix/store/xki46k7d5nj30dddibb1irkvv1bs7zrj-manifest.json' to 'ssh://root@192.168.5.3'...
+copying path '/nix/store/cbwv9356s6pb0pz3wsqajzpp69hb5ka3-nixos-system-kz-node-1-26.05.20260126.bfc1b8a' to 'ssh://root@192.168.5.3'...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Checking switch inhibitors... done
+activating the configuration...
+setting up /etc...
+sops-install-secrets: Imported /etc/ssh/ssh_host_rsa_key as GPG key with fingerprint df90d11b4cc0a2796b1d055382470cf2213aaaa7
+sops-install-secrets: Imported /etc/ssh/ssh_host_ed25519_key as age key with fingerprint age145dc4x9yq9kej8py5t27z9z0vtk6s0f9wv53l9f0h23ykr474ydsgdarv8
+reloading user units for root...
+restarting sysinit-reactivation.target
+the following new units were started: incus-preseed.service, incus-startup.service, incus-user.socket, incus.service, incus.socket, k3s.service, keepalived.service, run-secrets.d.mount, sys-devices-virtual-net-incusbr0.device, sys-subsystem-net-devices-incusbr0.device, var-lib-incus-guestapi.mount, var-lib-incus-shmounts.mount
+Done. The new configuration is /nix/store/cbwv9356s6pb0pz3wsqajzpp69hb5ka3-nixos-system-kz-node-1-26.05.20260126.bfc1b8a
+=== switch kz-node-2 (192.168.5.4) [nixos-rebuild] ===
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+building the system configuration...
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+these 2 derivations will be built:
+  /nix/store/a6ddb1a3vdyf562j0p0g3zpkgs4rs1ja-activate.drv
+  /nix/store/cif1phihbfsc8wpq2lg8y0bnlqzzij42-nixos-system-kz-node-2-26.05.20260126.bfc1b8a.drv
+building '/nix/store/a6ddb1a3vdyf562j0p0g3zpkgs4rs1ja-activate.drv'...
+building '/nix/store/cif1phihbfsc8wpq2lg8y0bnlqzzij42-nixos-system-kz-node-2-26.05.20260126.bfc1b8a.drv'...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+copying 3 paths...
+copying path '/nix/store/v7wafar91pjfr2flnj2jfyaysxgfj7c9-kz-demo.yaml' to 'ssh://root@192.168.5.4'...
+copying path '/nix/store/xki46k7d5nj30dddibb1irkvv1bs7zrj-manifest.json' to 'ssh://root@192.168.5.4'...
+copying path '/nix/store/48zh23xnk0k8q9nagcyqjy95nnfnjh18-nixos-system-kz-node-2-26.05.20260126.bfc1b8a' to 'ssh://root@192.168.5.4'...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Checking switch inhibitors... done
+activating the configuration...
+setting up /etc...
+sops-install-secrets: Imported /etc/ssh/ssh_host_rsa_key as GPG key with fingerprint ca2d4aca38c269893278777435b6094c876faa8c
+sops-install-secrets: Imported /etc/ssh/ssh_host_ed25519_key as age key with fingerprint age124gnev0vv37vucluw4sl9sf28f28zc82jyrjvafe85dk8ah6fgaqn33rrt
+reloading user units for root...
+restarting sysinit-reactivation.target
+the following new units were started: incus-startup.service, incus-user.socket, incus.service, incus.socket, k3s.service, keepalived.service, run-secrets.d.mount, var-lib-incus-guestapi.mount, var-lib-incus-shmounts.mount
+Done. The new configuration is /nix/store/48zh23xnk0k8q9nagcyqjy95nnfnjh18-nixos-system-kz-node-2-26.05.20260126.bfc1b8a
+=== switch kz-node-3 (192.168.5.5) [nixos-rebuild] ===
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+building the system configuration...
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+these 2 derivations will be built:
+  /nix/store/iy39ff03kdrma6mqadibf8lvylyim68b-activate.drv
+  /nix/store/kj677ybqd7zhl7yxy1168lk1ps49ygzz-nixos-system-kz-node-3-26.05.20260126.bfc1b8a.drv
+building '/nix/store/iy39ff03kdrma6mqadibf8lvylyim68b-activate.drv'...
+building '/nix/store/kj677ybqd7zhl7yxy1168lk1ps49ygzz-nixos-system-kz-node-3-26.05.20260126.bfc1b8a.drv'...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+copying 3 paths...
+copying path '/nix/store/v7wafar91pjfr2flnj2jfyaysxgfj7c9-kz-demo.yaml' to 'ssh://root@192.168.5.5'...
+copying path '/nix/store/xki46k7d5nj30dddibb1irkvv1bs7zrj-manifest.json' to 'ssh://root@192.168.5.5'...
+copying path '/nix/store/4yliwfbxx98bmgqns5va3d3chkvca7sd-nixos-system-kz-node-3-26.05.20260126.bfc1b8a' to 'ssh://root@192.168.5.5'...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Checking switch inhibitors... done
+activating the configuration...
+setting up /etc...
+sops-install-secrets: Imported /etc/ssh/ssh_host_rsa_key as GPG key with fingerprint b756da1f62b972e6c6221ca200b7c802ebeaf3a7
+sops-install-secrets: Imported /etc/ssh/ssh_host_ed25519_key as age key with fingerprint age12tstph5ph98yfh7qpm3paxk4279mszddgt346dr02suf24jfpdmq9d9yaz
+reloading user units for root...
+restarting sysinit-reactivation.target
+the following new units were started: incus-startup.service, incus-user.socket, incus.service, incus.socket, k3s.service, keepalived.service, run-secrets.d.mount, var-lib-incus-guestapi.mount, var-lib-incus-shmounts.mount
+Done. The new configuration is /nix/store/4yliwfbxx98bmgqns5va3d3chkvca7sd-nixos-system-kz-node-3-26.05.20260126.bfc1b8a
+=== step [post] k3s.bootstrap ===
+Bootstrapping k3s cluster 'kz-demo'
+
+Servers: kz-node-1 kz-node-2 kz-node-3
+Agents: 
+First server: kz-node-1
+
+Deploy order:
+  1. nixclusterctl kz-demo apply kz-node-1
+  2. nixclusterctl kz-demo apply kz-node-2
+  2. nixclusterctl kz-demo apply kz-node-3
+=== step [post] k3s.kubeconfig ===
+Fetching kubeconfig from 192.168.5.3...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Saved: kubeconfig/kz-demo.yaml
+=== step [post] k3s.prune ===
+[k3s.prune] registry matches the desired members (3 entries), nothing to prune
+=== step [post] incus.cluster-join ===
+=== Incus cluster-join (bootstrap: kz-node-1 @ 192.168.5.3:8443) ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+  kz-node-2: minting single-use join token on kz-node-1
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+  kz-node-2: joining via incus admin init --preseed
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+  kz-node-2: joined
+  kz-node-3: minting single-use join token on kz-node-1
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+  kz-node-3: joining via incus admin init --preseed
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+  kz-node-3: joined
+=== step [post] incus.reconcile ===
+Re-running Incus preseed + reconcile on: kz-node-1 kz-node-2 kz-node-3
+
+--- kz-node-1 (192.168.5.3) ---
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+  preseed re-applied
+  no reconcile unit
+--- kz-node-2 (192.168.5.4) ---
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+  no incus-preseed.service
+  no reconcile unit
+--- kz-node-3 (192.168.5.5) ---
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+  no incus-preseed.service
+  no reconcile unit
+=== step [post] incus.prune ===
+[incus.prune] registry matches the desired members (3 entries), nothing to prune
+
+::nixcluster:result:: {"cluster":"kz-demo","result":"success","members":[{"name":"kz-node-1","ip":"192.168.5.3","action":"switch","status":"Applied","message":"","durationSeconds":15},{"name":"kz-node-2","ip":"192.168.5.4","action":"switch","status":"Applied","message":"","durationSeconds":17},{"name":"kz-node-3","ip":"192.168.5.5","action":"switch","status":"Applied","message":"","durationSeconds":38}],"steps":[{"name":"sops.gen","phase":"pre","status":"ok","message":""},{"name":"k3s.bootstrap","phase":"post","status":"ok","message":""},{"name":"k3s.kubeconfig","phase":"post","status":"ok","message":""},{"name":"k3s.prune","phase":"post","status":"ok","message":""},{"name":"incus.cluster-join","phase":"post","status":"ok","message":""},{"name":"incus.reconcile","phase":"post","status":"ok","message":""},{"name":"incus.prune","phase":"post","status":"ok","message":""}]}
+[exit 0]

@@ -2,7 +2,7 @@
   description = "nixcluster live demo: kz-demo (k3s + Incus) and kz-mgmt (single k3s)";
 
   inputs = {
-    nixcluster.url = "github:kitsunoff/nixcluster";
+    nixcluster.url = "git+file:///Users/kitsunoff/git/github.com/kitsunoff/nixcluster?ref=feat/teardown";
 
     # Reuse nixcluster's locked inputs for a single consistent set.
     nixpkgs.follows = "nixcluster/nixpkgs";

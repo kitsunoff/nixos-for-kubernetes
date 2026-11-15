@@ -1,0 +1,40 @@
+$ nix run .#cluster-kz-demo -- teardown --dry-run
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+nixcluster will tear down cluster 'kz-demo'.
+
+  Members (each ends on its base NixOS configuration; disks are not wiped):
+    - kz-node-1 (192.168.5.3)
+    - kz-node-2 (192.168.5.4)
+    - kz-node-3 (192.168.5.5)
+
+  Steps, in order:
+      1. workloads  k3s.drain                      Cordon and drain every k3s node
+      2. workloads  incus.instances-off            Delete every Incus instance
+      3. leave      k3s.leave-kz-node-3            kz-node-3 leaves the k3s cluster and stops k3s
+      4. leave      incus.leave-kz-node-3          kz-node-3 leaves the Incus cluster and stops Incus
+      5. leave      k3s.leave-kz-node-2            kz-node-2 leaves the k3s cluster and stops k3s
+      6. leave      incus.leave-kz-node-2          kz-node-2 leaves the Incus cluster and stops Incus
+      7. leave      k3s.leave-kz-node-1            kz-node-1 leaves the k3s cluster and stops k3s
+      8. leave      incus.leave-kz-node-1          kz-node-1 (bootstrap) stops Incus last
+      9. cleanup    k3s.cleanup-kz-node-3          Remove k3s containers, data and config from kz-node-3
+     10. cleanup    incus.cleanup-kz-node-3        Remove Incus units, bridges and state from kz-node-3
+     11. cleanup    keepalived.cleanup-kz-node-3   Stop keepalived and release its VIPs on kz-node-3
+     12. cleanup    sops.cleanup-kz-node-3         Remove decrypted secrets from kz-node-3 (the age key stays)
+     13. cleanup    k3s.cleanup-kz-node-2          Remove k3s containers, data and config from kz-node-2
+     14. cleanup    incus.cleanup-kz-node-2        Remove Incus units, bridges and state from kz-node-2
+     15. cleanup    keepalived.cleanup-kz-node-2   Stop keepalived and release its VIPs on kz-node-2
+     16. cleanup    sops.cleanup-kz-node-2         Remove decrypted secrets from kz-node-2 (the age key stays)
+     17. cleanup    k3s.cleanup-kz-node-1          Remove k3s containers, data and config from kz-node-1
+     18. cleanup    incus.cleanup-kz-node-1        Remove Incus units, bridges and state from kz-node-1
+     19. cleanup    keepalived.cleanup-kz-node-1   Stop keepalived and release its VIPs on kz-node-1
+     20. cleanup    sops.cleanup-kz-node-1         Remove decrypted secrets from kz-node-1 (the age key stays)
+     21. member     member-kz-node-3               Switch kz-node-3 back to its base NixOS configuration
+     22. member     member-kz-node-2               Switch kz-node-2 back to its base NixOS configuration
+     23. member     member-kz-node-1               Switch kz-node-1 back to its base NixOS configuration
+
+  Plan: 3 member(s) to destroy, 23 step(s).
+
+Dry run: nothing was touched.
+
+::nixcluster:result:: {"cluster":"kz-demo","result":"partial","members":[{"name":"kz-node-3","ip":"192.168.5.5","action":"destroyed","status":"Skipped","message":"dry-run","durationSeconds":0},{"name":"kz-node-2","ip":"192.168.5.4","action":"destroyed","status":"Skipped","message":"dry-run","durationSeconds":0},{"name":"kz-node-1","ip":"192.168.5.3","action":"destroyed","status":"Skipped","message":"dry-run","durationSeconds":0}],"steps":[{"name":"k3s.drain","phase":"workloads","status":"skipped","message":"dry-run"},{"name":"incus.instances-off","phase":"workloads","status":"skipped","message":"dry-run"},{"name":"k3s.leave-kz-node-3","phase":"leave","status":"skipped","message":"dry-run"},{"name":"incus.leave-kz-node-3","phase":"leave","status":"skipped","message":"dry-run"},{"name":"k3s.leave-kz-node-2","phase":"leave","status":"skipped","message":"dry-run"},{"name":"incus.leave-kz-node-2","phase":"leave","status":"skipped","message":"dry-run"},{"name":"k3s.leave-kz-node-1","phase":"leave","status":"skipped","message":"dry-run"},{"name":"incus.leave-kz-node-1","phase":"leave","status":"skipped","message":"dry-run"},{"name":"k3s.cleanup-kz-node-3","phase":"cleanup","status":"skipped","message":"dry-run"},{"name":"incus.cleanup-kz-node-3","phase":"cleanup","status":"skipped","message":"dry-run"},{"name":"keepalived.cleanup-kz-node-3","phase":"cleanup","status":"skipped","message":"dry-run"},{"name":"sops.cleanup-kz-node-3","phase":"cleanup","status":"skipped","message":"dry-run"},{"name":"k3s.cleanup-kz-node-2","phase":"cleanup","status":"skipped","message":"dry-run"},{"name":"incus.cleanup-kz-node-2","phase":"cleanup","status":"skipped","message":"dry-run"},{"name":"keepalived.cleanup-kz-node-2","phase":"cleanup","status":"skipped","message":"dry-run"},{"name":"sops.cleanup-kz-node-2","phase":"cleanup","status":"skipped","message":"dry-run"},{"name":"k3s.cleanup-kz-node-1","phase":"cleanup","status":"skipped","message":"dry-run"},{"name":"incus.cleanup-kz-node-1","phase":"cleanup","status":"skipped","message":"dry-run"},{"name":"keepalived.cleanup-kz-node-1","phase":"cleanup","status":"skipped","message":"dry-run"},{"name":"sops.cleanup-kz-node-1","phase":"cleanup","status":"skipped","message":"dry-run"}]}
+[exit 0]
