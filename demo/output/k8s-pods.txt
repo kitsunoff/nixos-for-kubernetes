@@ -1,0 +1,6 @@
+$ kubectl --kubeconfig kubeconfig/kz-demo.yaml get pods --all-namespaces
+NAMESPACE     NAME                                      READY   STATUS    RESTARTS   AGE
+kube-system   coredns-7f496c8d7d-rfgb6                  1/1     Running   0          8m25s
+kube-system   local-path-provisioner-578895bd58-pvgw5   1/1     Running   0          8m25s
+kube-system   metrics-server-7b9c9c4b9c-78q8b           1/1     Running   0          8m25s
+[exit 0]

@@ -1,0 +1,4 @@
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml get nodes --output wide
+NAME      STATUS   ROLES                AGE   VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE               KERNEL-VERSION   CONTAINER-RUNTIME
+kz-mgmt   Ready    control-plane,etcd   55s   v1.34.3+k3s1   192.168.5.6   <none>        NixOS 26.05 (Yarara)   6.12.67          containerd://2.1.5-k3s1
+[exit 0]

@@ -1,0 +1,3 @@
+$ ssh root@192.168.5.3 ip --brief address show eth0
+eth0             UP             192.168.5.3/24 192.168.5.200/32 fe80::5055:55ff:feb8:138c/64 
+[exit 0]

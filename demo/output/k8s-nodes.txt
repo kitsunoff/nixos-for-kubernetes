@@ -1,0 +1,6 @@
+$ kubectl --kubeconfig kubeconfig/kz-demo.yaml get nodes --output wide
+NAME        STATUS   ROLES                AGE     VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE               KERNEL-VERSION   CONTAINER-RUNTIME
+kz-node-1   Ready    control-plane,etcd   8m30s   v1.34.3+k3s1   192.168.5.3   <none>        NixOS 26.05 (Yarara)   6.12.67          containerd://2.1.5-k3s1
+kz-node-2   Ready    control-plane,etcd   3m2s    v1.34.3+k3s1   192.168.5.4   <none>        NixOS 26.05 (Yarara)   6.12.67          containerd://2.1.5-k3s1
+kz-node-3   Ready    control-plane,etcd   6m19s   v1.34.3+k3s1   192.168.5.5   <none>        NixOS 26.05 (Yarara)   6.12.67          containerd://2.1.5-k3s1
+[exit 0]

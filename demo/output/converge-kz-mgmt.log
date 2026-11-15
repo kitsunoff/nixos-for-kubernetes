@@ -1,0 +1,42 @@
+$ nix run .#cluster-kz-mgmt -- converge
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+Converging cluster 'kz-mgmt'
+Step order: member-kz-mgmt k3s.bootstrap k3s.kubeconfig k3s.prune
+
+=== switch kz-mgmt (192.168.5.6) [nixos-rebuild] ===
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+building the system configuration...
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.6' (ED25519) to the list of known hosts.
+copying 0 paths...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Checking switch inhibitors... done
+activating the configuration...
+setting up /etc...
+reloading user units for root...
+restarting sysinit-reactivation.target
+the following new units were started: sysinit-reactivation.target, systemd-tmpfiles-resetup.service
+Done. The new configuration is /nix/store/gmhfglv5c1qgc96i17dgbz5gkwrb9lrm-nixos-system-kz-mgmt-26.05.20260126.bfc1b8a
+=== step [post] k3s.bootstrap ===
+Bootstrapping k3s cluster 'kz-mgmt'
+
+Servers: kz-mgmt
+Agents: 
+First server: kz-mgmt
+
+Deploy order:
+  1. nixclusterctl kz-mgmt apply kz-mgmt
+=== step [post] k3s.kubeconfig ===
+Fetching kubeconfig from 192.168.5.6...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.6' (ED25519) to the list of known hosts.
+Saved: kubeconfig/kz-mgmt.yaml
+=== step [post] k3s.prune ===
+[k3s.prune] registry matches the desired members (1 entries), nothing to prune
+
+::nixcluster:result:: {"cluster":"kz-mgmt","result":"success","members":[{"name":"kz-mgmt","ip":"192.168.5.6","action":"switch","status":"Applied","message":"","durationSeconds":3}],"steps":[{"name":"k3s.bootstrap","phase":"post","status":"ok","message":""},{"name":"k3s.kubeconfig","phase":"post","status":"ok","message":""},{"name":"k3s.prune","phase":"post","status":"ok","message":""}]}
+[exit 0]

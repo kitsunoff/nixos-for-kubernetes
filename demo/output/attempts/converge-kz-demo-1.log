@@ -1,0 +1,133 @@
+$ nix run .#cluster-kz-demo -- converge --age-key-file secrets/kz-demo.age.key
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+Converging cluster 'kz-demo'
+Step order: sops.gen member-kz-node-1 member-kz-node-2 member-kz-node-3 k3s.bootstrap k3s.kubeconfig k3s.prune incus.cluster-join incus.reconcile incus.prune
+
+=== step [pre] sops.gen ===
+[age] keeping existing keypair
+[age] public key: age13nwx8xks0z6d3af3ysgygcucwtksj76x5r7q3nm666fnu0ppwqjqvpt4zn
+[ssh] keeping existing keypair
+[merge] decrypting existing secrets to add only missing keys
+[providers] collecting secrets
+  keep   .demo.token
+  keep   .k3s.agentToken
+  keep   .k3s.token
+  keep   .keepalived.k3s-api.authPass
+[encrypt] writing secrets/kz-demo.yaml
+
+Secrets ready: secrets/kz-demo.yaml (encrypted, safe to commit)
+Private keys (NEVER commit, gitignored): secrets/kz-demo.age.key, secrets/kz-demo_ssh
+Commit: git add secrets/kz-demo.age.pub secrets/kz-demo_ssh.pub secrets/kz-demo.yaml secrets/.sops.yaml
+=== install kz-node-1 (192.168.5.3) [nixos-anywhere] ===
+Warning: Identity file /tmp/tmp.vcjuZxZlzg/nixos-anywhere not accessible: No such file or directory.
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+### Uploading install SSH keys ###
+/nix/store/sxzcrcqf4dl3ap4r0a8hrkszwx2zbfj9-openssh-10.2p1/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/tmp/tmp.vcjuZxZlzg/nixos-anywhere.pub"
+/nix/store/sxzcrcqf4dl3ap4r0a8hrkszwx2zbfj9-openssh-10.2p1/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/nix/store/sxzcrcqf4dl3ap4r0a8hrkszwx2zbfj9-openssh-10.2p1/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with: "ssh -i /tmp/tmp.vcjuZxZlzg/nixos-anywhere -o 'IdentitiesOnly=no' -o 'ConnectTimeout=10' -o 'IdentitiesOnly=yes' -o 'UserKnownHostsFile=/dev/null' -o 'StrictHostKeyChecking=no' 'root@192.168.5.3'"
+and check to make sure that only the key(s) you wanted were added.
+
+### Gathering machine facts ###
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+aborted: no cpio command found, but required to build the new initrd
+=== install kz-node-2 (192.168.5.4) [nixos-anywhere] ===
+Warning: Identity file /tmp/tmp.tTLNLWSpCV/nixos-anywhere not accessible: No such file or directory.
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+### Uploading install SSH keys ###
+/nix/store/sxzcrcqf4dl3ap4r0a8hrkszwx2zbfj9-openssh-10.2p1/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/tmp/tmp.tTLNLWSpCV/nixos-anywhere.pub"
+/nix/store/sxzcrcqf4dl3ap4r0a8hrkszwx2zbfj9-openssh-10.2p1/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/nix/store/sxzcrcqf4dl3ap4r0a8hrkszwx2zbfj9-openssh-10.2p1/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with: "ssh -i /tmp/tmp.tTLNLWSpCV/nixos-anywhere -o 'IdentitiesOnly=no' -o 'ConnectTimeout=10' -o 'IdentitiesOnly=yes' -o 'UserKnownHostsFile=/dev/null' -o 'StrictHostKeyChecking=no' 'root@192.168.5.4'"
+and check to make sure that only the key(s) you wanted were added.
+
+### Gathering machine facts ###
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+aborted: no cpio command found, but required to build the new initrd
+=== install kz-node-3 (192.168.5.5) [nixos-anywhere] ===
+Warning: Identity file /tmp/tmp.lcfWurNWA1/nixos-anywhere not accessible: No such file or directory.
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+### Uploading install SSH keys ###
+/nix/store/sxzcrcqf4dl3ap4r0a8hrkszwx2zbfj9-openssh-10.2p1/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/tmp/tmp.lcfWurNWA1/nixos-anywhere.pub"
+/nix/store/sxzcrcqf4dl3ap4r0a8hrkszwx2zbfj9-openssh-10.2p1/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/nix/store/sxzcrcqf4dl3ap4r0a8hrkszwx2zbfj9-openssh-10.2p1/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with: "ssh -i /tmp/tmp.lcfWurNWA1/nixos-anywhere -o 'IdentitiesOnly=no' -o 'ConnectTimeout=10' -o 'IdentitiesOnly=yes' -o 'UserKnownHostsFile=/dev/null' -o 'StrictHostKeyChecking=no' 'root@192.168.5.5'"
+and check to make sure that only the key(s) you wanted were added.
+
+### Gathering machine facts ###
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+aborted: no cpio command found, but required to build the new initrd
+=== step [post] k3s.bootstrap ===
+Bootstrapping k3s cluster 'kz-demo'
+
+Servers: kz-node-1 kz-node-2 kz-node-3
+Agents: 
+First server: kz-node-1
+
+Deploy order:
+  1. nixclusterctl kz-demo apply kz-node-1
+  2. nixclusterctl kz-demo apply kz-node-2
+  2. nixclusterctl kz-demo apply kz-node-3
+=== step [post] k3s.kubeconfig ===
+Fetching kubeconfig from 192.168.5.3...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+scp: /etc/rancher/k3s/k3s.yaml: No such file or directory
+  [step:post] k3s.prune skipped (dependency 'k3s.kubeconfig' did not succeed)
+=== step [post] incus.cluster-join ===
+=== Incus cluster-join (bootstrap: kz-node-1 @ 192.168.5.3:8443) ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+  kz-node-2: minting single-use join token on kz-node-1
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+bash: line 1: incus: command not found
+  kz-node-2: FAILED to mint join token
+  kz-node-3: minting single-use join token on kz-node-1
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+bash: line 1: incus: command not found
+  kz-node-3: FAILED to mint join token
+incus cluster-join: one or more joiners failed
+=== step [post] incus.reconcile ===
+Re-running Incus preseed + reconcile on: kz-node-1 kz-node-2 kz-node-3
+
+--- kz-node-1 (192.168.5.3) ---
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+  no incus-preseed.service
+  no reconcile unit
+--- kz-node-2 (192.168.5.4) ---
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+  no incus-preseed.service
+  no reconcile unit
+--- kz-node-3 (192.168.5.5) ---
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+  no incus-preseed.service
+  no reconcile unit
+  [step:post] incus.prune skipped (dependency 'incus.cluster-join' did not succeed)
+::nixcluster:result:: {"cluster":"kz-demo","result":"failed","members":[{"name":"kz-node-1","ip":"192.168.5.3","action":"install","status":"Failed","message":"nixos-anywhere failed","durationSeconds":2},{"name":"kz-node-2","ip":"192.168.5.4","action":"install","status":"Failed","message":"nixos-anywhere failed","durationSeconds":1},{"name":"kz-node-3","ip":"192.168.5.5","action":"install","status":"Failed","message":"nixos-anywhere failed","durationSeconds":2}],"steps":[{"name":"sops.gen","phase":"pre","status":"ok","message":""},{"name":"k3s.bootstrap","phase":"post","status":"ok","message":""},{"name":"k3s.kubeconfig","phase":"post","status":"failed","message":"step exited non-zero"},{"name":"k3s.prune","phase":"post","status":"skipped","message":"dependency 'k3s.kubeconfig' did not succeed"},{"name":"incus.cluster-join","phase":"post","status":"failed","message":"step exited non-zero"},{"name":"incus.reconcile","phase":"post","status":"ok","message":""},{"name":"incus.prune","phase":"post","status":"skipped","message":"dependency 'incus.cluster-join' did not succeed"}]}
+
+[exit 1]

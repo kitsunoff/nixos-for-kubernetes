@@ -1,0 +1,7 @@
+$ nix run .#cluster-kz-demo -- converge --age-key-file secrets/kz-demo.age.key
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+error:
+       … while fetching the input 'git+file:///Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes'
+
+       error: executing SQLite statement 'insert or replace into Cache(domain, key, value, timestamp) values ('gitLastModified', '{"rev":"bfa61510b4a39e7fe2f1f9cadb063db2e576505a"}', '{"lastModified":1794744985}', 1794745490)': database disk image is malformed, database disk image is malformed (in '/root/.cache/nix/fetcher-cache-v4.sqlite')
+[exit 1]
