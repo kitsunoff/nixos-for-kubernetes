@@ -119,6 +119,37 @@ Can be built in wave 1 against placeholder logs; final run uses T4 output.
    needs no VMs; `live` runs the real command.
 4. Pure bash + ANSI colors, no extra dependencies; works in the macOS default terminal.
 
+### T9 — `teardown` command in nixcluster (full cluster teardown) `[ ]`
+
+Lives in `~/git/github.com/kitsunoff/nixcluster`, not in this repo: own feature
+branch from `master` (`feat/teardown`), own PR. Independent of T1–T8; the demo uses it
+in T4/T8 as the final step once it is merged or available on the branch.
+
+Current state (checked on `master`, all branches, worktrees, stash): there is no
+whole-cluster teardown. Only per-member prune exists (`lib/prune.nix`), and it
+deliberately refuses an empty desired set, so it cannot be used to dissolve a cluster.
+
+Proposed design (to confirm before implementation):
+
+1. New core command `nixclusterctl <cluster> teardown [--dry-run] [--json] [--yes] [--poweroff|--wipe]`.
+2. Modules contribute `teardown.steps` the same way they contribute `converge.steps`;
+   `lib/convergePlan.nix` sorts them. Order is the reverse of converge:
+   1. workloads off: Incus instances stopped/removed, k3s drained;
+   2. joiners leave first: k3s agents, then non-bootstrap servers, then Incus joiners;
+   3. bootstrap member last;
+   4. per-module cleanup on each host: k3s data (`/var/lib/rancher`, `/etc/rancher`),
+      Incus cluster state, keepalived/nebula stopped, sops secrets removed from `/run/secrets`;
+   5. end state per member: `--poweroff` (default) or `--wipe` (disk wipe, needs
+      reinstall via `converge`).
+3. Safety: refuses without `--yes` (or interactive typed confirmation of the cluster
+   name); `--dry-run` prints the plan; unreachable members are reported, not fatal.
+4. Same output contract as converge: human log on stderr, one
+   `::nixcluster:result::` JSON line on stdout with per-member `action: "teardown"`.
+5. Tests first (TDD): extend the stub approach of `scripts/check-prune.sh` with a
+   `scripts/check-teardown.sh` — plan order per template, refusal without `--yes`,
+   dry-run touches nothing, unreachable host path. Add it to CI next to the others.
+6. README: new "Teardown" section and CLI entry.
+
 ### T7 — Teardown and backup plan `[ ]`
 
 1. Document how to stop the demo VMs (`colima stop --profile kz-node-N`) to free RAM.
@@ -128,7 +159,7 @@ Can be built in wave 1 against placeholder logs; final run uses T4 output.
 ## Parallelization plan for subagents
 
 ```text
-wave 1:  T1 (infra)  ║  T2 (config, eval only)  ║  T6 (slide API fixes)  ║  T8 (playback scripts)
+wave 1:  T1 (infra)  ║  T2 (config, eval only)  ║  T6 (slide API fixes)  ║  T8 (playback scripts)  ║  T9 (teardown in nixcluster)
 wave 2:  T3 (bootstrap) → T4 (proof)                 — one agent, sequential
 wave 3:  T5 (demo slides)  ║  T7 (teardown doc)  ║  T8 final pass on real logs
 ```
