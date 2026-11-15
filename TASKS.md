@@ -163,6 +163,67 @@ Proposed design:
 9. Live check on the demo VMs: `converge` → `teardown --auto-approve` → `converge`,
    the second converge must bring both clusters back.
 
+### T10 — NIO: teardown on `NixCluster` deletion `[ ]`
+
+Lives in `~/git/github.com/kitsunoff/NIO`: own branch from `main`
+(`feat/nixcluster-teardown`), own PR. Depends on T9 (`nixclusterctl teardown` must exist).
+NIO uses OpenSpec: start with an `openspec/changes/nixcluster-teardown/` proposal and
+a delta to `openspec/specs/cluster-convergence`.
+
+Current state: `reconcileRemoving` in `internal/controller/nixcluster_controller.go`
+deletes the converge `NixCronJob` and removes the finalizer. The comment says
+"Node teardown / decommission is deferred". Deleting a `NixCluster` leaves the real
+k3s/Incus clusters running on the machines.
+
+Proposed design:
+
+1. New field `spec.deletionPolicy`: `Teardown` (default) or `Retain` (today's behaviour,
+   only the Kubernetes objects go away).
+2. On deletion with `Teardown`, the finalizer stays until teardown finishes:
+   1. suspend the converge `NixCronJob` and wait for an active converge run to end;
+   2. create one owned `NixJob` `<cluster>-teardown` with the converge pod template
+      (same SSH key, builder, flake source) and args `teardown --auto-approve --json`;
+   3. parse the `::nixcluster:result::` line into status (per-member result);
+   4. success → delete the converge cron, remove the finalizer;
+   5. failure → keep the finalizer, condition `TeardownFailed` with the message,
+      retry with backoff. Escape hatch: changing `deletionPolicy` to `Retain` on the
+      object being deleted lets the finalizer go without teardown.
+3. Phase `Terminating` / condition `TearingDown` visible in `kubectl get nixcluster`.
+4. TDD with envtest in `nixcluster_controller_test.go`: Retain path, Teardown happy
+   path, teardown failure keeps the finalizer, policy flip to Retain unblocks deletion,
+   converge cron suspended before the teardown job starts.
+5. Docs: `examples/nixcluster.yaml` and README section on deletion.
+
+### T11 — NIO part of the deck with real output `[ ]`
+
+Depends on T3/T4 (running VMs) and, for the deletion step, T10. Same approach as the
+nixcluster part: real output only, fragments in slides, playback scripts in `demo/play/`.
+
+1. Management cluster for NIO: decide where the operator runs (see open question below),
+   install NIO there (`config/`, server-side apply as the README requires).
+2. Resources in `demo/nio/`: `Machine` per node, `NixBuilder`, `NixCluster` for the
+   same `kz-demo` flake (fixture reference: `~/git/github.com/kitsunoff/nio-e2e-flake`).
+3. Capture to `demo/output/nio-*.txt`:
+   1. `kubectl apply` of the resources;
+   2. `kubectl get machines,nixclusters` with status/phase columns;
+   3. logs of the converge job created by the operator;
+   4. a git commit to the flake → the next converge picks it up (the "Commit → rolled
+      out" slide);
+   5. `kubectl delete nixcluster kz-demo` → teardown job logs → finalizer gone.
+4. Replace or extend the NIO slides ("Машина как k8s-ресурс", "NixosConfiguration",
+   "NixCluster", "Коммит → раскатилось само") with these fragments; check that YAML on
+   the slides matches the real CRD fields (`api/v1alpha1/*_types.go`).
+5. Add NIO steps to the playback scripts (T8): `07-nio-apply.sh`, `08-nio-status.sh`,
+   `09-nio-delete.sh`.
+
+Open question for T11: where NIO runs. Options:
+
+1. A 4th Colima VM `kz-mgmt` with single-node k3s (cleanest, but RAM: builder +
+   4 VMs on 16 GiB is very tight).
+2. NIO inside the `kz-demo` k3s itself (no extra VM, but `kubectl delete nixcluster`
+   would tear down the cluster the operator runs on — the delete demo breaks).
+3. NIO on `kz-demo`, managing a smaller second cluster on 1–2 extra VMs.
+
 ### T7 — Teardown and backup plan `[ ]`
 
 1. Document how to stop the demo VMs (`colima stop --profile kz-node-N`) to free RAM.
@@ -173,8 +234,9 @@ Proposed design:
 
 ```text
 wave 1:  T1 (infra)  ║  T2 (config, eval only)  ║  T6 (slide API fixes)  ║  T8 (playback scripts)  ║  T9 (teardown in nixcluster)
-wave 2:  T3 (bootstrap) → T4 (proof)                 — one agent, sequential
-wave 3:  T5 (demo slides)  ║  T7 (teardown doc)  ║  T8 final pass on real logs
+wave 2:  T3 (bootstrap) → T4 (proof)  — one agent, sequential  ║  T10 (NIO teardown, after T9)
+wave 3:  T11 (NIO demo) — needs live VMs and T10
+wave 4:  T5 (demo slides)  ║  T7 (teardown doc)  ║  T8 final pass on real logs
 ```
 
 Wave 2 is one agent on purpose: converge and verification share live VM state.
