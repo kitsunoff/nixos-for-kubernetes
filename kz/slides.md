@@ -380,6 +380,196 @@ nixclusterctl kz-demo k3s kubeconfig fetch    # забрать kubeconfig
 → Никакого netboot-хозяйства: нужен только SSH до живого Linux на машине.
 
 ---
+
+# Демо: план converge
+
+<div class="text-sm opacity-75 -mt-2">Порядок шагов — просто значение в Nix: модули сами строят DAG</div>
+
+<div class="out-wrapline">
+
+```text {*}{lines:false}
+$ nix eval .#clusterConfigurations.kz-demo.convergeOrder
+[ "sops.gen" "member-kz-node-1" "member-kz-node-2" "member-kz-node-3" "k3s.bootstrap" "k3s.kubeconfig" "k3s.prune" "incus.cluster-join" "incus.reconcile" "incus.prune" ]
+[exit 0]
+```
+
+</div>
+
+<div class="flow pt-4">
+  <div class="flow-node">sops.gen<div class="sub">секреты</div></div>
+  <div class="flow-arrow"><span class="line">→</span></div>
+  <div class="flow-node">member-kz-node-1..3<div class="sub">nixos-rebuild</div></div>
+  <div class="flow-arrow"><span class="line">→</span></div>
+  <div class="flow-node">k3s.*<div class="sub">bootstrap · kubeconfig · prune</div></div>
+  <div class="flow-arrow"><span class="line">→</span></div>
+  <div class="flow-node accent">incus.*<div class="sub">cluster-join · reconcile · prune</div></div>
+</div>
+
+→ Кластер <code>kz-demo</code>: 3 ноды, модули <code>k3s</code> · <code>incus</code> · <code>sops</code> · <code>keepalived</code>. Вывод ниже — реальные записи с живых VM.
+
+<style>
+.out-wrapline pre, .out-wrapline code { white-space: pre-wrap !important; word-break: break-all; }
+</style>
+
+---
+
+# Демо: converge
+
+<div class="text-sm opacity-75 -mt-2">Одна команда: секреты → NixOS на все ноды → k3s → Incus-кластер</div>
+
+```text {*}{lines:false}
+$ nix run .#cluster-kz-demo -- converge --age-key-file secrets/kz-demo.age.key
+Converging cluster 'kz-demo'
+…
+=== switch kz-node-1 (192.168.5.3) [nixos-rebuild] ===
+…
+=== step [post] k3s.kubeconfig ===
+Fetching kubeconfig from 192.168.5.3...
+Saved: kubeconfig/kz-demo.yaml
+…
+=== step [post] incus.cluster-join ===
+  kz-node-2: minting single-use join token on kz-node-1
+  kz-node-2: joining via incus admin init --preseed
+  kz-node-2: joined
+  kz-node-3: already a cluster member, skipping
+```
+
+→ В конце — одна строка <code>::nixcluster:result::</code> для машин: статус каждой ноды и каждого шага.
+
+---
+
+# Демо: итог converge
+
+<div class="text-sm opacity-75 -mt-2">Машиночитаемый итог — последняя строка того же лога</div>
+
+<div class="out-wrapline" style="--slidev-code-font-size: 11px; --slidev-code-line-height: 16px">
+
+```text {*}{lines:false}
+::nixcluster:result:: {"cluster":"kz-demo","result":"success","members":[{"name":"kz-node-1","ip":"192.168.5.3","action":"switch","status":"Applied","message":"","durationSeconds":76},{"name":"kz-node-2","ip":"192.168.5.4","action":"switch","status":"Applied","message":"","durationSeconds":7},{"name":"kz-node-3","ip":"192.168.5.5","action":"switch","status":"Applied","message":"","durationSeconds":6}],"steps":[{"name":"sops.gen","phase":"pre","status":"ok","message":""},{"name":"k3s.bootstrap","phase":"post","status":"ok","message":""},{"name":"k3s.kubeconfig","phase":"post","status":"ok","message":""},{"name":"k3s.prune","phase":"post","status":"ok","message":""},{"name":"incus.cluster-join","phase":"post","status":"ok","message":""},{"name":"incus.reconcile","phase":"post","status":"ok","message":""},{"name":"incus.prune","phase":"post","status":"ok","message":""}]}
+[exit 0]
+```
+
+</div>
+
+<div class="text-[#18C0B1] font-bold pt-1 pb-1 text-sm">Повторный converge — идемпотентно: ноды switch, join и prune — skip</div>
+
+<div style="--slidev-code-font-size: 12px">
+
+```text {*}{lines:false}
+$ nix run .#cluster-kz-demo -- converge --age-key-file secrets/kz-demo.age.key
+…
+  kz-node-2: already a cluster member, skipping
+  kz-node-3: already a cluster member, skipping
+…
+[k3s.prune] registry matches the desired members (3 entries), nothing to prune
+…
+```
+
+</div>
+
+<style>
+.out-wrapline pre, .out-wrapline code { white-space: pre-wrap !important; word-break: break-all; }
+</style>
+
+---
+
+# Демо: Kubernetes
+
+<div class="text-sm opacity-75 -mt-2">Три ноды k3s, все server · API через VIP keepalived</div>
+
+```text {*}{lines:false}
+$ kubectl --kubeconfig kubeconfig/kz-demo.yaml --server https://192.168.5.200:6443 get nodes
+NAME        STATUS   ROLES                AGE     VERSION
+kz-node-1   Ready    control-plane,etcd   8m31s   v1.34.3+k3s1
+kz-node-2   Ready    control-plane,etcd   3m3s    v1.34.3+k3s1
+kz-node-3   Ready    control-plane,etcd   6m20s   v1.34.3+k3s1
+[exit 0]
+```
+
+<div class="text-[#18C0B1] font-bold pt-2 pb-1 text-sm">VIP 192.168.5.200 висит на MASTER</div>
+
+```text {*}{lines:false}
+$ ssh root@192.168.5.3 ip --brief address show eth0
+eth0             UP             192.168.5.3/24 192.168.5.200/32 fe80::5055:55ff:feb8:138c/64 
+[exit 0]
+```
+
+---
+
+# Демо: Incus-кластер
+
+<div class="text-sm opacity-75 -mt-2">Те же три ноды — Incus-кластер собран шагом incus.cluster-join</div>
+
+<div style="--slidev-code-font-size: 10px; --slidev-code-line-height: 14px">
+
+```text {*}{lines:false}
+$ ssh root@192.168.5.3 incus cluster list
++-----------+--------------------------+-----------------+--------------+----------------+-------------+--------+-------------------+
+|   NAME    |           URL            |      ROLES      | ARCHITECTURE | FAILURE DOMAIN | DESCRIPTION | STATUS |      MESSAGE      |
++-----------+--------------------------+-----------------+--------------+----------------+-------------+--------+-------------------+
+| kz-node-1 | https://192.168.5.3:8443 | database-leader | aarch64      | default        |             | ONLINE | Fully operational |
+|           |                          | database        |              |                |             |        |                   |
++-----------+--------------------------+-----------------+--------------+----------------+-------------+--------+-------------------+
+| kz-node-2 | https://192.168.5.4:8443 | database        | aarch64      | default        |             | ONLINE | Fully operational |
++-----------+--------------------------+-----------------+--------------+----------------+-------------+--------+-------------------+
+| kz-node-3 | https://192.168.5.5:8443 | database        | aarch64      | default        |             | ONLINE | Fully operational |
++-----------+--------------------------+-----------------+--------------+----------------+-------------+--------+-------------------+
+[exit 0]
+```
+
+</div>
+
+<div class="text-[#18C0B1] font-bold pt-1 pb-1 text-sm">Запускаем контейнер</div>
+
+<div style="--slidev-code-font-size: 12px; --slidev-code-line-height: 16px">
+
+```text {*}{lines:false}
+$ ssh root@192.168.5.3 incus launch images:alpine/edge demo
+Launching demo
+…
+Retrieving image: rootfs: 100% (9.88MB/s)
+[exit 0]
+```
+
+</div>
+
+---
+
+# Демо: failover VIP
+
+<div class="text-sm opacity-75 -mt-2">До: VIP на kz-node-1 (MASTER) · гасим там keepalived — VIP переезжает, API отвечает</div>
+
+<div style="--slidev-code-font-size: 12px; --slidev-code-line-height: 16px">
+
+```text {*}{lines:false}
+$ ssh root@192.168.5.3 systemctl stop keepalived
+[exit 0]
+```
+
+```text {*}{lines:false}
+$ nix run .#cluster-kz-demo -- keepalived status
+INSTANCE  NODE       VIP                          HOLDS  KEEPALIVED
+k3s-api   kz-node-1  192.168.5.200                no     inactive
+…
+k3s-api   kz-node-2  192.168.5.200                no     active
+…
+k3s-api   kz-node-3  192.168.5.200                yes    active
+…
+[exit 0]
+```
+
+```text {*}{lines:false}
+$ kubectl --kubeconfig kubeconfig/kz-demo.yaml --server https://192.168.5.200:6443 get nodes
+NAME        STATUS   ROLES                AGE     VERSION
+kz-node-1   Ready    control-plane,etcd   9m36s   v1.34.3+k3s1
+kz-node-2   Ready    control-plane,etcd   4m8s    v1.34.3+k3s1
+kz-node-3   Ready    control-plane,etcd   7m25s   v1.34.3+k3s1
+[exit 0]
+```
+
+</div>
+
+---
 layout: center
 ---
 
