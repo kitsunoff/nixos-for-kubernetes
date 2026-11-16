@@ -295,6 +295,8 @@ layout: center
 
 # Декларативность: весь кластер в&nbsp;одном файле
 
+<div style="--slidev-code-font-size: 13px; --slidev-code-line-height: 17px">
+
 ```nix
 nixcluster.kz-demo = { clusterModules, self, ... }: {
   imports = with clusterModules;
@@ -317,7 +319,14 @@ nixcluster.kz-demo = { clusterModules, self, ... }: {
 };
 ```
 
+</div>
+
 → Каждый модуль приносит и NixOS-конфиги нодам, и CLI-команды в `nixclusterctl`, и шаги `converge`.
+
+<style>
+/* line spans default to 1.5 × font size and would ignore --slidev-code-line-height */
+.slidev-code code, .slidev-code .line { line-height: var(--slidev-code-line-height); }
+</style>
 
 ---
 
