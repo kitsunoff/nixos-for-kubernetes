@@ -63,18 +63,17 @@
         "sops-nix": "sops-nix"
       },
       "locked": {
-        "lastModified": 1794748147,
-        "narHash": "sha256-m5Qyjlm21Q6c0tRUZ9WkjonbDFVXOf8djkiQne08PQs=",
-        "ref": "feat/teardown",
-        "rev": "c75ac095e0e612b2fd19f50f74b9b9717bdf4c1e",
-        "revCount": 103,
-        "type": "git",
-        "url": "file:///Users/kitsunoff/git/github.com/kitsunoff/nixcluster"
+        "lastModified": 1794793716,
+        "narHash": "sha256-BKtyXzVRojjMUSAgbvvm5GDW5CMAVZigRNu7a44D7pY=",
+        "owner": "kitsunoff",
+        "repo": "nixcluster",
+        "rev": "d741556c2972fba38e0da1897bcad29523b92f08",
+        "type": "github"
       },
       "original": {
-        "ref": "feat/teardown",
-        "type": "git",
-        "url": "file:///Users/kitsunoff/git/github.com/kitsunoff/nixcluster"
+        "owner": "kitsunoff",
+        "repo": "nixcluster",
+        "type": "github"
       }
     },
     "nixpkgs": {
