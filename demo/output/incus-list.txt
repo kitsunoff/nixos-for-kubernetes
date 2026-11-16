@@ -1,0 +1,15 @@
+$ nix run .#cluster-kz-demo -- incus list
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+--- kz-node-1 ---
+NAME  STATE    IPV4                 TYPE       SNAPSHOTS
+demo  RUNNING  10.100.0.215 (eth0)  CONTAINER  0
+
+--- kz-node-2 ---
+NAME  STATE    IPV4                 TYPE       SNAPSHOTS
+demo  RUNNING  10.100.0.215 (eth0)  CONTAINER  0
+
+--- kz-node-3 ---
+NAME  STATE    IPV4                 TYPE       SNAPSHOTS
+demo  RUNNING  10.100.0.215 (eth0)  CONTAINER  0
+
+[exit 0]

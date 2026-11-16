@@ -1,0 +1,11 @@
+# attempt nio-3: after pushing bd75e85 the old-revision converge job (backoffLimit 6) was still retrying while NIO started a new one
+$ kubectl get jobs,pods
+NAME                                               STATUS    COMPLETIONS   DURATION   AGE
+job.batch/kz-demo-converge-r-b240ac6c0a12-manual   Running   0/1           7m36s      7m36s
+job.batch/kz-demo-converge-r-de491d54fefe-manual   Running   0/1           73s        74s
+
+NAME                                               READY   STATUS     RESTARTS   AGE
+pod/kz-demo-converge-r-b240ac6c0a12-manual-fk6v5   1/1     Running    0          3m40s
+pod/kz-demo-converge-r-b240ac6c0a12-manual-pqhh2   0/1     Error      0          7m36s
+pod/kz-demo-converge-r-de491d54fefe-manual-bpt7j   0/1     Init:1/4   0          73s
+[exit 0]

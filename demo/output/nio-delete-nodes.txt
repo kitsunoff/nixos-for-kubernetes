@@ -1,0 +1,7 @@
+$ ssh root@192.168.5.3 'systemctl is-active k3s incus keepalived; ls /var/lib/rancher /var/lib/incus'
+inactive
+inactive
+inactive
+ls: cannot access '/var/lib/rancher': No such file or directory
+ls: cannot access '/var/lib/incus': No such file or directory
+[exit 2]

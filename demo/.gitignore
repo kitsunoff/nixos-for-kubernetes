@@ -1,0 +1,9 @@
+# Private keys written by `sops gen` - NEVER commit
+secrets/*.age.key
+secrets/*_ssh
+
+# Admin kubeconfigs fetched by converge / `k3s kubeconfig`
+kubeconfig/
+
+result
+result-*

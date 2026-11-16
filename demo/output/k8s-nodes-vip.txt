@@ -1,0 +1,6 @@
+$ kubectl --kubeconfig kubeconfig/kz-demo.yaml --server https://192.168.5.200:6443 get nodes
+NAME        STATUS   ROLES                AGE     VERSION
+kz-node-1   Ready    control-plane,etcd   8m31s   v1.34.3+k3s1
+kz-node-2   Ready    control-plane,etcd   3m3s    v1.34.3+k3s1
+kz-node-3   Ready    control-plane,etcd   6m20s   v1.34.3+k3s1
+[exit 0]

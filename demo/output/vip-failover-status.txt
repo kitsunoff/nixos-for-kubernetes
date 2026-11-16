@@ -1,0 +1,10 @@
+$ nix run .#cluster-kz-demo -- keepalived status
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+INSTANCE  NODE       VIP                          HOLDS  KEEPALIVED
+k3s-api   kz-node-1  192.168.5.200                no     inactive
+k3s-api   kz-node-1  192.168.106.200/24 dev col0  no     inactive
+k3s-api   kz-node-2  192.168.5.200                no     active
+k3s-api   kz-node-2  192.168.106.200/24 dev col0  no     active
+k3s-api   kz-node-3  192.168.5.200                yes    active
+k3s-api   kz-node-3  192.168.106.200/24 dev col0  yes    active
+[exit 0]

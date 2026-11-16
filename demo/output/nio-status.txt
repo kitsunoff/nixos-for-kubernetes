@@ -1,0 +1,15 @@
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml get machines,nixclusters,nixcronjobs,jobs
+NAME                                  HOST          READY   DISCOVERABLE   CONFIG   AGE
+machine.nio.homystack.com/kz-node-1   192.168.5.3   True    True                    38m
+machine.nio.homystack.com/kz-node-2   192.168.5.4   True    True                    38m
+machine.nio.homystack.com/kz-node-3   192.168.5.5   True    True                    38m
+
+NAME                                   PHASE   CONVERGE           TEARDOWN   AGE
+nixcluster.nio.homystack.com/kz-demo   Ready   kz-demo-converge              38m
+
+NAME                                            PHASE   SCHEDULE    LASTSCHEDULE   AGE
+nixcronjob.nio.homystack.com/kz-demo-converge   Ready   0 3 * * *   6m8s           38m
+
+NAME                                               STATUS     COMPLETIONS   DURATION   AGE
+job.batch/kz-demo-converge-r-26e34252e4eb-manual   Complete   1/1           10m        10m
+[exit 0]

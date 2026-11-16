@@ -1,0 +1,151 @@
+$ nix run .#cluster-kz-demo -- converge --age-key-file secrets/kz-demo.age.key
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+Converging cluster 'kz-demo'
+Step order: sops.gen member-kz-node-1 member-kz-node-2 member-kz-node-3 k3s.bootstrap k3s.kubeconfig k3s.prune incus.cluster-join incus.reconcile incus.prune
+
+=== step [pre] sops.gen ===
+[age] keeping existing keypair
+[age] public key: age13nwx8xks0z6d3af3ysgygcucwtksj76x5r7q3nm666fnu0ppwqjqvpt4zn
+[ssh] keeping existing keypair
+[merge] decrypting existing secrets to add only missing keys
+[providers] collecting secrets
+  keep   .demo.token
+  keep   .k3s.agentToken
+  keep   .k3s.token
+  keep   .keepalived.k3s-api.authPass
+[encrypt] writing secrets/kz-demo.yaml
+
+Secrets ready: secrets/kz-demo.yaml (encrypted, safe to commit)
+Private keys (NEVER commit, gitignored): secrets/kz-demo.age.key, secrets/kz-demo_ssh
+Commit: git add secrets/kz-demo.age.pub secrets/kz-demo_ssh.pub secrets/kz-demo.yaml secrets/.sops.yaml
+=== switch kz-node-1 (192.168.5.3) [nixos-rebuild] ===
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+building the system configuration...
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+these 4 derivations will be built:
+  /nix/store/378i63lxfnb1b0y4mvf04yay0dqg1hgj-manifest.json.drv
+  /nix/store/0di1ha3rdjgx95k48mcal0j4l059q8fy-activate.drv
+  /nix/store/hskihv22wir04isgmig9rk4rnwailf2x-dry-activate.drv
+  /nix/store/707nx3scfclqvgwj7ccswhb2pwr3icr1-nixos-system-kz-node-1-26.05.20260126.bfc1b8a.drv
+building '/nix/store/378i63lxfnb1b0y4mvf04yay0dqg1hgj-manifest.json.drv'...
+building '/nix/store/0di1ha3rdjgx95k48mcal0j4l059q8fy-activate.drv'...
+building '/nix/store/hskihv22wir04isgmig9rk4rnwailf2x-dry-activate.drv'...
+building '/nix/store/707nx3scfclqvgwj7ccswhb2pwr3icr1-nixos-system-kz-node-1-26.05.20260126.bfc1b8a.drv'...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+copying 3 paths...
+copying path '/nix/store/f49a72v4fgy8brmnghnj10ds4w1sq0g6-kz-demo.yaml' to 'ssh://root@192.168.5.3'...
+copying path '/nix/store/4pn1c8fimpcggdwwfl1las9hipk6la8i-manifest.json' to 'ssh://root@192.168.5.3'...
+copying path '/nix/store/2k614hk3nz55qnp022yrccm6z93xv4pa-nixos-system-kz-node-1-26.05.20260126.bfc1b8a' to 'ssh://root@192.168.5.3'...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Checking switch inhibitors... done
+activating the configuration...
+setting up /etc...
+sops-install-secrets: Imported /etc/ssh/ssh_host_rsa_key as GPG key with fingerprint df90d11b4cc0a2796b1d055382470cf2213aaaa7
+sops-install-secrets: Imported /etc/ssh/ssh_host_ed25519_key as age key with fingerprint age145dc4x9yq9kej8py5t27z9z0vtk6s0f9wv53l9f0h23ykr474ydsgdarv8
+reloading user units for root...
+restarting sysinit-reactivation.target
+Done. The new configuration is /nix/store/2k614hk3nz55qnp022yrccm6z93xv4pa-nixos-system-kz-node-1-26.05.20260126.bfc1b8a
+=== switch kz-node-2 (192.168.5.4) [nixos-rebuild] ===
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+building the system configuration...
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+these 2 derivations will be built:
+  /nix/store/2mc29515a0ksp7wrkcjb54vswkamkm3x-activate.drv
+  /nix/store/6d9iikvr2p6f3cgyn384a1z1a9g42q86-nixos-system-kz-node-2-26.05.20260126.bfc1b8a.drv
+building '/nix/store/2mc29515a0ksp7wrkcjb54vswkamkm3x-activate.drv'...
+building '/nix/store/6d9iikvr2p6f3cgyn384a1z1a9g42q86-nixos-system-kz-node-2-26.05.20260126.bfc1b8a.drv'...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+copying 3 paths...
+copying path '/nix/store/f49a72v4fgy8brmnghnj10ds4w1sq0g6-kz-demo.yaml' to 'ssh://root@192.168.5.4'...
+copying path '/nix/store/4pn1c8fimpcggdwwfl1las9hipk6la8i-manifest.json' to 'ssh://root@192.168.5.4'...
+copying path '/nix/store/568a5mamzir46ylgv115nby7pjpz9hc2-nixos-system-kz-node-2-26.05.20260126.bfc1b8a' to 'ssh://root@192.168.5.4'...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Checking switch inhibitors... done
+activating the configuration...
+setting up /etc...
+sops-install-secrets: Imported /etc/ssh/ssh_host_rsa_key as GPG key with fingerprint ca2d4aca38c269893278777435b6094c876faa8c
+sops-install-secrets: Imported /etc/ssh/ssh_host_ed25519_key as age key with fingerprint age124gnev0vv37vucluw4sl9sf28f28zc82jyrjvafe85dk8ah6fgaqn33rrt
+reloading user units for root...
+restarting sysinit-reactivation.target
+Done. The new configuration is /nix/store/568a5mamzir46ylgv115nby7pjpz9hc2-nixos-system-kz-node-2-26.05.20260126.bfc1b8a
+=== switch kz-node-3 (192.168.5.5) [nixos-rebuild] ===
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+building the system configuration...
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+these 2 derivations will be built:
+  /nix/store/ci4zfsm67gslvs34vgggdb758wl7ipl4-activate.drv
+  /nix/store/yd7vh7acj3cxzs01px9240szy67hmn20-nixos-system-kz-node-3-26.05.20260126.bfc1b8a.drv
+building '/nix/store/ci4zfsm67gslvs34vgggdb758wl7ipl4-activate.drv'...
+building '/nix/store/yd7vh7acj3cxzs01px9240szy67hmn20-nixos-system-kz-node-3-26.05.20260126.bfc1b8a.drv'...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+copying 3 paths...
+copying path '/nix/store/f49a72v4fgy8brmnghnj10ds4w1sq0g6-kz-demo.yaml' to 'ssh://root@192.168.5.5'...
+copying path '/nix/store/4pn1c8fimpcggdwwfl1las9hipk6la8i-manifest.json' to 'ssh://root@192.168.5.5'...
+copying path '/nix/store/bh1srmw2gi5d5ja5drcfvbwqrz1k0ihl-nixos-system-kz-node-3-26.05.20260126.bfc1b8a' to 'ssh://root@192.168.5.5'...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Checking switch inhibitors... done
+activating the configuration...
+setting up /etc...
+sops-install-secrets: Imported /etc/ssh/ssh_host_rsa_key as GPG key with fingerprint b756da1f62b972e6c6221ca200b7c802ebeaf3a7
+sops-install-secrets: Imported /etc/ssh/ssh_host_ed25519_key as age key with fingerprint age12tstph5ph98yfh7qpm3paxk4279mszddgt346dr02suf24jfpdmq9d9yaz
+reloading user units for root...
+restarting sysinit-reactivation.target
+Done. The new configuration is /nix/store/bh1srmw2gi5d5ja5drcfvbwqrz1k0ihl-nixos-system-kz-node-3-26.05.20260126.bfc1b8a
+=== step [post] k3s.bootstrap ===
+Bootstrapping k3s cluster 'kz-demo'
+
+Servers: kz-node-1 kz-node-2 kz-node-3
+Agents: 
+First server: kz-node-1
+
+Deploy order:
+  1. nixclusterctl kz-demo apply kz-node-1
+  2. nixclusterctl kz-demo apply kz-node-2
+  2. nixclusterctl kz-demo apply kz-node-3
+=== step [post] k3s.kubeconfig ===
+Fetching kubeconfig from 192.168.5.3...
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Saved: kubeconfig/kz-demo.yaml
+=== step [post] k3s.prune ===
+[k3s.prune] registry matches the desired members (3 entries), nothing to prune
+=== step [post] incus.cluster-join ===
+=== Incus cluster-join (bootstrap: kz-node-1 @ 192.168.5.3:8443) ===
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+  kz-node-2: already a cluster member, skipping
+  kz-node-3: already a cluster member, skipping
+=== step [post] incus.reconcile ===
+Re-running Incus preseed + reconcile on: kz-node-1 kz-node-2 kz-node-3
+
+--- kz-node-1 (192.168.5.3) ---
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+  preseed re-applied
+  no reconcile unit
+--- kz-node-2 (192.168.5.4) ---
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+  no incus-preseed.service
+  no reconcile unit
+--- kz-node-3 (192.168.5.5) ---
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+  no incus-preseed.service
+  no reconcile unit
+=== step [post] incus.prune ===
+[incus.prune] registry matches the desired members (3 entries), nothing to prune
+
+::nixcluster:result:: {"cluster":"kz-demo","result":"success","members":[{"name":"kz-node-1","ip":"192.168.5.3","action":"switch","status":"Applied","message":"","durationSeconds":7},{"name":"kz-node-2","ip":"192.168.5.4","action":"switch","status":"Applied","message":"","durationSeconds":7},{"name":"kz-node-3","ip":"192.168.5.5","action":"switch","status":"Applied","message":"","durationSeconds":7}],"steps":[{"name":"sops.gen","phase":"pre","status":"ok","message":""},{"name":"k3s.bootstrap","phase":"post","status":"ok","message":""},{"name":"k3s.kubeconfig","phase":"post","status":"ok","message":""},{"name":"k3s.prune","phase":"post","status":"ok","message":""},{"name":"incus.cluster-join","phase":"post","status":"ok","message":""},{"name":"incus.reconcile","phase":"post","status":"ok","message":""},{"name":"incus.prune","phase":"post","status":"ok","message":""}]}
+[exit 0]

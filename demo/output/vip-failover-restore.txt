@@ -1,0 +1,2 @@
+$ ssh root@192.168.5.3 systemctl start keepalived
+[exit 0]

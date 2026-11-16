@@ -1,0 +1,14 @@
+$ for ip in 192.168.5.3 192.168.5.4 192.168.5.5 192.168.5.6; do ssh root@$ip 'echo "== $(hostname)"; nixos-version; readlink /run/current-system'; done
+== kz-node-1
+26.05.20260126.bfc1b8a (Yarara)
+/nix/store/mxx6894i9qlkv968n01wdimp9fx5fj58-nixos-system-kz-node-1-26.05.20260126.bfc1b8a
+== kz-node-2
+26.05.20260126.bfc1b8a (Yarara)
+/nix/store/kbyxppa09hbk3h27vdgxw3185a6y05nq-nixos-system-kz-node-2-26.05.20260126.bfc1b8a
+== kz-node-3
+26.05.20260126.bfc1b8a (Yarara)
+/nix/store/zf3xx4dc3md2zyxxnz8dzhhlynpvf3w0-nixos-system-kz-node-3-26.05.20260126.bfc1b8a
+== kz-mgmt
+26.05.20260126.bfc1b8a (Yarara)
+/nix/store/gmhfglv5c1qgc96i17dgbz5gkwrb9lrm-nixos-system-kz-mgmt-26.05.20260126.bfc1b8a
+[exit 0]

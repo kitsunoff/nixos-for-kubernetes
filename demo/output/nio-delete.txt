@@ -1,0 +1,3 @@
+$ kubectl --kubeconfig kubeconfig/kz-mgmt.yaml delete nixcluster kz-demo --wait=false
+nixcluster.nio.homystack.com "kz-demo" deleted from default namespace
+[exit 0]

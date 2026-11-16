@@ -1,0 +1,4 @@
+$ nix eval .#clusterConfigurations.kz-mgmt.convergeOrder
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+[ "member-kz-mgmt" "k3s.bootstrap" "k3s.kubeconfig" "k3s.prune" ]
+[exit 0]

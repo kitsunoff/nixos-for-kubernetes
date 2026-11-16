@@ -1,0 +1,54 @@
+$ nix run .#cluster-kz-demo -- incus status
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+=== Incus status for cluster 'kz-demo' ===
+Incus nodes: kz-node-1 kz-node-2 kz-node-3
+
+--- kz-node-1 (192.168.5.3) ---
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.3' (ED25519) to the list of known hosts.
+Client version: 6.21
+Server version: 6.0.5
+-- instances --
++------+-------+------+------+------+-----------+----------+
+| NAME | STATE | IPV4 | IPV6 | TYPE | SNAPSHOTS | LOCATION |
++------+-------+------+------+------+-----------+----------+
+-- storage --
++---------+--------+-------------+---------+---------+
+|  NAME   | DRIVER | DESCRIPTION | USED BY |  STATE  |
++---------+--------+-------------+---------+---------+
+| default | dir    |             | 1       | CREATED |
++---------+--------+-------------+---------+---------+
+
+--- kz-node-2 (192.168.5.4) ---
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.4' (ED25519) to the list of known hosts.
+Client version: 6.21
+Server version: 6.0.5
+-- instances --
++------+-------+------+------+------+-----------+----------+
+| NAME | STATE | IPV4 | IPV6 | TYPE | SNAPSHOTS | LOCATION |
++------+-------+------+------+------+-----------+----------+
+-- storage --
++---------+--------+-------------+---------+---------+
+|  NAME   | DRIVER | DESCRIPTION | USED BY |  STATE  |
++---------+--------+-------------+---------+---------+
+| default | dir    |             | 1       | CREATED |
++---------+--------+-------------+---------+---------+
+
+--- kz-node-3 (192.168.5.5) ---
+/etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
+Warning: Permanently added '192.168.5.5' (ED25519) to the list of known hosts.
+Client version: 6.21
+Server version: 6.0.5
+-- instances --
++------+-------+------+------+------+-----------+----------+
+| NAME | STATE | IPV4 | IPV6 | TYPE | SNAPSHOTS | LOCATION |
++------+-------+------+------+------+-----------+----------+
+-- storage --
++---------+--------+-------------+---------+---------+
+|  NAME   | DRIVER | DESCRIPTION | USED BY |  STATE  |
++---------+--------+-------------+---------+---------+
+| default | dir    |             | 1       | CREATED |
++---------+--------+-------------+---------+---------+
+
+[exit 0]

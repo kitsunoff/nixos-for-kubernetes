@@ -1,0 +1,2 @@
+$ ssh -tt -o LogLevel=ERROR root@192.168.5.3 exit
+[exit 0]

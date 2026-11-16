@@ -1,0 +1,6 @@
+$ git commit --all --message "kz-demo: set a motd" && git push origin main
+[main 2dc4933] kz-demo: set a motd
+ 1 file changed, 2 insertions(+)
+To /srv/git/kz-demo.git
+   249d84a..2dc4933  main -> main
+[exit 0]

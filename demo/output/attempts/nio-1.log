@@ -1,0 +1,8 @@
+# attempt nio-1: operator image localhost/nio:teardown-753dfd7 (distroless, as in the release Dockerfile)
+$ kubectl get nixcronjob kz-demo-converge --output jsonpath=<conditions>
+Reconciling=True Progressing: reconciling
+GitSynced=False GitError: git ls-remote git://192.168.5.1/kz-demo.git main: exec: "git": executable file not found in $PATH
+Stalled=True GitError: git ls-remote git://192.168.5.1/kz-demo.git main: exec: "git": executable file not found in $PATH
+Ready=False GitError: git ls-remote git://192.168.5.1/kz-demo.git main: exec: "git": executable file not found in $PATH
+[exit 0]
+# fixed by NIO commit 98406da fix(image): ship git and ssh in the manager image

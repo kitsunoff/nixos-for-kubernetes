@@ -1,0 +1,12 @@
+$ nix run .#cluster-kz-mgmt -- converge --dry-run
+warning: Git tree '/Users/kitsunoff/git/github.com/kitsunoff/nixos-for-kubernetes' is dirty
+Converging cluster 'kz-mgmt'
+Step order: member-kz-mgmt k3s.bootstrap k3s.kubeconfig k3s.prune
+
+  [member] kz-mgmt -> 192.168.5.6 (dry-run, not probed)
+  [step:post] k3s.bootstrap skipped (dependency 'member-kz-mgmt' did not succeed)
+  [step:post] k3s.kubeconfig skipped (dependency 'member-kz-mgmt' did not succeed)
+  [step:post] k3s.prune skipped (dependency 'member-kz-mgmt' did not succeed)
+
+::nixcluster:result:: {"cluster":"kz-mgmt","result":"partial","members":[{"name":"kz-mgmt","ip":"192.168.5.6","action":"noop","status":"Skipped","message":"dry-run","durationSeconds":0}],"steps":[{"name":"k3s.bootstrap","phase":"post","status":"skipped","message":"dependency 'member-kz-mgmt' did not succeed"},{"name":"k3s.kubeconfig","phase":"post","status":"skipped","message":"dependency 'member-kz-mgmt' did not succeed"},{"name":"k3s.prune","phase":"post","status":"skipped","message":"dependency 'member-kz-mgmt' did not succeed"}]}
+[exit 0]
