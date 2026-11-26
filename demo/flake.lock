@@ -72,6 +72,7 @@
       },
       "original": {
         "owner": "kitsunoff",
+        "ref": "v0.1.0",
         "repo": "nixcluster",
         "type": "github"
       }
